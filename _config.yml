@@ -1,6 +1,8 @@
 # Hexo Configuration
 ## Docs: http://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
+#
+#
 
 # Site
 title: Jin Liu
@@ -71,3 +73,14 @@ deploy:
   type: git
   repo: git@github.com:coolzilj/blog.git
   branch: gh-pages
+
+avatar: https://avatars3.githubusercontent.com/u/1059327
+
+duoshuo_shortname: liujin-blog
+
+social:
+  github: https://github.com/coolzilj
+  weibo: http://weibo.com/coolzilj
+  zhihu: http://www.zhihu.com/people/coolzilj
+
+since: 2015
