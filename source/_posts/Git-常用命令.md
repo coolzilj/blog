@@ -1,6 +1,7 @@
-title: Git 常用命令（持续更新中）
+title: Git 常用命令（更新中）
 date: 2015-05-25 17:18:32
 tags: Git
+categories: 学习记录
 ---
 
 从设计转型开发的第一天起，老大只教我一件事，使用 Git。
