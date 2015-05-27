@@ -28,7 +28,7 @@ Cakebrew 就是 The Mac App for Homebrew,
 安装 Chrome, `brew cask install google-chrome`.
 
 
-## 编程工具
+## 开发工具
 
 1. pip
 pyton 的包管理工具，就像`ruby`的`gem`
@@ -39,3 +39,20 @@ node.js 版本管理工具
 
 3. [rvm](https://rvm.io/)
 ruby 的版本管理工具
+
+
+## 设计工具
+
+1. [Zoommy](http://zoommyapp.com/)
+一个寻找免费图库的应用 - all free stock photos in one place.
+
+2. [Fontstand](https://fontstand.com/)
+只需点击一下，就可以在Mac下的所有程序中试用该字体，所有字体均可试用1小时，还可以以10%的价格租用。
+
+
+## 效率工具
+
+1. [RescueTime](https://www.rescuetime.com/)
+看看你的时间都花在了哪里，可以监控你看了哪些网页，打开了哪些程序，用了多长时间。付费用户还可以屏蔽让你分心的网站，不刷微博会死星人终于有救了。
+
+2.

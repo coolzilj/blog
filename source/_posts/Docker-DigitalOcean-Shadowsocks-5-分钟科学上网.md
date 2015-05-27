@@ -43,6 +43,7 @@ categories: 技术教程
 
   本人亲测，电信用户选择旧金山速度最快最稳定。
   ![](http://ww3.sinaimg.cn/large/6273fe87gw1esir1x330ej20my0abq3l.jpg)
+  Ref: [知乎：DigitalOcean 选择 Region 的问题？](http://www.zhihu.com/question/25529727)
 
 4. 选择 Image
 
