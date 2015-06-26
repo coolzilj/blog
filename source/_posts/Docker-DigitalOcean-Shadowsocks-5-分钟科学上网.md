@@ -31,8 +31,10 @@ categories: 技术教程
 用我的小尾巴注册 DO 会马上送你 10 刀，[> 我的小尾巴](https://www.digitalocean.com/?refcode=3f22be5d5073),
 10 刀相当于可以免费使用 2 个月，当然你可以无视我。
 
-2. [Shadowsocks for Mac 客户端](https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-%E5%B8%AE%E5%8A%A9)
+2. [Shadowsocks for OSX 客户端](https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-%E5%B8%AE%E5%8A%A9)
 本文以 Mac 平台客户端为例，SS 有各个平台的客户端 [（传送门）](https://shadowsocks.com/client.html)，具体使用不再赘述，请自行搜索。
+
+更新：有朋友反映 Shadowsocks for OSX 给的下载链接不能访问，看来 Sourceforge 也被认证了，提供一个网盘链接给大家：[ShadowsocksX-2.6.3.dmg 百度网盘](http://pan.baidu.com/s/1qWPyrXq)
 
 ## 服务端配置
 
