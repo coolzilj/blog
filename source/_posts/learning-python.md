@@ -50,3 +50,5 @@ Ref:
 ### 7. [理解修饰器（@decorator）](http://coolshell.cn/articles/11265.html)
 
 ### 8. [`with`的用法](http://blog.kissdata.com/2014/05/23/python-with.html)
+
+### 9. [变量作用域](http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/)

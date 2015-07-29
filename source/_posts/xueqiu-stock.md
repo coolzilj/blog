@@ -27,9 +27,9 @@ categories: 开源项目
 
 ## TODO
 
-- 排序
-- 压缩打包程序
-- 修正涨跌幅 0% 的颜色
+- [x] 排序
+- [ ] 压缩打包程序
+- [x] 修正涨跌幅 0% 的颜色
 
 
   [75e29935]: https://github.com/coolzilj/xueqiu-stock "雪球股票助手"
