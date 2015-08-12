@@ -87,3 +87,6 @@ since: 2015
 
 google_analytics: UA-63369689-1
 baidu_analytics: 83ff44680c7cadeb2554faf4fe320eb8
+
+plugins:
+- hexo-generator-feed
