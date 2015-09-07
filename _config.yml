@@ -65,7 +65,9 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: next
+## 不知道什么原因原先 git clone 的文件夹突然变空了
+## 这次是下载了稳定版的主题文件拖进来的，并且改了名字 inext
+theme: inext
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
