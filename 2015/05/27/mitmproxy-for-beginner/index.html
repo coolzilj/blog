@@ -1,0 +1,735 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="/blog/css/main.css?v=0.4.4"/>
+
+
+
+
+  <meta name="keywords" content="mitmproxy,抱抱," />
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="Jin Liu" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="真相永远只有一个!– 江戶川柯南
+
+
+自称『新一代社交软件』的『抱抱』，被很多人称为又一个『陌陌』。虽然阅后即焚、匿名社交已经不是什么新鲜概念了，但是作为一名产品狗，自从 Snapchat 被爆出裸照丑闻之后，我就一直很关注这些以阅后即焚为卖点的APP的安全性和对用户隐私的保护措施。是否真的阅后即焚？是否真的没有获取用户身份信息？是否真的匿名？
+本教程将通过 mitmproxy 最基本的使用方法，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mitmproxy 入门案例 -『抱抱』24小时销毁的真相">
+<meta property="og:url" content="http://liujin.me/blog/2015/05/27/mitmproxy-for-beginner/index.html">
+<meta property="og:site_name" content="Jin Liu">
+<meta property="og:description" content="真相永远只有一个!– 江戶川柯南
+
+
+自称『新一代社交软件』的『抱抱』，被很多人称为又一个『陌陌』。虽然阅后即焚、匿名社交已经不是什么新鲜概念了，但是作为一名产品狗，自从 Snapchat 被爆出裸照丑闻之后，我就一直很关注这些以阅后即焚为卖点的APP的安全性和对用户隐私的保护措施。是否真的阅后即焚？是否真的没有获取用户身份信息？是否真的匿名？
+本教程将通过 mitmproxy 最基本的使用方法，">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/6273fe87gw1esjy6qdq4mj21300mjgsk.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/6273fe87gw1esk0cwz77fj20ar0ioabo.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/6273fe87gw1esk122443qj20ak0iutbg.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/6273fe87gw1esk0zat84ij20j209678k.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/6273fe87gw1esk167tjuwj20h00j7wjt.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/6273fe87gw1esk19iw5x8j20ao0iracs.jpg">
+<meta property="og:updated_time" content="2015-08-13T03:18:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mitmproxy 入门案例 -『抱抱』24小时销毁的真相">
+<meta name="twitter:description" content="真相永远只有一个!– 江戶川柯南
+
+
+自称『新一代社交软件』的『抱抱』，被很多人称为又一个『陌陌』。虽然阅后即焚、匿名社交已经不是什么新鲜概念了，但是作为一名产品狗，自从 Snapchat 被爆出裸照丑闻之后，我就一直很关注这些以阅后即焚为卖点的APP的安全性和对用户隐私的保护措施。是否真的阅后即焚？是否真的没有获取用户身份信息？是否真的匿名？
+本教程将通过 mitmproxy 最基本的使用方法，">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+    <title> mitmproxy 入门案例 -『抱抱』24小时销毁的真相 // Jin Liu </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-63369689-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?83ff44680c7cadeb2554faf4fe320eb8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/blog/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Jin Liu</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-old">
+          <a href="http://liujin.logdown.com/" rel="section">
+            <i class="menu-item-icon icon-old"></i> <br />
+            舊文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-projects">
+          <a href="/blog/projects" rel="section">
+            <i class="menu-item-icon icon-projects"></i> <br />
+            項目
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              mitmproxy 入门案例 -『抱抱』24小时销毁的真相
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2015-05-27T23:35:37+08:00" content="2015-05-27">
+            2015-05-27
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/技术教程/" itemprop="url" rel="index"><span itemprop="name">技术教程</span></a></span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/blog/2015/05/27/mitmproxy-for-beginner/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/27/mitmproxy-for-beginner/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote class="blockquote-center">真相永远只有一个!<br>– 江戶川柯南</blockquote>
+
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esjy6qdq4mj21300mjgsk.jpg" class="full-image"></p>
+<p>自称『新一代社交软件』的『抱抱』，被很多人称为又一个『陌陌』。<br>虽然阅后即焚、匿名社交已经不是什么新鲜概念了，但是作为一名产品狗，自从 Snapchat 被爆出裸照丑闻之后，我就一直很关注这些以阅后即焚为卖点的APP的安全性和对用户隐私的保护措施。<br>是否真的阅后即焚？<br>是否真的没有获取用户身份信息？<br>是否真的匿名？</p>
+<p>本教程将通过 mitmproxy 最基本的使用方法，带你还原事实的真相。</p>
+<ul>
+<li><strong>难度指数：</strong> 新手入门</li>
+<li><strong>使用工具：</strong> <a href="https://mitmproxy.org/" target="_blank" rel="external">mitmproxy</a></li>
+<li><strong>示例系统：</strong> Mac</li>
+<li><strong>适合人群：</strong> 比如像我这样的产品狗</li>
+</ul>
+<a id="more"></a>
+<h2 id="安装并启动_mitmproxy">安装并启动 mitmproxy</h2><ol>
+<li><p>安装 mitmproxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mitmproxy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动 mitmproxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mitmproxy</span><br><span class="line"><span class="comment"># 端口默认为 8080，如果你有程序已占用此端口可以指定其他端口(如1234)</span></span><br><span class="line">mitmproxy -p <span class="number">1234</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="配置手机端">配置手机端</h2><p><strong>PS:</strong> 这里以 iPhone 为例，其他平台手机请自行搜索不再赘述。</p>
+<p>测试手机应和运行 mitmproxy 的电脑同处一个网络，手机网络设置代理如下：</p>
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esk0cwz77fj20ar0ioabo.jpg" alt=""></p>
+<h2 id="监听网络">监听网络</h2><p>手机代理设置完毕后，这时候就可以打开『抱抱』了。<br>随便把玩几下，回到电脑终端看看是不是出现了很多信息，这时候我们需要过滤一下网络请求，<br>因为我们只关心『抱抱』请求的网络，其他 APP 的我们不管。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l <span class="comment"># 设置 limit filter</span></span><br><span class="line">myhug.cn 回车</span><br></pre></td></tr></table></figure>
+<p>现在只有 url 里包含 <code>myhug.cn</code> 的请求才会显示出来。</p>
+<p>现在可以开始我们的实验了，<br>我想知道『抱抱』所说的发出的图片会在24小时（或者其他设定的时间）自动销毁是不是真的销毁。</p>
+<p>我发了一张图，设定为10分钟销毁</p>
+<p><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esk122443qj20ak0iutbg.jpg" alt=""></p>
+<p>然后在 mitmproxy 里找到这个图片的地址（一般会在最底下的几个请求里）</p>
+<p><img src="http://ww2.sinaimg.cn/large/6273fe87gw1esk0zat84ij20j209678k.jpg" alt=""></p>
+<p>我们在浏览器输入图片地址，看看是不是相同的图片</p>
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esk167tjuwj20h00j7wjt.jpg" alt=""></p>
+<p>确定是这张图片后，我们就等个10分钟吧，真相马上就会出现</p>
+<p><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esk19iw5x8j20ao0iracs.jpg" alt=""></p>
+<p>10分钟后，手机里『显示』已销毁，并且在发布的历史里也找不到了刚刚那张图。这对于普通用户来说，手机里已经不存在的图片，确实可以说是『已销毁』。<br>但事实上，这张图片并没有在服务器里删掉，你可以在浏览器里重新输入刚刚那个图片地址，<a href="http://puj.myhug.cn/pic/w/j94af5e7d64968a00e5f2e109!wbig" target="_blank" rel="external">十分钟销毁</a>，是不是还可以看得到？</p>
+<p>没有删掉服务器上的图片，只是不在手机端显示，『抱抱』这是葫芦里卖什么药？<br>也许只是浏览器缓存？我想。不是。<br>也许他们工程师设了定期任务要定期才清理？我想。<br>也许是吧，不过距离我上次试验已经过去了4天了，依然没发现图片被删除。</p>
+<p>『抱抱』24小时销毁的真相已经很清楚了，销毁并不是真正的销毁，别有用心的人不费吹灰之力（mitmproxy 可以跑脚本）就可以拿到所有图片的地址并保存下来，如果真的有人盯上的话，下一个泄露风波可能已经不远了。</p>
+<p>姑娘们汉子们，流氓不可怕，最怕流氓有文化，请谨慎。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/mitmproxy/" rel="tag">#mitmproxy</a>
+          
+            <a href="/blog/tags/抱抱/" rel="tag">#抱抱</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/05/31/learning-python/" rel="prev">Python 学习记录 (更新中)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/05/27/iOS-学习记录-常见问题/" rel="next">iOS 学习记录 - 常见问题 (更新中)</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+                  <div class="ds-thread" data-thread-key="2015/05/27/mitmproxy-for-beginner/"
+                       data-title="mitmproxy 入门案例 -『抱抱』24小时销毁的真相" data-url="http://liujin.me/blog/2015/05/27/mitmproxy-for-beginner/">
+                  </div>
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars3.githubusercontent.com/u/1059327" alt="Jin Liu" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Jin Liu</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/blog/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/blog/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/blog/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coolzilj" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/coolzilj" target="_blank">weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/coolzilj" target="_blank">zhihu</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装并启动_mitmproxy"><span class="nav-number">1.</span> <span class="nav-text">安装并启动 mitmproxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置手机端"><span class="nav-number">2.</span> <span class="nav-text">配置手机端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听网络"><span class="nav-number">3.</span> <span class="nav-text">监听网络</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jin Liu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liujin-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/blog/js/ua-parser.min.js"></script>
+  	<script src="/blog/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/blog/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/blog/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/blog/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/blog/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/blog/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/blog/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

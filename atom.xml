@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Jin Liu]]></title>
+  
+  <link href="/blog/atom.xml" rel="self"/>
+  <link href="http://liujin.me/blog/"/>
+  <updated>2015-09-07T04:13:37.000Z</updated>
+  <id>http://liujin.me/blog/</id>
+  
+  <author>
+    <name><![CDATA[Jin Liu]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Ruby 学习记录 (更新中)]]></title>
+    <link href="http://liujin.me/blog/2015/09/07/learning-ruby/"/>
+    <id>http://liujin.me/blog/2015/09/07/learning-ruby/</id>
+    <published>2015-09-07T02:53:17.000Z</published>
+    <updated>2015-09-07T04:13:37.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">我的初恋💗</blockquote>
+
+<h2 id="常用命令">常用命令</h2><ol>
+<li><code>rails generate scaffold User name:string email:string</code></li>
+<li><code>bundle exec rake db:migrate</code><br>之所以使用<code>bundle exec rake</code>，而不是使用<code>rake</code>，是希望使用在Gemfile指定的rake版本</li>
+<li><code>rails new sample_app --skip-test-unit</code></li>
+<li><code>rails server -p 7777</code> rails启动使用其他端口</li>
+<li><code>rails console —sandbox</code> 保证退出console的时候数据会清空</li>
+<li><code>rails g model Post title:text content:text -p</code><br><code>-p</code> 表示 <code>pretend</code>会列出来这个命令会执行什么操作，会生成什么文件，但不会去真正执行这个命令。<a id="more"></a>
+</li>
+</ol>
+<hr>
+<h2 id="最佳实践">最佳实践</h2><ol>
+<li><a href="http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby" target="_blank" rel="external">Why is it bad style to <code>rescue Exception =&gt; e</code> in Ruby?</a></li>
+</ol>
+<hr>
+<h2 id="Rails">Rails</h2><h3 id="1-_写route的时候，action并不是必须的，view才是必须的">1. 写route的时候，action并不是必须的，view才是必须的</h3><p>如宝莱卡项目中的choose页面，routes里面指定了，</p>
+<pre><code><span class="keyword">match</span> <span class="string">"/choose"</span> =&gt; <span class="string">"decks#choose"</span>, :<span class="keyword">as</span> =&gt; :choose
+</code></pre><p>因为不需要传过去views任何变量，我们就不需要在 decks_controller 里面定义 choose 方法，只要views文件夹里面有choose.html.haml 文件即可。<br><a href="http://stackoverflow.com/questions/4477061/rails-3-0-adding-new-action-to-a-controller" target="_blank" rel="external">参考文章：</a></p>
+<p>Add this to routes.rb:</p>
+<pre><code><span class="keyword">get</span> <span class="string">'mycontroller/foobar'</span>
+</code></pre><p>This will route the URL <a href="http://mysite.com/foobar" target="_blank" rel="external">http://mysite.com/foobar</a> to the foobar action using HTTP GET.</p>
+<p>Some more info:</p>
+<ul>
+<li>Note that defining a def foobar in the controller is not a strict requirement (unless you need to do something in foobar before the view is displayed) - but the view must exist. In other words, even if def foobar method does not exist in the controller, the view foobar.html.erb will still be rendered.</li>
+<li>Here is a good overview of routes in Rails 3.</li>
+<li>Also, in case you don’t already know, you can list all the routes that you app knows about usingrake routes. Consequently, if the output of rake routes does not list the route to some controller/action, then the ‘No route matches’ error will occur.</li>
+</ul>
+<h3 id="2-_Array/Hash_都继承了_Enumerable_的方法，但map,collect,map!,collect!_只有Array才支持">2. Array/Hash 都继承了 Enumerable 的方法，但<code>map</code>,<code>collect</code>,<code>map!</code>,<code>collect!</code> 只有Array才支持</h3><p>Hash想实现则需要 <code>inject</code> 或者 <code>each_with_object</code>, 破坏性方法可以用 <code>each</code></p>
+<pre><code>my_hash = { a: <span class="string">'foo'</span>, b: <span class="string">'bar'</span> }
+# =&gt; {:a=&gt;<span class="string">"foo"</span>, :b=&gt;<span class="string">"bar"</span>}
+a_new_hash = my_hash.inject({}) {|h, (k, v)| h[k.upcase] = v.upcase; h }
+# =&gt; {:A=&gt;<span class="string">"FOO"</span>, :B=&gt;<span class="string">"BAR"</span>}
+# OR
+a_new_hash = my_hash.each_with_object({}) {|(k,v), h| h[k.upcase] = v.upcase }
+# =&gt; {:A=&gt;<span class="string">"FOO"</span>, :B=&gt;<span class="string">"BAR"</span>}
+# OR
+a_new_hash = Hash[my_hash.map { |k, v| [k.upcase, v.upcase] }]
+# =&gt; {:A=&gt;<span class="string">"FOO"</span>, :B=&gt;<span class="string">"BAR"</span>}
+# OR破坏性,不过不能修改key
+my_hash.each {|k,v| my_hash[k] = v.upcase }
+# =&gt; {:a=&gt;<span class="string">"FOO"</span>, :b=&gt;<span class="string">"BAR"</span>}
+</code></pre><h3 id="3-_Hash_to_URL_query">3. Hash to URL query</h3><p><code>to_query</code>:</p>
+<pre><code><span class="string">"http://www.example.com?"</span> + { language: <span class="string">"ruby"</span>, status: <span class="string">"awesome"</span> }.to_query
+<span class="preprocessor"># =&gt; <span class="string">"http://www.example.com?language=ruby&amp;status=awesome"</span></span>
+</code></pre><p><code>CGI.parse</code>:</p>
+<pre><code>require <span class="string">'cgi'</span> # Only needed <span class="keyword">for</span> IRB, Rails already has <span class="keyword">this</span> loaded
+CGI::parse <span class="string">"language=ruby&amp;status=awesome"</span>
+# =&gt; {<span class="string">"language"</span>=&gt;[<span class="string">"ruby"</span>], <span class="string">"status"</span>=&gt;[<span class="string">"awesome"</span>]}
+Both methods support nested values.
+</code></pre><h3 id="4-_rails_console_tips">4. rails console tips</h3><p>  <code>_</code> 返回前一个输出，如：<code>a = [1,2,3] # =&gt; [1,2,3] _ # =&gt; [1,2,3]</code></p>
+<h3 id="5-_非rails项目使用_ActiveSupport">5. 非rails项目使用 ActiveSupport</h3><p>  <code>require &quot;active_support/all&quot;</code></p>
+<p>Since using Rails should handle this automatically I’m going to assume you’re trying to add ActiveSupport to a non-Rails script.</p>
+<p>ActiveSupport’s methods got broken into smaller groups in Rails 3, so we don’t end up loading a lot of unneeded stuff with a simple <code>require &#39;activesupport&#39;</code>. Now we have to do things like require <code>&#39;active_support/core_ext/object/blank&#39;</code></p>
+<p>If you don’t care about granularity, you can choose to load bigger chunks. If you want everything in one big gulp use…</p>
+<p>For 1.9.2:</p>
+<pre><code>rvm <span class="number">1.9</span>.<span class="number">2</span>
+irb -f
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">001</span>:<span class="number">0</span>]]
+&gt;
+require <span class="string">'active_support/all'</span>
+=&gt;true
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">002</span>:<span class="number">0</span>]]
+&gt;
+<span class="number">1</span><span class="class">.week</span><span class="class">.ago</span>
+=&gt;<span class="number">2010</span>-<span class="number">11</span>-<span class="number">1417</span>:<span class="number">56</span>:<span class="number">16</span>-<span class="number">0700</span>
+</code></pre><p>For 1.8.7:</p>
+<pre><code>rvm <span class="number">1.8</span>.<span class="number">7</span>
+irb -f
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">001</span>:<span class="number">0</span>]]
+&gt;
+require <span class="string">'rubygems'</span>
+=&gt;true
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">002</span>:<span class="number">0</span>]]
+&gt;
+require <span class="string">'active_support/all'</span>
+=&gt;true
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">003</span>:<span class="number">0</span>]]
+&gt;
+<span class="number">1</span><span class="class">.week</span><span class="class">.ago</span>
+=&gt;SunNov1417:<span class="number">54</span>:<span class="number">19</span>-<span class="number">07002010</span>
+</code></pre><h3 id="6-_Rspec">6. Rspec</h3><ol>
+<li>准备数据 <code>bundle exec rake db:test:prepare</code></li>
+<li>跑起来 <code>rspec</code> / <code>rspec spec/models/upyun_file_spec.rb</code></li>
+</ol>
+<h3 id="7-_Unicorn">7. Unicorn</h3><p>在<code>development</code>得时候，unicorn默认的log是像nginx一样的，没有多大得debug价值，要想webrick那样的log只好自己动下手了。<br><a href="http://dave.is/unicorn.html" target="_blank" rel="external">参考链接</a>：</p>
+<p>使用<code>rails server</code>一样的logger:</p>
+<pre><code><span class="comment"># config/environments/development.rb</span>
+<span class="constant">Hackerschool:</span><span class="symbol">:Application</span>.configure <span class="keyword">do</span>
+  <span class="comment"># ...</span>
+  config.logger = <span class="constant">Logger.</span>new(<span class="constant">STDOUT)</span>
+  config.logger.level = <span class="constant">Logger.</span>const_get(
+    <span class="constant">ENV[</span><span class="string">'LOG_LEVEL'</span>] ? <span class="constant">ENV[</span><span class="string">'LOG_LEVEL'</span>].upcase <span class="symbol">:</span> <span class="string">'DEBUG'</span>
+  )
+<span class="keyword">end</span>
+</code></pre><p>去掉unicorn默认的类nginx的logger：</p>
+<pre><code>$ RACK_ENV=none RAILS_ENV=development unicorn -c config/unicorn.rb
+# <span class="keyword">If</span> you’re <span class="keyword">using</span> foreman <span class="keyword">to</span> run your app locally, you can put these <span class="keyword">into</span> your .env file.
+</code></pre><hr>
+<h2 id="代码片段">代码片段</h2><h3 id="1-_找出notes字段长度小于8的记录">1. 找出notes字段长度小于8的记录</h3><p><code>Photographer.where(&quot;CHARACTER_LENGTH(notes) &lt; 8&quot;)</code></p>
+<h3 id="2-_检查数组是不是全部非空白">2. 检查数组是不是全部非空白</h3><p><code>[&quot;&quot;, nil].all?(&amp;:blank?)</code></p>
+<h3 id="3-_在console删除记录">3. 在console删除记录</h3><p><code>User.find(2).destroy</code></p>
+<hr>
+<h2 id="Ruby">Ruby</h2><h3 id="Hash">Hash</h3><h4 id="{}省略的情况">{}省略的情况</h4><p>如果方法最后一个参数是hash，<code>{}</code>可以省略掉，如：</p>
+<pre><code>link_to(body, url, html_options = {})
+link_to <span class="string">"Click me"</span>, object_path, <span class="symbol">:class=&gt;<span class="string">"my_css_class"</span></span>, <span class="symbol">:id=&gt;<span class="string">"my_css_id"</span></span>
+link_to <span class="string">"Click me"</span>, object_path, { <span class="symbol">:class=&gt;<span class="string">"my_css_class"</span></span>, <span class="symbol">:id=&gt;<span class="string">"my_css_id"</span></span> }
+</code></pre><h4 id="rocket_style_是不是已经废弃掉了？">rocket style 是不是已经废弃掉了？</h4><p>Ref: <a href="http://logicalfriday.com/2011/06/20/i-dont-like-the-ruby-1-9-hash-syntax/" target="_blank" rel="external">JSON STYLE 吐槽</a><br><a href="http://ruby-china.org/topics/2662" target="_blank" rel="external">RubyChina翻译文</a></p>
+<p>（1.9版本引入JSON STYLE）当然不是啦，有些时候还一定要使用 rocket style！</p>
+<ol>
+<li><p>You must use the rocket for symbols that require quoting:</p>
+<p>  有效：<code>:&#39;where.is&#39; =&gt; x</code></p>
+<p>  无效：<code>&#39;where.is&#39;: x</code></p>
+</li>
+<li><p>You must use the rocket for symbols that are not valid labels:</p>
+<p> 有效：<code>:$set =&gt; x</code></p>
+<p> 无效：<code>$set: x</code></p>
+</li>
+<li><p>You must use the rocket if you use keys in your Hashes that aren’t symbols:</p>
+<p> 有效：<code>&#39;s&#39; =&gt; x</code></p>
+<p> 无效：<code>&#39;s&#39;: x</code></p>
+</li>
+<li><p>变量当然也不行，如：</p>
+<p> def generate_token(column)<br>   begin</p>
+<pre><code>self<span class="string">[column]</span> = SecureRandom.urlsafe_base64
+</code></pre><p>   end while User.exists?(column =&gt; self[column])<br> end<br> 这里的 column =&gt; self[column]<br> 不能写成<br> column: self[column]<br> 因为column是一个变量，而不是symbol</p>
+</li>
+</ol>
+<p>总结来说，JSON style 只是key是symbol的hash的一种简洁写法，使用范围有效，但也足够，因为hash都提倡key用symbol。</p>
+<h4 id="为什么提倡使用symbol作为hash的key？">为什么提倡使用symbol作为hash的key？</h4><p><a href="http://stackoverflow.com/questions/8189416/why-use-symbols-as-hash-keys-in-ruby" target="_blank" rel="external">StackOverflow Ref</a></p>
+<h3 id="元编程">元编程</h3><ol>
+<li><p>查看某个类的类方法：<code>OauthUser.methods</code></p>
+</li>
+<li><p>查看某个类的实例方法： <code>OauthUser.instance_methods</code></p>
+</li>
+<li><p>查看某个类有没有含有特定关键字的方法： <code>OauthUser.methods.grep /account/</code></p>
+</li>
+<li><p>类也是一个对象，是 <strong>Class</strong> 类的实例，类方法实质上是储存在 <strong>eigenclass</strong> 里面的单件方法</p>
+</li>
+<li><p><code>extend self</code>的使用（参考balalaika的 <strong>legacy_migrate.rb</strong> ）</p>
+<p>一般用在Module中，因为Module无法实例化，所以想像调用类方法一样调用实例方法，就extend 自己，extend 本质上等同于</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="inheritance">&lt;</span><span class="inheritance">&lt; <span class="parent">self</span></span></span></span><br><span class="line">  <span class="keyword">include</span> <span class="constant">Module</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">M</span></span></span><br><span class="line">  <span class="keyword">extend</span> <span class="keyword">self</span>      <span class="comment">##等同于 extend M</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">greeting</span></span></span><br><span class="line">    puts <span class="string">"hi!"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>这样的话就可以调用 <code>M.greeting</code>, greeting既是实例方法，也是单件方法。<br>如果只是单纯想调用 <code>M.greeting</code>的话，也可以这样写</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">M</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">greeting</span></span></span><br><span class="line">    puts <span class="string">"hi!"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>这时候greeting只是一个类方法（单件方法）</p>
+</li>
+<li><p>extend vs include</p>
+<p><code>extend Module</code> =&gt; 类方法</p>
+<p><code>include Module</code> =&gt; 实例方法</p>
+</li>
+</ol>
+<h3 id="操作符">操作符</h3><ol>
+<li><p><code>&amp;</code> 符号</p>
+<ul>
+<li><p><code>&amp;</code>符号是把Proc转换成Block的操作符，</p>
+<pre><code>feet_over_4 = Proc.<span class="keyword">new</span> { |<span class="variable">height</span>| <span class="variable">height</span> &gt;= <span class="number">4</span> }
+some_array.collect(&amp;feet_over_4) #注意是括号而不是大括号
+</code></pre></li>
+<li><p><code>&amp;:symbol</code></p>
+<p>  因为<code>&amp;</code>是把Proc转换成Block，所以<code>:symbol</code>要先转换成Proc</p>
+<pre><code>def to_proc
+    <span class="keyword">proc</span> { |obj, *args| obj.send(self, *args) }
+<span class="keyword">end</span>
+</code></pre><p>  所以</p>
+<pre><code>some_array.map{|<span class="literal">a</span>| <span class="literal">a</span>.upcase}
+</code></pre><p>  等于</p>
+<pre><code>some_array.<span class="function"><span class="title">map</span><span class="params">(&amp;:upcase)</span></span>
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<h3 id="Block,_Proc,_Lambda">Block, Proc, Lambda</h3><h4 id="Block">Block</h4><p><code>Block</code> 只是一些代码片段集合，不是<code>object</code></p>
+<h4 id="Proc">Proc</h4><p><code>Proc</code> 是对象，拥有对象所有特性</p>
+<h4 id="Lambda">Lambda</h4><p><code>Lambda</code> 也是对象</p>
+<h4 id="Proc_vs_Lambda">Proc vs Lambda</h4><p>Another important but subtle difference is in the way procs created with lambda and procs created with Proc.new handle the return statement:</p>
+<p>In a lambda-created proc, the return statement returns only from the proc itself<br>In a Proc.new-created proc, the return statement is a little more surprising: it returns control not just from the proc, but also from the method enclosing the proc!<br>Here’s lambda-created proc’s return in action. It behaves in a way that you probably expect:</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">whowouldwin</span></span>
+
+    mylambda = lambda {<span class="keyword">return</span> <span class="string">"Freddy"</span>}
+    mylambda.call
+
+    <span class="comment"># mylambda gets called and returns "Freddy", and execution</span>
+    <span class="comment"># continues on the next line</span>
+
+    <span class="keyword">return</span> <span class="string">"Jason"</span>
+
+<span class="keyword">end</span>
+
+
+whowouldwin
+<span class="status">=&gt;</span> <span class="string">"Jason"</span>
+</code></pre><p>Now here’s a Proc.new-created proc’s return doing the same thing. You’re about to see one of those cases where Ruby breaks the much-vaunted Principle of Least Surprise:</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">whowouldwin2</span></span>
+
+  myproc = <span class="constant">Proc</span>.new {<span class="keyword">return</span> <span class="string">"Freddy"</span>}
+  myproc.call
+
+  <span class="comment"># myproc gets called and returns "Freddy",</span>
+  <span class="comment"># but also returns control from whowhouldwin2!</span>
+  <span class="comment"># The line below *never* gets executed.</span>
+
+  <span class="keyword">return</span> <span class="string">"Jason"</span>
+
+<span class="keyword">end</span>
+
+
+whowouldwin2
+<span class="status">=&gt;</span> <span class="string">"Freddy"</span>
+</code></pre><p>Thanks to this surprising behaviour (as well as less typing), I tend to favour using lambda over Proc.new when making procs.</p>
+<h3 id="Module_Mixin">Module Mixin</h3><p><code>Module/Class</code>一般包含3种方法，<code>Macro</code>, <code>ClassMethods</code>, <code>IntanceMethods</code><br><code>Macro</code>其实就是执行省略掉self的方法，如:</p>
+<pre><code>has_many <span class="symbol">:tags</span>
+等于
+<span class="keyword">self</span>.has_many <span class="symbol">:tags</span>
+</code></pre><h4 id="经典做法">经典做法</h4><pre><code><span class="class"><span class="keyword">module</span> <span class="title">TagLib</span></span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">ClassMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">find_by_tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">InstanceMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">included</span><span class="params">(base)</span></span>
+    base.send <span class="symbol">:include</span>, <span class="constant">InstanceMethods</span>
+    base.send <span class="symbol">:extend</span>, <span class="constant">ClassMethods</span>
+    base.class_eval <span class="keyword">do</span>
+      <span class="comment">#这里使用intance_eval也是同样的效果，因为self都是base</span>
+      logger.warn...
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">ActiveRecord::Base</span></span>
+  <span class="keyword">include</span> <span class="constant">TagLib</span>
+<span class="keyword">end</span>
+</code></pre><h4 id="善用ActiveSupport::Concern">善用ActiveSupport::Concern</h4><h5 id="Rail3">Rail3</h5><pre><code><span class="class"><span class="keyword">module</span> <span class="title">TagLib</span></span>
+  extend <span class="constant">ActiveSupport::Concern</span>
+
+  included <span class="keyword">do</span>
+    logger.warn ...
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">ClassMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">find_by_tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">InstanceMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">ActiveRecord::Base</span></span>
+  <span class="keyword">include</span> <span class="constant">TagLib</span>
+<span class="keyword">end</span>
+</code></pre><h5 id="Rails4">Rails4</h5><p>不再需要把实例方法包在<code>Module InstanceMethods</code>里，直接写在外面就可以</p>
+<pre><code><span class="class"><span class="keyword">module</span> <span class="title">TagLib</span></span>
+  extend <span class="constant">ActiveSupport::Concern</span>
+
+  included <span class="keyword">do</span>
+    logger.warn...
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">ClassMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">find_by_tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">tags</span><span class="params">()</span></span>
+    <span class="comment"># ...</span>
+  <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">ActiveRecord::Base</span></span>
+  <span class="keyword">include</span> <span class="constant">TagLib</span>
+<span class="keyword">end</span>
+</code></pre><h5 id="self-included(base)_是怎么回事？">self.included(base) 是怎么回事？</h5><p>这个方法是在module被include的时候执行的，base就是上下文对象，如：</p>
+<pre><code><span class="class"><span class="keyword">module</span> <span class="title">B</span></span>
+  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">included</span><span class="params">(base)</span></span>
+    puts base
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">module</span> <span class="title">A</span></span>
+  <span class="keyword">include</span> <span class="constant">B</span>
+<span class="keyword">end</span>
+<span class="status">=&gt;</span> <span class="constant">A</span>
+
+所以上面例子的
+
+<span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">included</span><span class="params">(base)</span></span>
+base.send <span class="symbol">:include</span>, <span class="constant">InstanceMethods</span>
+base.send <span class="symbol">:extend</span>, <span class="constant">ClassMethods</span>
+base.class_eval <span class="keyword">do</span>
+    <span class="comment">#这里使用intance_eval也是同样的效果，因为self都是base</span>
+    logger.warn...
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+base 就是 <span class="constant">ActiveRecord::Base</span>， 所以 intance_eval 和 class_eval
+的效果都是一样的，
+
+参考下面的 <span class="string">`instance_eval`</span> vs <span class="string">`class_eval`</span>
+</code></pre><h3 id="instance_eval_vs_class_eval"><code>instance_eval</code> vs <code>class_eval</code></h3><pre><code><span class="constant">Foo</span> = <span class="constant">Class</span>.new
+<span class="constant">Foo</span>.instance_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="constant">Foo</span>
+<span class="constant">Foo</span>.class_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="constant">Foo</span>
+
+foo = <span class="constant">Foo</span>.new
+foo.instance_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="value">#&lt;Foo:0x007fc49aa42ea8&gt;</span>
+<span class="status">=&gt;</span> 可用于创造单例方法
+
+foo.class_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="value">#&lt;Class:#&lt;Foo:0x007fc49aa42ea8&gt;</span>&gt;
+=&gt; 这个应该是等于<span class="constant">Foo</span>吧？这样就相当于打开类了，可用于创造实例方法
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">我的初恋💗</blockquote>
+
+<h2 id="常用命令">常用命令</h2><ol>
+<li><code>rails generate scaffold User name:string email:string</code></li>
+<li><code>bundle exec rake db:migrate</code><br>之所以使用<code>bundle exec rake</code>，而不是使用<code>rake</code>，是希望使用在Gemfile指定的rake版本</li>
+<li><code>rails new sample_app --skip-test-unit</code></li>
+<li><code>rails server -p 7777</code> rails启动使用其他端口</li>
+<li><code>rails console —sandbox</code> 保证退出console的时候数据会清空</li>
+<li><code>rails g model Post title:text content:text -p</code><br><code>-p</code> 表示 <code>pretend</code>会列出来这个命令会执行什么操作，会生成什么文件，但不会去真正执行这个命令。]]>
+    
+    </summary>
+    
+      <category term="ruby" scheme="http://liujin.me/blog/tags/ruby/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[115 离线下载命令行工具（批量添加种子/磁力链）]]></title>
+    <link href="http://liujin.me/blog/2015/07/29/lixian-115/"/>
+    <id>http://liujin.me/blog/2015/07/29/lixian-115/</id>
+    <published>2015-07-29T09:04:18.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/coolzilj/lixian-115/master/screenshots/screenshot.png" alt="screenshot"></p>
+<h1 id="Lixian_115_(115_离线下载命令行工具)"><a href="https://github.com/coolzilj/lixian-115" target="_blank" rel="external">Lixian 115 (115 离线下载命令行工具)</a></h1><ul>
+<li>[x] add multi torrents (批量添加种子文件)</li>
+<li>[x] add multi magnet links (批量添加磁力链)</li>
+</ul>
+<h2 id="Install">Install</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> lixian-<span class="number">115</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="Usage">Usage</h2><h3 id="Login_(登录)">Login (登录)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -l</span><br></pre></td></tr></table></figure>
+<h3 id="Add_torrents_(批量添加种子文件)">Add torrents (批量添加种子文件)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -t path/<span class="keyword">of</span>/torrents/folder（存放 .torrent 文件的文件夹路径）</span><br></pre></td></tr></table></figure>
+<h2 id="Contributing">Contributing</h2><h3 id="Build">Build</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<h3 id="Watch">Watch</h3><p>To watch for changes, build them and run the tests:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run watch</span><br></pre></td></tr></table></figure>
+<h2 id="License">License</h2><p>MIT © <a href="http://liujin.me">Liu Jin</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="https://raw.githubusercontent.com/coolzilj/lixian-115/master/screenshots/screenshot.png" alt="screenshot"></p>
+<h1 id="Lixian_1]]>
+    </summary>
+    
+      <category term="115" scheme="http://liujin.me/blog/tags/115/"/>
+    
+      <category term="开源项目" scheme="http://liujin.me/blog/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="离线下载" scheme="http://liujin.me/blog/tags/%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD/"/>
+    
+      <category term="开源项目" scheme="http://liujin.me/blog/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Electron 实验项目 - 雪球股票助手]]></title>
+    <link href="http://liujin.me/blog/2015/06/08/xueqiu-stock/"/>
+    <id>http://liujin.me/blog/2015/06/08/xueqiu-stock/</id>
+    <published>2015-06-08T10:16:00.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1eswsehpfioj20cu0e0q4l.jpg" alt=""></p>
+<h1 id="雪球股票助手_for_Mac_Menubar"><a href="https://github.com/coolzilj/xueqiu-stock" title="雪球股票助手" target="_blank" rel="external">雪球股票助手 for Mac Menubar</a></h1><p><a href="http://electron.atom.io/" target="_blank" rel="external">Electron</a>(原名 Atom Shell) 是一个原本为 Atom 编辑器设计的，跨平台的应用外壳（Application Shell）。</p>
+<p>它将 Chromium 和 Node.js 的事件循环整合到了一起，同时提供了一些与原生系统交互的 API。我们可以通过 Electron，利用熟悉的 Web 技术去构建具有原生体验的跨平台的桌面应用。</p>
+<p>『雪球股票助手』因项目依赖 <a href="https://github.com/maxogden/menubar" target="_blank" rel="external">menubar</a> 模块，暂时只支持 Mac 平台，有兴趣的同学可以去给 menubar 提交 Windows 和 Linux 的 patch。</p>
+<h2 id="说明">说明</h2><ul>
+<li>编辑 <code>config.json</code>, 修改 <code>uid</code> 为你的雪球用户 id</li>
+<li><code>npm install</code> 安装依赖模块</li>
+<li><code>npm start</code> 不经过打包，从命令行直接运行『雪球股票助手.app』</li>
+<li><code>npm run build</code> 打包『雪球股票助手.app』</li>
+</ul>
+<h2 id="TODO">TODO</h2><ul>
+<li>[x] 排序</li>
+<li>[ ] 压缩打包程序</li>
+<li>[x] 修正涨跌幅 0% 的颜色</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1eswsehpfioj20cu0e0q4l.jpg" alt=""></p>
+<h1 id="雪球股票助手_for_Mac_Menubar"><a href="https://]]>
+    </summary>
+    
+      <category term="Electron" scheme="http://liujin.me/blog/tags/Electron/"/>
+    
+      <category term="开源项目" scheme="http://liujin.me/blog/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="开源项目" scheme="http://liujin.me/blog/categories/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Python 学习记录 (更新中)]]></title>
+    <link href="http://liujin.me/blog/2015/05/31/learning-python/"/>
+    <id>http://liujin.me/blog/2015/05/31/learning-python/</id>
+    <published>2015-05-31T05:06:31.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
+
+<h2 id="常见问题">常见问题</h2><h3 id="1-_格式化字符串：%_vs_-format">1. <a href="http://stackoverflow.com/questions/5082452/python-string-formatting-vs-format" target="_blank" rel="external">格式化字符串：<code>%</code> vs <code>.format</code></a></h3><h3 id="2-_Python_抽象基类(Abstract_Base_Class)">2. <a href="http://zaiste.net/2013/01/abstract_classes_in_python/" target="_blank" rel="external">Python 抽象基类(Abstract Base Class)</a></h3><h3 id="3-_Python_魔法方法指南">3. <a href="http://pyzh.readthedocs.org/en/latest/python-magic-methods-guide.html" target="_blank" rel="external">Python 魔法方法指南</a></h3><a id="more"></a>
+<h3 id="4-_Python_没有真正的_Private">4. Python 没有真正的 Private</h3><blockquote>
+<p>Strictly speaking, private methods are accessible outside their class, just not easily accessible. Nothing in Python is truly private; internally, the names of private methods and attributes are mangled and unmangled on the fly to make them seem inaccessible by their given names. You can access the __parse method of the MP3FileInfo class by the name _MP3FileInfo__parse. Acknowledge that this is interesting, then promise to never, ever do it in real code. Private methods are private for a reason, but like many other things in &gt; Python, their privateness is ultimately a matter of convention, not force.</p>
+</blockquote>
+<p>严格来说，Python 没有真正的 private 方法，任何 <code>_method</code> , <code>__method</code> 都是可以访问的，只是不建议这么做。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">myPublicMethod</span><span class="params">(self)</span>:</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'public method'</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__myPrivateMethod</span><span class="params">(self)</span>:</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'this is private!!'</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj = MyClass()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj.myPublicMethod()</span><br><span class="line">public method</span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj.__myPrivateMethod()</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">""</span>, line <span class="number">1</span>, <span class="keyword">in</span></span><br><span class="line">AttributeError: MyClass instance has no attribute <span class="string">'__myPrivateMethod'</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>dir(obj)</span><br><span class="line">[<span class="string">'_MyClass__myPrivateMethod'</span>, <span class="string">'__doc__'</span>, <span class="string">'__module__'</span>, <span class="string">'myPublicMethod'</span>]</span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj._MyClass__myPrivateMethod()</span><br><span class="line">this <span class="keyword">is</span> private!!</span><br></pre></td></tr></table></figure>
+<p>Ref:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/70528/why-are-pythons-private-methods-not-actually-private" target="_blank" rel="external">why-are-pythons-private-methods-not-actually-private</a></li>
+</ul>
+<h3 id="5-________xx___的区别">5. <a href="http://igorsobreira.com/2010/09/16/difference-between-one-underline-and-two-underlines-in-python.html" target="_blank" rel="external"><code>_</code> <code>__</code> <code>__xx__</code> 的区别</a></h3><h3 id="6-_*args_&amp;_**kwargs">6. <a href="http://stackoverflow.com/questions/36901/what-does-double-star-and-star-do-for-python-parameters" target="_blank" rel="external"><code>*args</code> &amp; <code>**kwargs</code></a></h3><h3 id="7-_理解修饰器（@decorator）">7. <a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">理解修饰器（@decorator）</a></h3><h3 id="8-_with的用法">8. <a href="http://blog.kissdata.com/2014/05/23/python-with.html" target="_blank" rel="external"><code>with</code>的用法</a></h3><h3 id="9-_变量作用域">9. <a href="http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/" target="_blank" rel="external">变量作用域</a></h3>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
+
+<h2 id="常见问题">常见问题</h2><h3 id="1-_格式化字符串：%_vs_-format">1. <a href="http://stackoverflow.com/questions/5082452/python-string-formatting-vs-format">格式化字符串：<code>%</code> vs <code>.format</code></a></h3><h3 id="2-_Python_抽象基类(Abstract_Base_Class)">2. <a href="http://zaiste.net/2013/01/abstract_classes_in_python/">Python 抽象基类(Abstract Base Class)</a></h3><h3 id="3-_Python_魔法方法指南">3. <a href="http://pyzh.readthedocs.org/en/latest/python-magic-methods-guide.html">Python 魔法方法指南</a></h3>]]>
+    
+    </summary>
+    
+      <category term="python" scheme="http://liujin.me/blog/tags/python/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[mitmproxy 入门案例 -『抱抱』24小时销毁的真相]]></title>
+    <link href="http://liujin.me/blog/2015/05/27/mitmproxy-for-beginner/"/>
+    <id>http://liujin.me/blog/2015/05/27/mitmproxy-for-beginner/</id>
+    <published>2015-05-27T15:35:37.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">真相永远只有一个!<br>– 江戶川柯南</blockquote>
+
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esjy6qdq4mj21300mjgsk.jpg" class="full-image"></p>
+<p>自称『新一代社交软件』的『抱抱』，被很多人称为又一个『陌陌』。<br>虽然阅后即焚、匿名社交已经不是什么新鲜概念了，但是作为一名产品狗，自从 Snapchat 被爆出裸照丑闻之后，我就一直很关注这些以阅后即焚为卖点的APP的安全性和对用户隐私的保护措施。<br>是否真的阅后即焚？<br>是否真的没有获取用户身份信息？<br>是否真的匿名？</p>
+<p>本教程将通过 mitmproxy 最基本的使用方法，带你还原事实的真相。</p>
+<ul>
+<li><strong>难度指数：</strong> 新手入门</li>
+<li><strong>使用工具：</strong> <a href="https://mitmproxy.org/" target="_blank" rel="external">mitmproxy</a></li>
+<li><strong>示例系统：</strong> Mac</li>
+<li><strong>适合人群：</strong> 比如像我这样的产品狗</li>
+</ul>
+<a id="more"></a>
+<h2 id="安装并启动_mitmproxy">安装并启动 mitmproxy</h2><ol>
+<li><p>安装 mitmproxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mitmproxy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动 mitmproxy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mitmproxy</span><br><span class="line"><span class="comment"># 端口默认为 8080，如果你有程序已占用此端口可以指定其他端口(如1234)</span></span><br><span class="line">mitmproxy -p <span class="number">1234</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="配置手机端">配置手机端</h2><p><strong>PS:</strong> 这里以 iPhone 为例，其他平台手机请自行搜索不再赘述。</p>
+<p>测试手机应和运行 mitmproxy 的电脑同处一个网络，手机网络设置代理如下：</p>
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esk0cwz77fj20ar0ioabo.jpg" alt=""></p>
+<h2 id="监听网络">监听网络</h2><p>手机代理设置完毕后，这时候就可以打开『抱抱』了。<br>随便把玩几下，回到电脑终端看看是不是出现了很多信息，这时候我们需要过滤一下网络请求，<br>因为我们只关心『抱抱』请求的网络，其他 APP 的我们不管。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l <span class="comment"># 设置 limit filter</span></span><br><span class="line">myhug.cn 回车</span><br></pre></td></tr></table></figure>
+<p>现在只有 url 里包含 <code>myhug.cn</code> 的请求才会显示出来。</p>
+<p>现在可以开始我们的实验了，<br>我想知道『抱抱』所说的发出的图片会在24小时（或者其他设定的时间）自动销毁是不是真的销毁。</p>
+<p>我发了一张图，设定为10分钟销毁</p>
+<p><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esk122443qj20ak0iutbg.jpg" alt=""></p>
+<p>然后在 mitmproxy 里找到这个图片的地址（一般会在最底下的几个请求里）</p>
+<p><img src="http://ww2.sinaimg.cn/large/6273fe87gw1esk0zat84ij20j209678k.jpg" alt=""></p>
+<p>我们在浏览器输入图片地址，看看是不是相同的图片</p>
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esk167tjuwj20h00j7wjt.jpg" alt=""></p>
+<p>确定是这张图片后，我们就等个10分钟吧，真相马上就会出现</p>
+<p><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esk19iw5x8j20ao0iracs.jpg" alt=""></p>
+<p>10分钟后，手机里『显示』已销毁，并且在发布的历史里也找不到了刚刚那张图。这对于普通用户来说，手机里已经不存在的图片，确实可以说是『已销毁』。<br>但事实上，这张图片并没有在服务器里删掉，你可以在浏览器里重新输入刚刚那个图片地址，<a href="http://puj.myhug.cn/pic/w/j94af5e7d64968a00e5f2e109!wbig" target="_blank" rel="external">十分钟销毁</a>，是不是还可以看得到？</p>
+<p>没有删掉服务器上的图片，只是不在手机端显示，『抱抱』这是葫芦里卖什么药？<br>也许只是浏览器缓存？我想。不是。<br>也许他们工程师设了定期任务要定期才清理？我想。<br>也许是吧，不过距离我上次试验已经过去了4天了，依然没发现图片被删除。</p>
+<p>『抱抱』24小时销毁的真相已经很清楚了，销毁并不是真正的销毁，别有用心的人不费吹灰之力（mitmproxy 可以跑脚本）就可以拿到所有图片的地址并保存下来，如果真的有人盯上的话，下一个泄露风波可能已经不远了。</p>
+<p>姑娘们汉子们，流氓不可怕，最怕流氓有文化，请谨慎。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">真相永远只有一个!<br>– 江戶川柯南</blockquote>
+
+<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esjy6qdq4mj21300mjgsk.jpg" class="full-image" /></p>
+<p>自称『新一代社交软件』的『抱抱』，被很多人称为又一个『陌陌』。<br>虽然阅后即焚、匿名社交已经不是什么新鲜概念了，但是作为一名产品狗，自从 Snapchat 被爆出裸照丑闻之后，我就一直很关注这些以阅后即焚为卖点的APP的安全性和对用户隐私的保护措施。<br>是否真的阅后即焚？<br>是否真的没有获取用户身份信息？<br>是否真的匿名？</p>
+<p>本教程将通过 mitmproxy 最基本的使用方法，带你还原事实的真相。</p>
+<ul>
+<li><strong>难度指数：</strong> 新手入门</li>
+<li><strong>使用工具：</strong> <a href="https://mitmproxy.org/">mitmproxy</a></li>
+<li><strong>示例系统：</strong> Mac</li>
+<li><strong>适合人群：</strong> 比如像我这样的产品狗</li>
+</ul>]]>
+    
+    </summary>
+    
+      <category term="mitmproxy" scheme="http://liujin.me/blog/tags/mitmproxy/"/>
+    
+      <category term="抱抱" scheme="http://liujin.me/blog/tags/%E6%8A%B1%E6%8A%B1/"/>
+    
+      <category term="技术教程" scheme="http://liujin.me/blog/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[iOS 学习记录 - 常见问题 (更新中)]]></title>
+    <link href="http://liujin.me/blog/2015/05/27/iOS-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
+    <id>http://liujin.me/blog/2015/05/27/iOS-学习记录-常见问题/</id>
+    <published>2015-05-27T15:08:40.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">能用 💰 解决的问题，都不叫问题，<br>  能用 ⌚️ 解决的问题，都不叫问题。<br></blockquote>
+
+<h2 id="1-_Swift_/_Objective-C_混合使用">1. Swift / Objective-C 混合使用</h2><ul>
+<li><a href="http://stackoverflow.com/questions/24002369/how-to-call-objective-c-code-from-swift" target="_blank" rel="external">How to call Objective C code from Swift</a></li>
+<li><a href="https://medium.com/ios-apprentice/using-swift-in-objective-c-projects-f7e7a09f8be" target="_blank" rel="external">How to use Swift in Objective-C projects</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html" target="_blank" rel="external">Mix and Match</a></li>
+</ul>
+<h2 id="2-_Swift/OC_混用，快速创建桥接头文件">2. Swift/OC 混用，快速创建桥接头文件</h2><p>要在 Swift 项目中使用 Objective-C，需要一个<code>Objective-C Bridging Header</code>文件。<br>最快的创建方法是新建一个 Objective-C 文件，然后 Xcode 就会弹出一个对话框问你是否创建一个头文件，确认，然后再删掉这个没用的 Objective-C 文件即可。</p>
+<p><strong>Ref：</strong><a href="http://happy-coding.org/swift-and-cocoapods/" target="_blank" rel="external">快速创建一个桥接头文件</a></p>
+<h2 id="3-_如何打开_Swift_REPL?">3. 如何打开 Swift REPL?</h2><p>Xcode6 Beta 和 Xcode 6.0 和 Xcode 6.1 打开的方法都不一样，最新解答可以跟踪<a href="http://stackoverflow.com/questions/24011120/how-can-i-use-swift-in-terminal" target="_blank" rel="external">SF</a></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">sudo</span> xcode-<span class="keyword">select </span>-<span class="keyword">switch </span>/Applications/Xcode6-<span class="keyword">Beta.app/Contents/Developer</span><br><span class="line"></span><span class="label">xcrun</span> <span class="keyword">swift </span>或者 lldb --repl</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="4-_如何在_Simulator_的_Photo_library_添加图片和视频？">4. 如何在 Simulator 的 Photo library 添加图片和视频？</h2><ul>
+<li>图片：直接把图片拖到模拟器就好</li>
+<li>视频：直接把视频拖到模拟器，这时候 Safari 会自动打开并播放视频，点击DONE，然后从『分享』图标里找到『Save Video』</li>
+</ul>
+<h2 id="5-">5.</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">能用 💰 解决的问题，都不叫问题，<br>  能用 ⌚️ 解决的问题，都不叫问题。<br></blockquote>
+
+<h2 id="1-_Swift_/_Objective-C_混合使用">1. Swift / Objective-C 混合使用</h2><ul>
+<li><a href="http://stackoverflow.com/questions/24002369/how-to-call-objective-c-code-from-swift">How to call Objective C code from Swift</a></li>
+<li><a href="https://medium.com/ios-apprentice/using-swift-in-objective-c-projects-f7e7a09f8be">How to use Swift in Objective-C projects</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html">Mix and Match</a></li>
+</ul>
+<h2 id="2-_Swift/OC_混用，快速创建桥接头文件">2. Swift/OC 混用，快速创建桥接头文件</h2><p>要在 Swift 项目中使用 Objective-C，需要一个<code>Objective-C Bridging Header</code>文件。<br>最快的创建方法是新建一个 Objective-C 文件，然后 Xcode 就会弹出一个对话框问你是否创建一个头文件，确认，然后再删掉这个没用的 Objective-C 文件即可。</p>
+<p><strong>Ref：</strong><a href="http://happy-coding.org/swift-and-cocoapods/">快速创建一个桥接头文件</a></p>
+<h2 id="3-_如何打开_Swift_REPL?">3. 如何打开 Swift REPL?</h2><p>Xcode6 Beta 和 Xcode 6.0 和 Xcode 6.1 打开的方法都不一样，最新解答可以跟踪<a href="http://stackoverflow.com/questions/24011120/how-can-i-use-swift-in-terminal">SF</a></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">sudo</span> xcode-<span class="keyword">select </span>-<span class="keyword">switch </span>/Applications/Xcode6-<span class="keyword">Beta.app/Contents/Developer</span><br><span class="line"></span><span class="label">xcrun</span> <span class="keyword">swift </span>或者 lldb --repl</span><br></pre></td></tr></table></figure>]]>
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://liujin.me/blog/tags/iOS/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Docker + DigitalOcean + Shadowsocks 5分钟科学上网]]></title>
+    <link href="http://liujin.me/blog/2015/05/27/Docker-DigitalOcean-Shadowsocks-5-%E5%88%86%E9%92%9F%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <id>http://liujin.me/blog/2015/05/27/Docker-DigitalOcean-Shadowsocks-5-分钟科学上网/</id>
+    <published>2015-05-27T05:04:14.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">春色满园关不住，一枝红杏出墙来。<br>  – 科学上网办<br></blockquote>
+
+<p>5分钟？就能科学上网？！！！！<br>有人肯定要说我标题党了，<br>如果你已经有一个 DigitalOcean(以下简称 DO) 账号或者 一个 VPS，<br>5 分钟已经算多了。<br>不信你自己掐表算，不废话，上教程。</p>
+<a id="more"></a>
+<p><strong>PS:</strong></p>
+<ul>
+<li>因为这是给对服务器不熟悉的新手写的教程，像应该创建独立用户而不是使用 root 操作等涉及服务器安全的问题不在讨论范围内。有兴趣的可以自行Google, 因为看完此文你已经能科学上网了。^^</li>
+<li>Q: Shadowsocks 的安装已经足够简单了，为什么要用 Docker？<br>A: 再强调一次，写这个教程的时候，我的假想读者是对 OPS 所知甚少、对科学上网有强烈需求、又想自己折腾一番的初级电脑使用者。在一台全新的主机安装 SS？谁能保证安装过程不会出错？而 Docker 开箱即用，出错率更低。当然还有一个原因，我是强迫症，喜欢 Docker 没道理，也想让更多人认识 Docker.</li>
+</ul>
+<h2 id="你需要准备">你需要准备</h2><ol>
+<li><p>DO 账号<br>利益相关：DO 有一个 Referral Program，<br>用我的小尾巴注册 DO 会马上送你 10 刀，<a href="https://www.digitalocean.com/?refcode=3f22be5d5073" target="_blank" rel="external">&gt; 我的小尾巴</a>,<br>10 刀相当于可以免费使用 2 个月，当然你可以无视我。</p>
+</li>
+<li><p><a href="https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-%E5%B8%AE%E5%8A%A9" target="_blank" rel="external">Shadowsocks for OSX 客户端</a><br>本文以 Mac 平台客户端为例，SS 有各个平台的客户端 <a href="https://shadowsocks.com/client.html" target="_blank" rel="external">（传送门）</a>，具体使用不再赘述，请自行搜索。</p>
+</li>
+</ol>
+<p>更新：有朋友反映 Shadowsocks for OSX 给的下载链接不能访问，看来 Sourceforge 也被认证了，提供一个网盘链接给大家：<a href="http://pan.baidu.com/s/1qWPyrXq" target="_blank" rel="external">ShadowsocksX-2.6.3.dmg 百度网盘</a></p>
+<h2 id="服务端配置">服务端配置</h2><h3 id="创建一个_Droplet">创建一个 Droplet</h3><ol>
+<li>填上 Droplet 名字</li>
+<li><p>选择一个 Size</p>
+<p><img src="http://ww4.sinaimg.cn/large/6273fe87gw1esiqw092odj20nb0dhdhi.jpg" alt=""></p>
+</li>
+<li><p>选择 Region</p>
+<p>本人亲测，电信用户选择旧金山速度最快最稳定。<br><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esir1x330ej20my0abq3l.jpg" alt=""><br>Ref: <a href="http://www.zhihu.com/question/25529727" target="_blank" rel="external">知乎：DigitalOcean 选择 Region 的问题？</a></p>
+</li>
+<li><p>选择 Image</p>
+<p>这里选择 Docker<br><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esiqzg1zg7j20mw0iaq5o.jpg" alt=""></p>
+</li>
+<li><p>添加 SSH keys (可选)</p>
+<p>不想每次连 SSH 都输密码的建议还是添加，我这里已经添加过就不再详细说明了。<br><img src="http://ww4.sinaimg.cn/large/6273fe87gw1esir3f0dppj20n205omxj.jpg" alt=""></p>
+</li>
+<li><p>点击创建，等待一分钟左右，一台已经装有 Docker 的服务器就已经创建成功，顺便记下 ip 地址。</p>
+</li>
+</ol>
+<h3 id="安装_Shadowsocks">安装 Shadowsocks</h3><ol>
+<li><p>首先先连上刚刚创建好的主机</p>
+<p>打开『终端』，输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@ip地址 <span class="comment">#没记下 ip 地址的可以去 DO Droplets 页面找到</span></span><br></pre></td></tr></table></figure>
+<p>如果你添加了 SSH keys 的话，直接就可以连上不需要输密码，<br>如果你没有添加的话，DO 会通过邮件把密码发送给你，你只需要输入密码就可以连接上主机。</p>
+<p><img src="http://ww4.sinaimg.cn/large/6273fe87gw1esirintsx3j20l30bb0w1.jpg" alt=""></p>
+<p>看到这个界面的证明你已经连上主机。</p>
+</li>
+<li><p>接下来安装 Shadowsocks (以下简称 SS)</p>
+<p>现在就是见证 docker 的强大之处的时候了，安装 SS 你只需要：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull oddrationale/docker-shadowsocks</span><br></pre></td></tr></table></figure>
+<p>完成后再输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="operator">-d</span> -p <span class="number">1984</span>:<span class="number">1984</span> oddrationale/docker-shadowsocks <span class="operator">-s</span> <span class="number">0.0</span>.<span class="number">0.0</span> -p <span class="number">1984</span> -k paaassswwword -m aes-<span class="number">256</span>-cfb</span><br></pre></td></tr></table></figure>
+<p>上述命令中得 <code>paaassswwword</code> 就是等下配置客户端需要的密码，你可以换成你自己的密码。</p>
+<p>现在来检查一下 SS 有没有安装成功了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esirwqntidj219l01uq3z.jpg" alt=""></p>
+<p>如果你看到 STATUS 是 up 的话，服务器端已经配置成功，你可以断开 SSH 回到你的本机。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p>至此服务端就已经配置好了。</p>
+</li>
+</ol>
+<h2 id="客户端配置">客户端配置</h2><p>以 Shadowsocks for MAC 客户端 为例，安装好后添加服务器配置：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6273fe87gw1esis28f4isj20go0bdt9h.jpg" alt=""></p>
+<p>填上 ip 地址，端口，密码，密码就是刚刚的 <code>paaassswwword</code>，保存后现在回到浏览器，打开 <a href="http://youtube.com" target="_blank" rel="external">Youtube</a>, 你已经在科学上网了。</p>
+<p>Ref: <a href="https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-%E5%B8%AE%E5%8A%A9" target="_blank" rel="external">Shadowsocks for Mac 帮助</a></p>
+<p><strong>大功告成。是不是 5 分钟都多余了？有任何疑问请留言。</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">春色满园关不住，一枝红杏出墙来。<br>  – 科学上网办<br></blockquote>
+
+<p>5分钟？就能科学上网？！！！！<br>有人肯定要说我标题党了，<br>如果你已经有一个 DigitalOcean(以下简称 DO) 账号或者 一个 VPS，<br>5 分钟已经算多了。<br>不信你自己掐表算，不废话，上教程。</p>]]>
+    
+    </summary>
+    
+      <category term="DigitalOcean" scheme="http://liujin.me/blog/tags/DigitalOcean/"/>
+    
+      <category term="Docker" scheme="http://liujin.me/blog/tags/Docker/"/>
+    
+      <category term="Shadowsocks" scheme="http://liujin.me/blog/tags/Shadowsocks/"/>
+    
+      <category term="科学上网" scheme="http://liujin.me/blog/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    
+      <category term="技术教程" scheme="http://liujin.me/blog/categories/%E6%8A%80%E6%9C%AF%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mac 常用技巧 - 工具篇 (更新中)]]></title>
+    <link href="http://liujin.me/blog/2015/05/26/Mac-%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7-%E5%B7%A5%E5%85%B7%E7%AF%87/"/>
+    <id>http://liujin.me/blog/2015/05/26/Mac-常用技巧-工具篇/</id>
+    <published>2015-05-26T06:12:23.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">工欲善其事，必先利其器。<br>  《论语·卫灵公》<br></blockquote>
+
+<h2 id="软件管理">软件管理</h2><ol>
+<li><p><a href="http://brew.sh/" target="_blank" rel="external">Homebrew</a><br>当所有工具都可以用同样一句命令来安装，世界是不是变得和蔼可亲了很多？<br>情景一：今天想学学 Go 来玩玩。恩，<code>brew install go</code><br>情景二：github 发现了一个好玩的项目需要 mongodb。恩，<code>brew install mongodb</code><br>…<br>更多情景请自行脑补，一句话概括，Homebrew 让你一键安装全世界，<br>洁癖和强迫症患者强烈推荐。</p>
+</li>
+<li><p><a href="https://www.cakebrew.com/" target="_blank" rel="external">Cakebrew</a><br>如果你用不习惯命令行，Homebrew 这么吊的神器当然还有 GUI 啦。<br>Cakebrew 就是 The Mac App for Homebrew</p>
+</li>
+<li><p>Homebrew Cask<br>作为 Homebrew 的补充，Cask 让你告别 .dmg, .pkg 安装程序文件。<br>比如安装 Chrome, <code>brew cask install google-chrome</code>.</p>
+</li>
+</ol>
+<a id="more"></a>
+<h2 id="开发者工具">开发者工具</h2><ol>
+<li><p>pip<br>pyton 的包管理工具，就像<code>ruby</code>的<code>gem</code><br>安装方法：<code>sudo easy_install pip</code></p>
+</li>
+<li><p><a href="https://github.com/tj/n" target="_blank" rel="external">n</a><br>node.js 版本管理工具</p>
+</li>
+<li><p><a href="https://rvm.io/" target="_blank" rel="external">rvm</a><br>ruby 的版本管理工具</p>
+</li>
+<li><p><a href="https://kapeli.com/dash" target="_blank" rel="external">Dash</a><br>开发者必备神器，查看文档，管理代码段，买了绝不后悔（这也是我买的第一个Mac APP)</p>
+</li>
+</ol>
+<h2 id="设计师工具">设计师工具</h2><ol>
+<li><p><a href="http://zoommyapp.com/" target="_blank" rel="external">Zoommy</a><br>一个寻找免费图库的应用 - all free stock photos in one place</p>
+</li>
+<li><p><a href="https://fontstand.com/" target="_blank" rel="external">Fontstand</a><br>在Mac下的所有程序中试用字体1小时，还可以以10%的价格租用</p>
+</li>
+</ol>
+<h2 id="生产力工具">生产力工具</h2><ol>
+<li><p><a href="https://www.rescuetime.com/" target="_blank" rel="external">RescueTime</a><br>看看你的时间花在了哪里，可以监控你看了哪些网页，打开了哪些程序，用了多长时间。付费用户还可以屏蔽让你分心的网站，不刷微博会死星人终于有救了</p>
+</li>
+<li><p><a href="http://www.grandtotal.biz/CheatSheet/" target="_blank" rel="external">CheatSheet</a><br>长按 command ，将能查看当前程序的快捷键</p>
+</li>
+<li><p><a href="http://www.alfredapp.com/" target="_blank" rel="external">Alfred 2</a><br>神器不解释</p>
+</li>
+<li><p><a href="http://flashlight.nateparrott.com/" target="_blank" rel="external">Flashlight</a><br>把 Spotlight 打造成更强大的开源免费 Alfred</p>
+</li>
+<li><p><a href="https://github.com/fikovnik/ShiftIt" target="_blank" rel="external">ShiftIt</a><br>管理窗口大小和位置，多屏幕/写代码/做设计/看股票必备</p>
+</li>
+</ol>
+<h2 id="系统辅助">系统辅助</h2><ol>
+<li><p><a href="https://www.obdev.at/products/littlesnitch/index.html" target="_blank" rel="external">Little Snitch</a><br>正所谓『日防夜防，家贼难防』，网络监控/隐私保护神器，take back control of your system.</p>
+</li>
+<li><p><a href="https://www.monosnap.com/welcome" target="_blank" rel="external">Monosnap</a><br>多功能的实用屏幕截图工具，支持多屏截图、录制视频、上传云端（付费增值）</p>
+</li>
+<li><p><a href="http://snip.qq.com/" target="_blank" rel="external">Snip</a><br>企鹅出品的『简单高效的截图工具』。正如其名，相比 Monosnap, Snip 功能简单专一，不过缺点就是不支持多屏</p>
+</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">工欲善其事，必先利其器。<br>  《论语·卫灵公》<br></blockquote>
+
+<h2 id="软件管理">软件管理</h2><ol>
+<li><p><a href="http://brew.sh/">Homebrew</a><br>当所有工具都可以用同样一句命令来安装，世界是不是变得和蔼可亲了很多？<br>情景一：今天想学学 Go 来玩玩。恩，<code>brew install go</code><br>情景二：github 发现了一个好玩的项目需要 mongodb。恩，<code>brew install mongodb</code><br>…<br>更多情景请自行脑补，一句话概括，Homebrew 让你一键安装全世界，<br>洁癖和强迫症患者强烈推荐。</p>
+</li>
+<li><p><a href="https://www.cakebrew.com/">Cakebrew</a><br>如果你用不习惯命令行，Homebrew 这么吊的神器当然还有 GUI 啦。<br>Cakebrew 就是 The Mac App for Homebrew</p>
+</li>
+<li><p>Homebrew Cask<br>作为 Homebrew 的补充，Cask 让你告别 .dmg, .pkg 安装程序文件。<br>比如安装 Chrome, <code>brew cask install google-chrome</code>.</p>
+</li>
+</ol>]]>
+    
+    </summary>
+    
+      <category term="Mac" scheme="http://liujin.me/blog/tags/Mac/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Git 常用命令（更新中）]]></title>
+    <link href="http://liujin.me/blog/2015/05/25/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>http://liujin.me/blog/2015/05/25/Git-常用命令/</id>
+    <published>2015-05-25T09:18:32.000Z</published>
+    <updated>2015-08-13T03:18:19.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
+
+<p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
+<p>Git 的强大一本书都不足以全部说明，更何况一篇博客。<br>本文记录了我 3 年来使用 Git 最频繁的命令（不包括最基本的add/commit/push/pull等），<br>很负责地说，学会这些基本也就能快乐地玩转 Git 了 <strong>（持续整理更新中）</strong>。</p>
+<p>Hope you enjoy!</p>
+<a id="more"></a>
+<h2 id="1-_超实用_Alias">1. 超实用 Alias</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> g=<span class="string">"git"</span></span><br><span class="line"><span class="built_in">alias</span> gb=<span class="string">"git branch"</span></span><br><span class="line"><span class="built_in">alias</span> gco=<span class="string">"git checkout"</span></span><br><span class="line"><span class="built_in">alias</span> gcmsg=<span class="string">"git commit -m"</span></span><br><span class="line"><span class="built_in">alias</span> gamend=<span class="string">"git commit --amend -C HEAD"</span></span><br><span class="line"><span class="built_in">alias</span> gst=<span class="string">"git status"</span></span><br><span class="line"><span class="built_in">alias</span> <span class="built_in">log</span>=<span class="string">"git log --oneline --graph --decorate --color=always"</span></span><br><span class="line"><span class="built_in">alias</span> logg=<span class="string">"git log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)—     %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-_取回远端_master_与本地_master_分支合并">2. 取回远端 <code>master</code> 与本地 <code>master</code> 分支合并</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gco master</span><br><span class="line"></span><br><span class="line">g fetch --all 或者</span><br><span class="line">g fetch origin master</span><br><span class="line"></span><br><span class="line">g reset --hard origin/master(本地没有修改，所以完全覆盖也没关系) 或者</span><br><span class="line">g rebase origin/master（本地有修改还没push）</span><br></pre></td></tr></table></figure>
+<h2 id="3-_推送分支到远端">3. 推送分支到远端</h2><p>假设现在所在的分支是<code>import</code>，指定推送到远端分支<code>liujin-import</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g push origin import:liujin-import</span><br></pre></td></tr></table></figure></p>
+<p>假如远端的 <code>liujin-import</code> 分支已经不需要，可以直接覆盖掉<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g push <span class="operator">-f</span> origin import:liujin-import</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-_追加文件到某个_commit">4. 追加文件到某个 commit</h2><p>有时候修完某功能并提交了 commit 之后才发现还有一点小修改，这时候又不想再提交一个commit，可以追加这个文件到前一个commit，步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add 你要追加修改的文件</span><br><span class="line">git commit --amend -C HEAD 或者 gamend</span><br></pre></td></tr></table></figure>
+<h2 id="5-_查找包含某文件的_commit">5. 查找包含某文件的 commit</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="command">log</span> 文件路径</span><br><span class="line">git show commit_id</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --follow <span class="function"><span class="title">filename</span><span class="params">(绝对路径)</span></span></span><br></pre></td></tr></table></figure>
+<p>Ref: <a href="http://stackoverflow.com/questions/3701404/list-all-commits-for-a-specific-file" target="_blank" rel="external">List all commit for a specific file</a></p>
+<h2 id="6-_把一个_commit_分拆为两个_commit">6. 把一个 commit 分拆为两个 commit</h2><p>老大常说要养成一个小改动对应一个commit的习惯，但是有时候写得太乱懒得去分割就把很多改动做成了一个commit，这样子增加了以后维护的难度，所以要把一个 commit 分拆为多个 commit 怎么办呢？</p>
+<ul>
+<li>首先把你要分拆的 file reset 了：</li>
+</ul>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD~<span class="number">1</span> path/<span class="keyword">to</span>/<span class="keyword">file</span></span><br><span class="line"># This doesn<span class="attribute">'t</span> delete your changes <span class="keyword">to</span> path/<span class="keyword">to</span>/<span class="keyword">file</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>接着修改当前这个 commit 的 message，命令是：</li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit <span class="comment">--amend -v</span></span><br><span class="line"><span class="comment"># -v参数是打开editor编辑</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后就可以把 reset 出来那个 file 新建一个 commit，命令是：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">commit</span> -v <span class="keyword">path</span>/<span class="keyword">to</span>/<span class="keyword">file</span></span></span><br></pre></td></tr></table></figure>
+<p>这样就把一个 commit 分拆为两个啦，^_^</p>
+<h2 id="7-_删除某些_commit">7. 删除某些 commit</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -<span class="tag">i</span> HEAD~<span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h2 id="8-_追加修改到之前某个_commit">8. 追加修改到之前某个 commit</h2><p>假如 <code>gst</code> 发现已经有文件被修改，这时候需要把修改暂存起来。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">git</span> stash</span><br></pre></td></tr></table></figure>
+<p>接着找到你需要追加修改的那个commit id，如<code>4b739bb</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g rebase <span class="number">4</span>b739bb~ -i 或者</span><br><span class="line">g rebase -i HEAD~<span class="number">5</span> <span class="preprocessor">#列出最近<span class="number">5</span>个commit</span></span><br></pre></td></tr></table></figure>
+<p>这时候会自动打开编辑器，把你需要修改的 commit 前面的 <code>pick</code> 改成 <code>edit</code>，保存，关闭编辑器，这时候会回到终端，再输入:</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g stash <span class="keyword">pop</span></span><br></pre></td></tr></table></figure>
+<p>把暂存的修改读出来，然后做修改，<code>g add .</code>，最后</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">g</span> rebase --<span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+<h2 id="9-_查找含有特定关键字的_commit">9. 查找含有特定关键字的 commit</h2><ul>
+<li><code>git log --grep</code><br>最基本的用法</li>
+<li><p><code>git log --grep=frotz --grep=nitfol --since=1.month</code><br>查找一个月以内commit log message里含有 <code>frotz</code> 或者 <code>nitfol</code> 的 commits</p>
+</li>
+<li><p><code>git log --grep=frotz --author=Linus</code><br>查找指定作者</p>
+</li>
+<li><p><code>git grep -l -e frotz --and -e nitfol</code><br>查找同一行含有 <code>frotz</code> 和 <code>nitfol</code> 的文件</p>
+</li>
+<li><p><code>git grep -l --all-match -e frotz -e nitfol</code><br>查找文件里面含有 <code>frotz</code> 和 <code>nitfol</code> 的文件（不局限于同一行）</p>
+</li>
+</ul>
+<h2 id="10-_清空_git_working_copy_还没追踪的文件">10. 清空 git working copy 还没追踪的文件</h2><ul>
+<li><p><code>git clean -f</code></p>
+</li>
+<li><p><code>git clean -f -d</code><br>如果还想删除目录</p>
+</li>
+<li><p><code>git clean -f -X</code><br>如果只是想删除忽略的文件</p>
+</li>
+<li><p><code>git clean -f -x</code><br>如果想删除忽略和非忽略的文件</p>
+</li>
+</ul>
+<h2 id="11-_清理本地仓库">11. 清理本地仓库</h2><p>长时间做一个项目，经常需要 <code>git fetch</code>，这样做每次都会拉回远端的全部分支。<br>即使远端有些分支已经删除，但是运行<code>git branch -a</code>还是会显示已删除的分支，<br>长时间下来这个列表就会很长很长，这时候就需要清理一下本地的仓库了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote prune origin</span><br><span class="line"><span class="comment"># `prune`会删除任何不存在于远端仓库的分支，这样运行 `git branch -a`命令的时候顿时就清静了</span></span><br></pre></td></tr></table></figure>
+<h2 id="12-_创建追踪远端分支的本地分支">12. 创建追踪远端分支的本地分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gb dev origin/r1-dev</span><br><span class="line"><span class="comment">#Branch dev set up to track remote branch r1-dev from origin.</span></span><br></pre></td></tr></table></figure>
+<h2 id="13-_分支移动">13. 分支移动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g branch <span class="operator">-f</span> master HEAD~<span class="number">3</span></span><br><span class="line"><span class="comment"># 把 master 分支强制移到 HEAD 前面第三个 commit</span></span><br></pre></td></tr></table></figure>
+<h2 id="14-_Revert一个_Merge">14. Revert一个 Merge</h2><p><code>git revert -m 1 M</code> -&gt; W</p>
+ <figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">o</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">o</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">o</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">M</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">x</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">x</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">W</span></span><br><span class="line">              <span class="comment">/</span></span><br><span class="line">      <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">A</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">B</span></span><br></pre></td></tr></table></figure>
+<h2 id="15-_获取短的_commit_hash">15. 获取短的 commit hash</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rev-parse --short HEAD</span><br></pre></td></tr></table></figure>
+<h2 id="16-_commit_了以后才记起来忘了创建_-gitignore,_垃圾文件都已经提交">16. commit 了以后才记起来忘了创建 <code>.gitignore</code>, 垃圾文件都已经提交</h2><p>比如说一个nodejs项目，一开始的时候就忘记了创建<code>.gitnore</code>文件忽略掉<code>node_modules</code>的内容，所以其中的内容就已经被提交了。</p>
+<p>即使紧接着你在<code>.gitignore</code>加了一行<code>node_modules</code>, 已经被提交的文件是不会自动删除的。</p>
+<p>这时候你就需要做的就是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached path/to/ignored</span><br><span class="line"><span class="comment">#nodejs案例就是</span></span><br><span class="line">git rm -r --cached node_modules</span><br></pre></td></tr></table></figure>
+<p>##17. 提交所有被删除的文件</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u</span><br></pre></td></tr></table></figure>
+<p>这个命令告诉 git 自动更新已跟踪的文件, 包括被删除的已跟踪文件。</p>
+<p>如果你用的是 git 2.0</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git add -u <span class="symbol">:/</span></span><br></pre></td></tr></table></figure>
+<p>友情提示：从 git 2.0(2013年中)开始，以上命令会 stage 整个 working tree 的文件。<br>如果你只是想 stage 当前目录的文件，应该这么用：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u .</span><br></pre></td></tr></table></figure>
+<p>详情可以去搜 ““git add -A” 和 “git add .” 的区别”.</p>
+<p>Ref: <a href="http://stackoverflow.com/questions/1402776/how-do-i-commit-all-deleted-files-in-git" target="_blank" rel="external">StackOverflow</a></p>
+<h2 id="18-_撤销上一次_git_add_-_操作">18. 撤销上一次 <code>git add .</code> 操作</h2><p>这种情况通常是因为忘记添加<code>.gitignore</code>文件，或者一时手快把一些非必要的文件（如<code>node_modules</code>)跟踪了, 解决办法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset</span><br></pre></td></tr></table></figure>
+<p>该命令会 unstage 你上一个 commit 增加的所有文件。</p>
+<p>如果你只想 unstage 某些文件:</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset -- &lt;<span class="keyword">file</span> 1&gt; &lt;<span class="keyword">file</span> 2&gt; &lt;<span class="keyword">file</span> <span class="keyword">n</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>还可以 unstage 文件里某处的改动：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">reset</span> -<span class="keyword">p</span></span></span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
+
+<p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
+<p>Git 的强大一本书都不足以全部说明，更何况一篇博客。<br>本文记录了我 3 年来使用 Git 最频繁的命令（不包括最基本的add/commit/push/pull等），<br>很负责地说，学会这些基本也就能快乐地玩转 Git 了 <strong>（持续整理更新中）</strong>。</p>
+<p>Hope you enjoy!</p>]]>
+    
+    </summary>
+    
+      <category term="Git" scheme="http://liujin.me/blog/tags/Git/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://liujin.me/blog/2015/05/24/hello-world/"/>
+    <id>http://liujin.me/blog/2015/05/24/hello-world/</id>
+    <published>2015-05-24T09:18:32.000Z</published>
+    <updated>2015-09-07T03:22:00.000Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
+    </summary>
+    
+  </entry>
+  
+</feed>

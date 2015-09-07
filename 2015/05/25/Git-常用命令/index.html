@@ -1,0 +1,772 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="/blog/css/main.css?v=0.4.4"/>
+
+
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="Jin Liu" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.  –《我的老大是屌丝》摘
+
+从设计转型开发的第一天起，老大只教我一件事，使用 Git。比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。毫无疑问地说，Git 是当今编程学习里最基本的必备技能。
+Git 的强大一本书都不足以全部说明，更何况一篇博客。本文记录了我 3 年来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 常用命令（更新中）">
+<meta property="og:url" content="http://liujin.me/blog/2015/05/25/Git-常用命令/index.html">
+<meta property="og:site_name" content="Jin Liu">
+<meta property="og:description" content="假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.  –《我的老大是屌丝》摘
+
+从设计转型开发的第一天起，老大只教我一件事，使用 Git。比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。毫无疑问地说，Git 是当今编程学习里最基本的必备技能。
+Git 的强大一本书都不足以全部说明，更何况一篇博客。本文记录了我 3 年来">
+<meta property="og:updated_time" content="2015-08-13T03:18:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 常用命令（更新中）">
+<meta name="twitter:description" content="假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.  –《我的老大是屌丝》摘
+
+从设计转型开发的第一天起，老大只教我一件事，使用 Git。比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。毫无疑问地说，Git 是当今编程学习里最基本的必备技能。
+Git 的强大一本书都不足以全部说明，更何况一篇博客。本文记录了我 3 年来">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+    <title> Git 常用命令（更新中） // Jin Liu </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-63369689-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?83ff44680c7cadeb2554faf4fe320eb8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/blog/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Jin Liu</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-old">
+          <a href="http://liujin.logdown.com/" rel="section">
+            <i class="menu-item-icon icon-old"></i> <br />
+            舊文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-projects">
+          <a href="/blog/projects" rel="section">
+            <i class="menu-item-icon icon-projects"></i> <br />
+            項目
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Git 常用命令（更新中）
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2015-05-25T17:18:32+08:00" content="2015-05-25">
+            2015-05-25
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/blog/2015/05/25/Git-常用命令/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/25/Git-常用命令/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
+
+<p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
+<p>Git 的强大一本书都不足以全部说明，更何况一篇博客。<br>本文记录了我 3 年来使用 Git 最频繁的命令（不包括最基本的add/commit/push/pull等），<br>很负责地说，学会这些基本也就能快乐地玩转 Git 了 <strong>（持续整理更新中）</strong>。</p>
+<p>Hope you enjoy!</p>
+<a id="more"></a>
+<h2 id="1-_超实用_Alias">1. 超实用 Alias</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> g=<span class="string">"git"</span></span><br><span class="line"><span class="built_in">alias</span> gb=<span class="string">"git branch"</span></span><br><span class="line"><span class="built_in">alias</span> gco=<span class="string">"git checkout"</span></span><br><span class="line"><span class="built_in">alias</span> gcmsg=<span class="string">"git commit -m"</span></span><br><span class="line"><span class="built_in">alias</span> gamend=<span class="string">"git commit --amend -C HEAD"</span></span><br><span class="line"><span class="built_in">alias</span> gst=<span class="string">"git status"</span></span><br><span class="line"><span class="built_in">alias</span> <span class="built_in">log</span>=<span class="string">"git log --oneline --graph --decorate --color=always"</span></span><br><span class="line"><span class="built_in">alias</span> logg=<span class="string">"git log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)—     %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-_取回远端_master_与本地_master_分支合并">2. 取回远端 <code>master</code> 与本地 <code>master</code> 分支合并</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gco master</span><br><span class="line"></span><br><span class="line">g fetch --all 或者</span><br><span class="line">g fetch origin master</span><br><span class="line"></span><br><span class="line">g reset --hard origin/master(本地没有修改，所以完全覆盖也没关系) 或者</span><br><span class="line">g rebase origin/master（本地有修改还没push）</span><br></pre></td></tr></table></figure>
+<h2 id="3-_推送分支到远端">3. 推送分支到远端</h2><p>假设现在所在的分支是<code>import</code>，指定推送到远端分支<code>liujin-import</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g push origin import:liujin-import</span><br></pre></td></tr></table></figure></p>
+<p>假如远端的 <code>liujin-import</code> 分支已经不需要，可以直接覆盖掉<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g push <span class="operator">-f</span> origin import:liujin-import</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-_追加文件到某个_commit">4. 追加文件到某个 commit</h2><p>有时候修完某功能并提交了 commit 之后才发现还有一点小修改，这时候又不想再提交一个commit，可以追加这个文件到前一个commit，步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add 你要追加修改的文件</span><br><span class="line">git commit --amend -C HEAD 或者 gamend</span><br></pre></td></tr></table></figure>
+<h2 id="5-_查找包含某文件的_commit">5. 查找包含某文件的 commit</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="command">log</span> 文件路径</span><br><span class="line">git show commit_id</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --follow <span class="function"><span class="title">filename</span><span class="params">(绝对路径)</span></span></span><br></pre></td></tr></table></figure>
+<p>Ref: <a href="http://stackoverflow.com/questions/3701404/list-all-commits-for-a-specific-file" target="_blank" rel="external">List all commit for a specific file</a></p>
+<h2 id="6-_把一个_commit_分拆为两个_commit">6. 把一个 commit 分拆为两个 commit</h2><p>老大常说要养成一个小改动对应一个commit的习惯，但是有时候写得太乱懒得去分割就把很多改动做成了一个commit，这样子增加了以后维护的难度，所以要把一个 commit 分拆为多个 commit 怎么办呢？</p>
+<ul>
+<li>首先把你要分拆的 file reset 了：</li>
+</ul>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD~<span class="number">1</span> path/<span class="keyword">to</span>/<span class="keyword">file</span></span><br><span class="line"># This doesn<span class="attribute">'t</span> delete your changes <span class="keyword">to</span> path/<span class="keyword">to</span>/<span class="keyword">file</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>接着修改当前这个 commit 的 message，命令是：</li>
+</ul>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit <span class="comment">--amend -v</span></span><br><span class="line"><span class="comment"># -v参数是打开editor编辑</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后就可以把 reset 出来那个 file 新建一个 commit，命令是：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">commit</span> -v <span class="keyword">path</span>/<span class="keyword">to</span>/<span class="keyword">file</span></span></span><br></pre></td></tr></table></figure>
+<p>这样就把一个 commit 分拆为两个啦，^_^</p>
+<h2 id="7-_删除某些_commit">7. 删除某些 commit</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -<span class="tag">i</span> HEAD~<span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h2 id="8-_追加修改到之前某个_commit">8. 追加修改到之前某个 commit</h2><p>假如 <code>gst</code> 发现已经有文件被修改，这时候需要把修改暂存起来。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">git</span> stash</span><br></pre></td></tr></table></figure>
+<p>接着找到你需要追加修改的那个commit id，如<code>4b739bb</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g rebase <span class="number">4</span>b739bb~ -i 或者</span><br><span class="line">g rebase -i HEAD~<span class="number">5</span> <span class="preprocessor">#列出最近<span class="number">5</span>个commit</span></span><br></pre></td></tr></table></figure>
+<p>这时候会自动打开编辑器，把你需要修改的 commit 前面的 <code>pick</code> 改成 <code>edit</code>，保存，关闭编辑器，这时候会回到终端，再输入:</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g stash <span class="keyword">pop</span></span><br></pre></td></tr></table></figure>
+<p>把暂存的修改读出来，然后做修改，<code>g add .</code>，最后</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">g</span> rebase --<span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+<h2 id="9-_查找含有特定关键字的_commit">9. 查找含有特定关键字的 commit</h2><ul>
+<li><code>git log --grep</code><br>最基本的用法</li>
+<li><p><code>git log --grep=frotz --grep=nitfol --since=1.month</code><br>查找一个月以内commit log message里含有 <code>frotz</code> 或者 <code>nitfol</code> 的 commits</p>
+</li>
+<li><p><code>git log --grep=frotz --author=Linus</code><br>查找指定作者</p>
+</li>
+<li><p><code>git grep -l -e frotz --and -e nitfol</code><br>查找同一行含有 <code>frotz</code> 和 <code>nitfol</code> 的文件</p>
+</li>
+<li><p><code>git grep -l --all-match -e frotz -e nitfol</code><br>查找文件里面含有 <code>frotz</code> 和 <code>nitfol</code> 的文件（不局限于同一行）</p>
+</li>
+</ul>
+<h2 id="10-_清空_git_working_copy_还没追踪的文件">10. 清空 git working copy 还没追踪的文件</h2><ul>
+<li><p><code>git clean -f</code></p>
+</li>
+<li><p><code>git clean -f -d</code><br>如果还想删除目录</p>
+</li>
+<li><p><code>git clean -f -X</code><br>如果只是想删除忽略的文件</p>
+</li>
+<li><p><code>git clean -f -x</code><br>如果想删除忽略和非忽略的文件</p>
+</li>
+</ul>
+<h2 id="11-_清理本地仓库">11. 清理本地仓库</h2><p>长时间做一个项目，经常需要 <code>git fetch</code>，这样做每次都会拉回远端的全部分支。<br>即使远端有些分支已经删除，但是运行<code>git branch -a</code>还是会显示已删除的分支，<br>长时间下来这个列表就会很长很长，这时候就需要清理一下本地的仓库了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote prune origin</span><br><span class="line"><span class="comment"># `prune`会删除任何不存在于远端仓库的分支，这样运行 `git branch -a`命令的时候顿时就清静了</span></span><br></pre></td></tr></table></figure>
+<h2 id="12-_创建追踪远端分支的本地分支">12. 创建追踪远端分支的本地分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gb dev origin/r1-dev</span><br><span class="line"><span class="comment">#Branch dev set up to track remote branch r1-dev from origin.</span></span><br></pre></td></tr></table></figure>
+<h2 id="13-_分支移动">13. 分支移动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g branch <span class="operator">-f</span> master HEAD~<span class="number">3</span></span><br><span class="line"><span class="comment"># 把 master 分支强制移到 HEAD 前面第三个 commit</span></span><br></pre></td></tr></table></figure>
+<h2 id="14-_Revert一个_Merge">14. Revert一个 Merge</h2><p><code>git revert -m 1 M</code> -&gt; W</p>
+ <figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">o</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">o</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">o</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">M</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">x</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">x</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">W</span></span><br><span class="line">              <span class="comment">/</span></span><br><span class="line">      <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">A</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">B</span></span><br></pre></td></tr></table></figure>
+<h2 id="15-_获取短的_commit_hash">15. 获取短的 commit hash</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rev-parse --short HEAD</span><br></pre></td></tr></table></figure>
+<h2 id="16-_commit_了以后才记起来忘了创建_-gitignore,_垃圾文件都已经提交">16. commit 了以后才记起来忘了创建 <code>.gitignore</code>, 垃圾文件都已经提交</h2><p>比如说一个nodejs项目，一开始的时候就忘记了创建<code>.gitnore</code>文件忽略掉<code>node_modules</code>的内容，所以其中的内容就已经被提交了。</p>
+<p>即使紧接着你在<code>.gitignore</code>加了一行<code>node_modules</code>, 已经被提交的文件是不会自动删除的。</p>
+<p>这时候你就需要做的就是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached path/to/ignored</span><br><span class="line"><span class="comment">#nodejs案例就是</span></span><br><span class="line">git rm -r --cached node_modules</span><br></pre></td></tr></table></figure>
+<p>##17. 提交所有被删除的文件</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u</span><br></pre></td></tr></table></figure>
+<p>这个命令告诉 git 自动更新已跟踪的文件, 包括被删除的已跟踪文件。</p>
+<p>如果你用的是 git 2.0</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git add -u <span class="symbol">:/</span></span><br></pre></td></tr></table></figure>
+<p>友情提示：从 git 2.0(2013年中)开始，以上命令会 stage 整个 working tree 的文件。<br>如果你只是想 stage 当前目录的文件，应该这么用：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u .</span><br></pre></td></tr></table></figure>
+<p>详情可以去搜 ““git add -A” 和 “git add .” 的区别”.</p>
+<p>Ref: <a href="http://stackoverflow.com/questions/1402776/how-do-i-commit-all-deleted-files-in-git" target="_blank" rel="external">StackOverflow</a></p>
+<h2 id="18-_撤销上一次_git_add_-_操作">18. 撤销上一次 <code>git add .</code> 操作</h2><p>这种情况通常是因为忘记添加<code>.gitignore</code>文件，或者一时手快把一些非必要的文件（如<code>node_modules</code>)跟踪了, 解决办法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset</span><br></pre></td></tr></table></figure>
+<p>该命令会 unstage 你上一个 commit 增加的所有文件。</p>
+<p>如果你只想 unstage 某些文件:</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset -- &lt;<span class="keyword">file</span> 1&gt; &lt;<span class="keyword">file</span> 2&gt; &lt;<span class="keyword">file</span> <span class="keyword">n</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>还可以 unstage 文件里某处的改动：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">reset</span> -<span class="keyword">p</span></span></span><br></pre></td></tr></table></figure>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Git/" rel="tag">#Git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/05/26/Mac-常用技巧-工具篇/" rel="prev">Mac 常用技巧 - 工具篇 (更新中)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/05/24/hello-world/" rel="next">Hello World</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+                  <div class="ds-thread" data-thread-key="2015/05/25/Git-常用命令/"
+                       data-title="Git 常用命令（更新中）" data-url="http://liujin.me/blog/2015/05/25/Git-常用命令/">
+                  </div>
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars3.githubusercontent.com/u/1059327" alt="Jin Liu" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Jin Liu</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/blog/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/blog/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/blog/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coolzilj" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/coolzilj" target="_blank">weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/coolzilj" target="_blank">zhihu</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_超实用_Alias"><span class="nav-number">1.</span> <span class="nav-text">1. 超实用 Alias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_取回远端_master_与本地_master_分支合并"><span class="nav-number">2.</span> <span class="nav-text">2. 取回远端 master 与本地 master 分支合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_推送分支到远端"><span class="nav-number">3.</span> <span class="nav-text">3. 推送分支到远端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_追加文件到某个_commit"><span class="nav-number">4.</span> <span class="nav-text">4. 追加文件到某个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-_查找包含某文件的_commit"><span class="nav-number">5.</span> <span class="nav-text">5. 查找包含某文件的 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-_把一个_commit_分拆为两个_commit"><span class="nav-number">6.</span> <span class="nav-text">6. 把一个 commit 分拆为两个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-_删除某些_commit"><span class="nav-number">7.</span> <span class="nav-text">7. 删除某些 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-_追加修改到之前某个_commit"><span class="nav-number">8.</span> <span class="nav-text">8. 追加修改到之前某个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-_查找含有特定关键字的_commit"><span class="nav-number">9.</span> <span class="nav-text">9. 查找含有特定关键字的 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-_清空_git_working_copy_还没追踪的文件"><span class="nav-number">10.</span> <span class="nav-text">10. 清空 git working copy 还没追踪的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-_清理本地仓库"><span class="nav-number">11.</span> <span class="nav-text">11. 清理本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-_创建追踪远端分支的本地分支"><span class="nav-number">12.</span> <span class="nav-text">12. 创建追踪远端分支的本地分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-_分支移动"><span class="nav-number">13.</span> <span class="nav-text">13. 分支移动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-_Revert一个_Merge"><span class="nav-number">14.</span> <span class="nav-text">14. Revert一个 Merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-_获取短的_commit_hash"><span class="nav-number">15.</span> <span class="nav-text">15. 获取短的 commit hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-_commit_了以后才记起来忘了创建_-gitignore,_垃圾文件都已经提交"><span class="nav-number">16.</span> <span class="nav-text">16. commit 了以后才记起来忘了创建 .gitignore, 垃圾文件都已经提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-_撤销上一次_git_add_-_操作"><span class="nav-number">17.</span> <span class="nav-text">18. 撤销上一次 git add . 操作</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jin Liu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liujin-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/blog/js/ua-parser.min.js"></script>
+  	<script src="/blog/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/blog/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/blog/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/blog/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/blog/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/blog/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/blog/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>

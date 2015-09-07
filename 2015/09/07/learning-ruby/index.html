@@ -1,0 +1,1022 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="/blog/css/main.css?v=0.4.4"/>
+
+
+
+
+  <meta name="keywords" content="ruby," />
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="Jin Liu" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="我的初恋💗
+
+常用命令
+rails generate scaffold User name:string email:string
+bundle exec rake db:migrate之所以使用bundle exec rake，而不是使用rake，是希望使用在Gemfile指定的rake版本
+rails new sample_app --skip-test-unit
+rails server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby 学习记录 (更新中)">
+<meta property="og:url" content="http://liujin.me/blog/2015/09/07/learning-ruby/index.html">
+<meta property="og:site_name" content="Jin Liu">
+<meta property="og:description" content="我的初恋💗
+
+常用命令
+rails generate scaffold User name:string email:string
+bundle exec rake db:migrate之所以使用bundle exec rake，而不是使用rake，是希望使用在Gemfile指定的rake版本
+rails new sample_app --skip-test-unit
+rails server">
+<meta property="og:updated_time" content="2015-09-07T04:13:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ruby 学习记录 (更新中)">
+<meta name="twitter:description" content="我的初恋💗
+
+常用命令
+rails generate scaffold User name:string email:string
+bundle exec rake db:migrate之所以使用bundle exec rake，而不是使用rake，是希望使用在Gemfile指定的rake版本
+rails new sample_app --skip-test-unit
+rails server">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+    <title> Ruby 学习记录 (更新中) // Jin Liu </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-63369689-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?83ff44680c7cadeb2554faf4fe320eb8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/blog/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Jin Liu</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-old">
+          <a href="http://liujin.logdown.com/" rel="section">
+            <i class="menu-item-icon icon-old"></i> <br />
+            舊文
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-projects">
+          <a href="/blog/projects" rel="section">
+            <i class="menu-item-icon icon-projects"></i> <br />
+            項目
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Ruby 学习记录 (更新中)
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2015-09-07T10:53:17+08:00" content="2015-09-07">
+            2015-09-07
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/blog/2015/09/07/learning-ruby/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/07/learning-ruby/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><blockquote class="blockquote-center">我的初恋💗</blockquote>
+
+<h2 id="常用命令">常用命令</h2><ol>
+<li><code>rails generate scaffold User name:string email:string</code></li>
+<li><code>bundle exec rake db:migrate</code><br>之所以使用<code>bundle exec rake</code>，而不是使用<code>rake</code>，是希望使用在Gemfile指定的rake版本</li>
+<li><code>rails new sample_app --skip-test-unit</code></li>
+<li><code>rails server -p 7777</code> rails启动使用其他端口</li>
+<li><code>rails console —sandbox</code> 保证退出console的时候数据会清空</li>
+<li><code>rails g model Post title:text content:text -p</code><br><code>-p</code> 表示 <code>pretend</code>会列出来这个命令会执行什么操作，会生成什么文件，但不会去真正执行这个命令。<a id="more"></a>
+</li>
+</ol>
+<hr>
+<h2 id="最佳实践">最佳实践</h2><ol>
+<li><a href="http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby" target="_blank" rel="external">Why is it bad style to <code>rescue Exception =&gt; e</code> in Ruby?</a></li>
+</ol>
+<hr>
+<h2 id="Rails">Rails</h2><h3 id="1-_写route的时候，action并不是必须的，view才是必须的">1. 写route的时候，action并不是必须的，view才是必须的</h3><p>如宝莱卡项目中的choose页面，routes里面指定了，</p>
+<pre><code><span class="keyword">match</span> <span class="string">"/choose"</span> =&gt; <span class="string">"decks#choose"</span>, :<span class="keyword">as</span> =&gt; :choose
+</code></pre><p>因为不需要传过去views任何变量，我们就不需要在 decks_controller 里面定义 choose 方法，只要views文件夹里面有choose.html.haml 文件即可。<br><a href="http://stackoverflow.com/questions/4477061/rails-3-0-adding-new-action-to-a-controller" target="_blank" rel="external">参考文章：</a></p>
+<p>Add this to routes.rb:</p>
+<pre><code><span class="keyword">get</span> <span class="string">'mycontroller/foobar'</span>
+</code></pre><p>This will route the URL <a href="http://mysite.com/foobar" target="_blank" rel="external">http://mysite.com/foobar</a> to the foobar action using HTTP GET.</p>
+<p>Some more info:</p>
+<ul>
+<li>Note that defining a def foobar in the controller is not a strict requirement (unless you need to do something in foobar before the view is displayed) - but the view must exist. In other words, even if def foobar method does not exist in the controller, the view foobar.html.erb will still be rendered.</li>
+<li>Here is a good overview of routes in Rails 3.</li>
+<li>Also, in case you don’t already know, you can list all the routes that you app knows about usingrake routes. Consequently, if the output of rake routes does not list the route to some controller/action, then the ‘No route matches’ error will occur.</li>
+</ul>
+<h3 id="2-_Array/Hash_都继承了_Enumerable_的方法，但map,collect,map!,collect!_只有Array才支持">2. Array/Hash 都继承了 Enumerable 的方法，但<code>map</code>,<code>collect</code>,<code>map!</code>,<code>collect!</code> 只有Array才支持</h3><p>Hash想实现则需要 <code>inject</code> 或者 <code>each_with_object</code>, 破坏性方法可以用 <code>each</code></p>
+<pre><code>my_hash = { a: <span class="string">'foo'</span>, b: <span class="string">'bar'</span> }
+# =&gt; {:a=&gt;<span class="string">"foo"</span>, :b=&gt;<span class="string">"bar"</span>}
+a_new_hash = my_hash.inject({}) {|h, (k, v)| h[k.upcase] = v.upcase; h }
+# =&gt; {:A=&gt;<span class="string">"FOO"</span>, :B=&gt;<span class="string">"BAR"</span>}
+# OR
+a_new_hash = my_hash.each_with_object({}) {|(k,v), h| h[k.upcase] = v.upcase }
+# =&gt; {:A=&gt;<span class="string">"FOO"</span>, :B=&gt;<span class="string">"BAR"</span>}
+# OR
+a_new_hash = Hash[my_hash.map { |k, v| [k.upcase, v.upcase] }]
+# =&gt; {:A=&gt;<span class="string">"FOO"</span>, :B=&gt;<span class="string">"BAR"</span>}
+# OR破坏性,不过不能修改key
+my_hash.each {|k,v| my_hash[k] = v.upcase }
+# =&gt; {:a=&gt;<span class="string">"FOO"</span>, :b=&gt;<span class="string">"BAR"</span>}
+</code></pre><h3 id="3-_Hash_to_URL_query">3. Hash to URL query</h3><p><code>to_query</code>:</p>
+<pre><code><span class="string">"http://www.example.com?"</span> + { language: <span class="string">"ruby"</span>, status: <span class="string">"awesome"</span> }.to_query
+<span class="preprocessor"># =&gt; <span class="string">"http://www.example.com?language=ruby&amp;status=awesome"</span></span>
+</code></pre><p><code>CGI.parse</code>:</p>
+<pre><code>require <span class="string">'cgi'</span> # Only needed <span class="keyword">for</span> IRB, Rails already has <span class="keyword">this</span> loaded
+CGI::parse <span class="string">"language=ruby&amp;status=awesome"</span>
+# =&gt; {<span class="string">"language"</span>=&gt;[<span class="string">"ruby"</span>], <span class="string">"status"</span>=&gt;[<span class="string">"awesome"</span>]}
+Both methods support nested values.
+</code></pre><h3 id="4-_rails_console_tips">4. rails console tips</h3><p>  <code>_</code> 返回前一个输出，如：<code>a = [1,2,3] # =&gt; [1,2,3] _ # =&gt; [1,2,3]</code></p>
+<h3 id="5-_非rails项目使用_ActiveSupport">5. 非rails项目使用 ActiveSupport</h3><p>  <code>require &quot;active_support/all&quot;</code></p>
+<p>Since using Rails should handle this automatically I’m going to assume you’re trying to add ActiveSupport to a non-Rails script.</p>
+<p>ActiveSupport’s methods got broken into smaller groups in Rails 3, so we don’t end up loading a lot of unneeded stuff with a simple <code>require &#39;activesupport&#39;</code>. Now we have to do things like require <code>&#39;active_support/core_ext/object/blank&#39;</code></p>
+<p>If you don’t care about granularity, you can choose to load bigger chunks. If you want everything in one big gulp use…</p>
+<p>For 1.9.2:</p>
+<pre><code>rvm <span class="number">1.9</span>.<span class="number">2</span>
+irb -f
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">001</span>:<span class="number">0</span>]]
+&gt;
+require <span class="string">'active_support/all'</span>
+=&gt;true
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">002</span>:<span class="number">0</span>]]
+&gt;
+<span class="number">1</span><span class="class">.week</span><span class="class">.ago</span>
+=&gt;<span class="number">2010</span>-<span class="number">11</span>-<span class="number">1417</span>:<span class="number">56</span>:<span class="number">16</span>-<span class="number">0700</span>
+</code></pre><p>For 1.8.7:</p>
+<pre><code>rvm <span class="number">1.8</span>.<span class="number">7</span>
+irb -f
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">001</span>:<span class="number">0</span>]]
+&gt;
+require <span class="string">'rubygems'</span>
+=&gt;true
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">002</span>:<span class="number">0</span>]]
+&gt;
+require <span class="string">'active_support/all'</span>
+=&gt;true
+<span class="function"><span class="title">irb</span><span class="params">(main)</span></span>:<span class="number">003</span>:<span class="number">0</span>]]
+&gt;
+<span class="number">1</span><span class="class">.week</span><span class="class">.ago</span>
+=&gt;SunNov1417:<span class="number">54</span>:<span class="number">19</span>-<span class="number">07002010</span>
+</code></pre><h3 id="6-_Rspec">6. Rspec</h3><ol>
+<li>准备数据 <code>bundle exec rake db:test:prepare</code></li>
+<li>跑起来 <code>rspec</code> / <code>rspec spec/models/upyun_file_spec.rb</code></li>
+</ol>
+<h3 id="7-_Unicorn">7. Unicorn</h3><p>在<code>development</code>得时候，unicorn默认的log是像nginx一样的，没有多大得debug价值，要想webrick那样的log只好自己动下手了。<br><a href="http://dave.is/unicorn.html" target="_blank" rel="external">参考链接</a>：</p>
+<p>使用<code>rails server</code>一样的logger:</p>
+<pre><code><span class="comment"># config/environments/development.rb</span>
+<span class="constant">Hackerschool:</span><span class="symbol">:Application</span>.configure <span class="keyword">do</span>
+  <span class="comment"># ...</span>
+  config.logger = <span class="constant">Logger.</span>new(<span class="constant">STDOUT)</span>
+  config.logger.level = <span class="constant">Logger.</span>const_get(
+    <span class="constant">ENV[</span><span class="string">'LOG_LEVEL'</span>] ? <span class="constant">ENV[</span><span class="string">'LOG_LEVEL'</span>].upcase <span class="symbol">:</span> <span class="string">'DEBUG'</span>
+  )
+<span class="keyword">end</span>
+</code></pre><p>去掉unicorn默认的类nginx的logger：</p>
+<pre><code>$ RACK_ENV=none RAILS_ENV=development unicorn -c config/unicorn.rb
+# <span class="keyword">If</span> you’re <span class="keyword">using</span> foreman <span class="keyword">to</span> run your app locally, you can put these <span class="keyword">into</span> your .env file.
+</code></pre><hr>
+<h2 id="代码片段">代码片段</h2><h3 id="1-_找出notes字段长度小于8的记录">1. 找出notes字段长度小于8的记录</h3><p><code>Photographer.where(&quot;CHARACTER_LENGTH(notes) &lt; 8&quot;)</code></p>
+<h3 id="2-_检查数组是不是全部非空白">2. 检查数组是不是全部非空白</h3><p><code>[&quot;&quot;, nil].all?(&amp;:blank?)</code></p>
+<h3 id="3-_在console删除记录">3. 在console删除记录</h3><p><code>User.find(2).destroy</code></p>
+<hr>
+<h2 id="Ruby">Ruby</h2><h3 id="Hash">Hash</h3><h4 id="{}省略的情况">{}省略的情况</h4><p>如果方法最后一个参数是hash，<code>{}</code>可以省略掉，如：</p>
+<pre><code>link_to(body, url, html_options = {})
+link_to <span class="string">"Click me"</span>, object_path, <span class="symbol">:class=&gt;<span class="string">"my_css_class"</span></span>, <span class="symbol">:id=&gt;<span class="string">"my_css_id"</span></span>
+link_to <span class="string">"Click me"</span>, object_path, { <span class="symbol">:class=&gt;<span class="string">"my_css_class"</span></span>, <span class="symbol">:id=&gt;<span class="string">"my_css_id"</span></span> }
+</code></pre><h4 id="rocket_style_是不是已经废弃掉了？">rocket style 是不是已经废弃掉了？</h4><p>Ref: <a href="http://logicalfriday.com/2011/06/20/i-dont-like-the-ruby-1-9-hash-syntax/" target="_blank" rel="external">JSON STYLE 吐槽</a><br><a href="http://ruby-china.org/topics/2662" target="_blank" rel="external">RubyChina翻译文</a></p>
+<p>（1.9版本引入JSON STYLE）当然不是啦，有些时候还一定要使用 rocket style！</p>
+<ol>
+<li><p>You must use the rocket for symbols that require quoting:</p>
+<p>  有效：<code>:&#39;where.is&#39; =&gt; x</code></p>
+<p>  无效：<code>&#39;where.is&#39;: x</code></p>
+</li>
+<li><p>You must use the rocket for symbols that are not valid labels:</p>
+<p> 有效：<code>:$set =&gt; x</code></p>
+<p> 无效：<code>$set: x</code></p>
+</li>
+<li><p>You must use the rocket if you use keys in your Hashes that aren’t symbols:</p>
+<p> 有效：<code>&#39;s&#39; =&gt; x</code></p>
+<p> 无效：<code>&#39;s&#39;: x</code></p>
+</li>
+<li><p>变量当然也不行，如：</p>
+<p> def generate_token(column)<br>   begin</p>
+<pre><code>self<span class="string">[column]</span> = SecureRandom.urlsafe_base64
+</code></pre><p>   end while User.exists?(column =&gt; self[column])<br> end<br> 这里的 column =&gt; self[column]<br> 不能写成<br> column: self[column]<br> 因为column是一个变量，而不是symbol</p>
+</li>
+</ol>
+<p>总结来说，JSON style 只是key是symbol的hash的一种简洁写法，使用范围有效，但也足够，因为hash都提倡key用symbol。</p>
+<h4 id="为什么提倡使用symbol作为hash的key？">为什么提倡使用symbol作为hash的key？</h4><p><a href="http://stackoverflow.com/questions/8189416/why-use-symbols-as-hash-keys-in-ruby" target="_blank" rel="external">StackOverflow Ref</a></p>
+<h3 id="元编程">元编程</h3><ol>
+<li><p>查看某个类的类方法：<code>OauthUser.methods</code></p>
+</li>
+<li><p>查看某个类的实例方法： <code>OauthUser.instance_methods</code></p>
+</li>
+<li><p>查看某个类有没有含有特定关键字的方法： <code>OauthUser.methods.grep /account/</code></p>
+</li>
+<li><p>类也是一个对象，是 <strong>Class</strong> 类的实例，类方法实质上是储存在 <strong>eigenclass</strong> 里面的单件方法</p>
+</li>
+<li><p><code>extend self</code>的使用（参考balalaika的 <strong>legacy_migrate.rb</strong> ）</p>
+<p>一般用在Module中，因为Module无法实例化，所以想像调用类方法一样调用实例方法，就extend 自己，extend 本质上等同于</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="inheritance">&lt;</span><span class="inheritance">&lt; <span class="parent">self</span></span></span></span><br><span class="line">  <span class="keyword">include</span> <span class="constant">Module</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">M</span></span></span><br><span class="line">  <span class="keyword">extend</span> <span class="keyword">self</span>      <span class="comment">##等同于 extend M</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">greeting</span></span></span><br><span class="line">    puts <span class="string">"hi!"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>这样的话就可以调用 <code>M.greeting</code>, greeting既是实例方法，也是单件方法。<br>如果只是单纯想调用 <code>M.greeting</code>的话，也可以这样写</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">M</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">greeting</span></span></span><br><span class="line">    puts <span class="string">"hi!"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>这时候greeting只是一个类方法（单件方法）</p>
+</li>
+<li><p>extend vs include</p>
+<p><code>extend Module</code> =&gt; 类方法</p>
+<p><code>include Module</code> =&gt; 实例方法</p>
+</li>
+</ol>
+<h3 id="操作符">操作符</h3><ol>
+<li><p><code>&amp;</code> 符号</p>
+<ul>
+<li><p><code>&amp;</code>符号是把Proc转换成Block的操作符，</p>
+<pre><code>feet_over_4 = Proc.<span class="keyword">new</span> { |<span class="variable">height</span>| <span class="variable">height</span> &gt;= <span class="number">4</span> }
+some_array.collect(&amp;feet_over_4) #注意是括号而不是大括号
+</code></pre></li>
+<li><p><code>&amp;:symbol</code></p>
+<p>  因为<code>&amp;</code>是把Proc转换成Block，所以<code>:symbol</code>要先转换成Proc</p>
+<pre><code>def to_proc
+    <span class="keyword">proc</span> { |obj, *args| obj.send(self, *args) }
+<span class="keyword">end</span>
+</code></pre><p>  所以</p>
+<pre><code>some_array.map{|<span class="literal">a</span>| <span class="literal">a</span>.upcase}
+</code></pre><p>  等于</p>
+<pre><code>some_array.<span class="function"><span class="title">map</span><span class="params">(&amp;:upcase)</span></span>
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<h3 id="Block,_Proc,_Lambda">Block, Proc, Lambda</h3><h4 id="Block">Block</h4><p><code>Block</code> 只是一些代码片段集合，不是<code>object</code></p>
+<h4 id="Proc">Proc</h4><p><code>Proc</code> 是对象，拥有对象所有特性</p>
+<h4 id="Lambda">Lambda</h4><p><code>Lambda</code> 也是对象</p>
+<h4 id="Proc_vs_Lambda">Proc vs Lambda</h4><p>Another important but subtle difference is in the way procs created with lambda and procs created with Proc.new handle the return statement:</p>
+<p>In a lambda-created proc, the return statement returns only from the proc itself<br>In a Proc.new-created proc, the return statement is a little more surprising: it returns control not just from the proc, but also from the method enclosing the proc!<br>Here’s lambda-created proc’s return in action. It behaves in a way that you probably expect:</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">whowouldwin</span></span>
+
+    mylambda = lambda {<span class="keyword">return</span> <span class="string">"Freddy"</span>}
+    mylambda.call
+
+    <span class="comment"># mylambda gets called and returns "Freddy", and execution</span>
+    <span class="comment"># continues on the next line</span>
+
+    <span class="keyword">return</span> <span class="string">"Jason"</span>
+
+<span class="keyword">end</span>
+
+
+whowouldwin
+<span class="status">=&gt;</span> <span class="string">"Jason"</span>
+</code></pre><p>Now here’s a Proc.new-created proc’s return doing the same thing. You’re about to see one of those cases where Ruby breaks the much-vaunted Principle of Least Surprise:</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">whowouldwin2</span></span>
+
+  myproc = <span class="constant">Proc</span>.new {<span class="keyword">return</span> <span class="string">"Freddy"</span>}
+  myproc.call
+
+  <span class="comment"># myproc gets called and returns "Freddy",</span>
+  <span class="comment"># but also returns control from whowhouldwin2!</span>
+  <span class="comment"># The line below *never* gets executed.</span>
+
+  <span class="keyword">return</span> <span class="string">"Jason"</span>
+
+<span class="keyword">end</span>
+
+
+whowouldwin2
+<span class="status">=&gt;</span> <span class="string">"Freddy"</span>
+</code></pre><p>Thanks to this surprising behaviour (as well as less typing), I tend to favour using lambda over Proc.new when making procs.</p>
+<h3 id="Module_Mixin">Module Mixin</h3><p><code>Module/Class</code>一般包含3种方法，<code>Macro</code>, <code>ClassMethods</code>, <code>IntanceMethods</code><br><code>Macro</code>其实就是执行省略掉self的方法，如:</p>
+<pre><code>has_many <span class="symbol">:tags</span>
+等于
+<span class="keyword">self</span>.has_many <span class="symbol">:tags</span>
+</code></pre><h4 id="经典做法">经典做法</h4><pre><code><span class="class"><span class="keyword">module</span> <span class="title">TagLib</span></span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">ClassMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">find_by_tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">InstanceMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">included</span><span class="params">(base)</span></span>
+    base.send <span class="symbol">:include</span>, <span class="constant">InstanceMethods</span>
+    base.send <span class="symbol">:extend</span>, <span class="constant">ClassMethods</span>
+    base.class_eval <span class="keyword">do</span>
+      <span class="comment">#这里使用intance_eval也是同样的效果，因为self都是base</span>
+      logger.warn...
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">ActiveRecord::Base</span></span>
+  <span class="keyword">include</span> <span class="constant">TagLib</span>
+<span class="keyword">end</span>
+</code></pre><h4 id="善用ActiveSupport::Concern">善用ActiveSupport::Concern</h4><h5 id="Rail3">Rail3</h5><pre><code><span class="class"><span class="keyword">module</span> <span class="title">TagLib</span></span>
+  extend <span class="constant">ActiveSupport::Concern</span>
+
+  included <span class="keyword">do</span>
+    logger.warn ...
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">ClassMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">find_by_tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">InstanceMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">ActiveRecord::Base</span></span>
+  <span class="keyword">include</span> <span class="constant">TagLib</span>
+<span class="keyword">end</span>
+</code></pre><h5 id="Rails4">Rails4</h5><p>不再需要把实例方法包在<code>Module InstanceMethods</code>里，直接写在外面就可以</p>
+<pre><code><span class="class"><span class="keyword">module</span> <span class="title">TagLib</span></span>
+  extend <span class="constant">ActiveSupport::Concern</span>
+
+  included <span class="keyword">do</span>
+    logger.warn...
+  <span class="keyword">end</span>
+
+  <span class="class"><span class="keyword">module</span> <span class="title">ClassMethods</span></span>
+    <span class="function"><span class="keyword">def</span> <span class="title">find_by_tags</span><span class="params">()</span></span>
+      <span class="comment"># ...</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">tags</span><span class="params">()</span></span>
+    <span class="comment"># ...</span>
+  <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">ActiveRecord::Base</span></span>
+  <span class="keyword">include</span> <span class="constant">TagLib</span>
+<span class="keyword">end</span>
+</code></pre><h5 id="self-included(base)_是怎么回事？">self.included(base) 是怎么回事？</h5><p>这个方法是在module被include的时候执行的，base就是上下文对象，如：</p>
+<pre><code><span class="class"><span class="keyword">module</span> <span class="title">B</span></span>
+  <span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">included</span><span class="params">(base)</span></span>
+    puts base
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="class"><span class="keyword">module</span> <span class="title">A</span></span>
+  <span class="keyword">include</span> <span class="constant">B</span>
+<span class="keyword">end</span>
+<span class="status">=&gt;</span> <span class="constant">A</span>
+
+所以上面例子的
+
+<span class="function"><span class="keyword">def</span> <span class="title">self</span>.<span class="title">included</span><span class="params">(base)</span></span>
+base.send <span class="symbol">:include</span>, <span class="constant">InstanceMethods</span>
+base.send <span class="symbol">:extend</span>, <span class="constant">ClassMethods</span>
+base.class_eval <span class="keyword">do</span>
+    <span class="comment">#这里使用intance_eval也是同样的效果，因为self都是base</span>
+    logger.warn...
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+base 就是 <span class="constant">ActiveRecord::Base</span>， 所以 intance_eval 和 class_eval
+的效果都是一样的，
+
+参考下面的 <span class="string">`instance_eval`</span> vs <span class="string">`class_eval`</span>
+</code></pre><h3 id="instance_eval_vs_class_eval"><code>instance_eval</code> vs <code>class_eval</code></h3><pre><code><span class="constant">Foo</span> = <span class="constant">Class</span>.new
+<span class="constant">Foo</span>.instance_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="constant">Foo</span>
+<span class="constant">Foo</span>.class_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="constant">Foo</span>
+
+foo = <span class="constant">Foo</span>.new
+foo.instance_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="value">#&lt;Foo:0x007fc49aa42ea8&gt;</span>
+<span class="status">=&gt;</span> 可用于创造单例方法
+
+foo.class_eval { puts <span class="keyword">self</span> }
+<span class="status">=&gt;</span> <span class="value">#&lt;Class:#&lt;Foo:0x007fc49aa42ea8&gt;</span>&gt;
+=&gt; 这个应该是等于<span class="constant">Foo</span>吧？这样就相当于打开类了，可用于创造实例方法
+</code></pre></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/ruby/" rel="tag">#ruby</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/07/29/lixian-115/" rel="next">115 离线下载命令行工具（批量添加种子/磁力链）</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+                  <div class="ds-thread" data-thread-key="2015/09/07/learning-ruby/"
+                       data-title="Ruby 学习记录 (更新中)" data-url="http://liujin.me/blog/2015/09/07/learning-ruby/">
+                  </div>
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars3.githubusercontent.com/u/1059327" alt="Jin Liu" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Jin Liu</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/blog/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分類</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/blog/tags">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/blog/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coolzilj" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/coolzilj" target="_blank">weibo</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/coolzilj" target="_blank">zhihu</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳实践"><span class="nav-number">2.</span> <span class="nav-text">最佳实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rails"><span class="nav-number">3.</span> <span class="nav-text">Rails</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_写route的时候，action并不是必须的，view才是必须的"><span class="nav-number">3.1.</span> <span class="nav-text">1. 写route的时候，action并不是必须的，view才是必须的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_Array/Hash_都继承了_Enumerable_的方法，但map,collect,map!,collect!_只有Array才支持"><span class="nav-number">3.2.</span> <span class="nav-text">2. Array/Hash 都继承了 Enumerable 的方法，但map,collect,map!,collect! 只有Array才支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_Hash_to_URL_query"><span class="nav-number">3.3.</span> <span class="nav-text">3. Hash to URL query</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-_rails_console_tips"><span class="nav-number">3.4.</span> <span class="nav-text">4. rails console tips</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-_非rails项目使用_ActiveSupport"><span class="nav-number">3.5.</span> <span class="nav-text">5. 非rails项目使用 ActiveSupport</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-_Rspec"><span class="nav-number">3.6.</span> <span class="nav-text">6. Rspec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-_Unicorn"><span class="nav-number">3.7.</span> <span class="nav-text">7. Unicorn</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码片段"><span class="nav-number">4.</span> <span class="nav-text">代码片段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_找出notes字段长度小于8的记录"><span class="nav-number">4.1.</span> <span class="nav-text">1. 找出notes字段长度小于8的记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_检查数组是不是全部非空白"><span class="nav-number">4.2.</span> <span class="nav-text">2. 检查数组是不是全部非空白</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_在console删除记录"><span class="nav-number">4.3.</span> <span class="nav-text">3. 在console删除记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ruby"><span class="nav-number">5.</span> <span class="nav-text">Ruby</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash"><span class="nav-number">5.1.</span> <span class="nav-text">Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#{}省略的情况"><span class="nav-number">5.1.1.</span> <span class="nav-text">{}省略的情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rocket_style_是不是已经废弃掉了？"><span class="nav-number">5.1.2.</span> <span class="nav-text">rocket style 是不是已经废弃掉了？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么提倡使用symbol作为hash的key？"><span class="nav-number">5.1.3.</span> <span class="nav-text">为什么提倡使用symbol作为hash的key？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元编程"><span class="nav-number">5.2.</span> <span class="nav-text">元编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作符"><span class="nav-number">5.3.</span> <span class="nav-text">操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Block,_Proc,_Lambda"><span class="nav-number">5.4.</span> <span class="nav-text">Block, Proc, Lambda</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Block"><span class="nav-number">5.4.1.</span> <span class="nav-text">Block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Proc"><span class="nav-number">5.4.2.</span> <span class="nav-text">Proc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lambda"><span class="nav-number">5.4.3.</span> <span class="nav-text">Lambda</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Proc_vs_Lambda"><span class="nav-number">5.4.4.</span> <span class="nav-text">Proc vs Lambda</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Module_Mixin"><span class="nav-number">5.5.</span> <span class="nav-text">Module Mixin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#经典做法"><span class="nav-number">5.5.1.</span> <span class="nav-text">经典做法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#善用ActiveSupport::Concern"><span class="nav-number">5.5.2.</span> <span class="nav-text">善用ActiveSupport::Concern</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Rail3"><span class="nav-number">5.5.2.1.</span> <span class="nav-text">Rail3</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Rails4"><span class="nav-number">5.5.2.2.</span> <span class="nav-text">Rails4</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#self-included(base)_是怎么回事？"><span class="nav-number">5.5.2.3.</span> <span class="nav-text">self.included(base) 是怎么回事？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#instance_eval_vs_class_eval"><span class="nav-number">5.6.</span> <span class="nav-text">instance_eval vs class_eval</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jin Liu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liujin-blog"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+  	<script src="/blog/js/ua-parser.min.js"></script>
+  	<script src="/blog/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/blog/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/blog/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/blog/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/blog/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/blog/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/blog/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>
