@@ -24,9 +24,14 @@ categories: 学习记录
 
 ---
 
+## 文章
+1. [Weird Ruby Part 1: The Beginning of the End](https://blog.newrelic.com/2014/11/13/weird-ruby-begin-end/)
+
+---
+
 ## Rails
 ### 1. 写route的时候，action并不是必须的，view才是必须的
-如宝莱卡项目中的choose页面，routes里面指定了，
+如项目中的choose页面，routes里面指定了，
 
     match "/choose" => "decks#choose", :as => :choose
 
@@ -152,17 +157,24 @@ For 1.8.7:
 ## 代码片段
 
 ### 1. 找出notes字段长度小于8的记录
-
 `Photographer.where("CHARACTER_LENGTH(notes) < 8")`
 
 ### 2. 检查数组是不是全部非空白
-
 `["", nil].all?(&:blank?)`
 
 ### 3. 在console删除记录
-
 `User.find(2).destroy`
 
+### 4. use `begin..end` for cached value
+```ruby
+def cached_value
+  @cache ||= begin
+    # a multi-line calculation
+    # of cache here, ending with
+    # the value
+  end
+end
+```
 
 ----------
 
