@@ -4,7 +4,7 @@
   
   <link href="/blog/atom.xml" rel="self"/>
   <link href="http://liujin.me/blog/"/>
-  <updated>2015-09-07T04:14:20.000Z</updated>
+  <updated>2015-09-08T01:44:21.000Z</updated>
   <id>http://liujin.me/blog/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://liujin.me/blog/2015/09/07/learning-ruby/"/>
     <id>http://liujin.me/blog/2015/09/07/learning-ruby/</id>
     <published>2015-09-07T02:53:17.000Z</published>
-    <updated>2015-09-07T04:14:20.000Z</updated>
+    <updated>2015-09-08T01:44:21.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">我的初恋💗</blockquote>
 
 <h2 id="常用命令">常用命令</h2><ol>
@@ -36,7 +36,11 @@
 <li><a href="http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby" target="_blank" rel="external">Why is it bad style to <code>rescue Exception =&gt; e</code> in Ruby?</a></li>
 </ol>
 <hr>
-<h2 id="Rails">Rails</h2><h3 id="1-_写route的时候，action并不是必须的，view才是必须的">1. 写route的时候，action并不是必须的，view才是必须的</h3><p>如宝莱卡项目中的choose页面，routes里面指定了，</p>
+<h2 id="文章">文章</h2><ol>
+<li><a href="https://blog.newrelic.com/2014/11/13/weird-ruby-begin-end/" target="_blank" rel="external">Weird Ruby Part 1: The Beginning of the End</a></li>
+</ol>
+<hr>
+<h2 id="Rails">Rails</h2><h3 id="1-_写route的时候，action并不是必须的，view才是必须的">1. 写route的时候，action并不是必须的，view才是必须的</h3><p>如项目中的choose页面，routes里面指定了，</p>
 <pre><code><span class="keyword">match</span> <span class="string">"/choose"</span> =&gt; <span class="string">"decks#choose"</span>, :<span class="keyword">as</span> =&gt; :choose
 </code></pre><p>因为不需要传过去views任何变量，我们就不需要在 decks_controller 里面定义 choose 方法，只要views文件夹里面有choose.html.haml 文件即可。<br><a href="http://stackoverflow.com/questions/4477061/rails-3-0-adding-new-action-to-a-controller" target="_blank" rel="external">参考文章：</a></p>
 <p>Add this to routes.rb:</p>
@@ -122,6 +126,7 @@ require <span class="string">'active_support/all'</span>
 <h2 id="代码片段">代码片段</h2><h3 id="1-_找出notes字段长度小于8的记录">1. 找出notes字段长度小于8的记录</h3><p><code>Photographer.where(&quot;CHARACTER_LENGTH(notes) &lt; 8&quot;)</code></p>
 <h3 id="2-_检查数组是不是全部非空白">2. 检查数组是不是全部非空白</h3><p><code>[&quot;&quot;, nil].all?(&amp;:blank?)</code></p>
 <h3 id="3-_在console删除记录">3. 在console删除记录</h3><p><code>User.find(2).destroy</code></p>
+<h3 id="4-_use_begin-end_for_cached_value">4. use <code>begin..end</code> for cached value</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cached_value</span></span></span><br><span class="line">  <span class="variable">@cache</span> ||= <span class="keyword">begin</span></span><br><span class="line">    <span class="comment"># a multi-line calculation</span></span><br><span class="line">    <span class="comment"># of cache here, ending with</span></span><br><span class="line">    <span class="comment"># the value</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="Ruby">Ruby</h2><h3 id="Hash">Hash</h3><h4 id="{}省略的情况">{}省略的情况</h4><p>如果方法最后一个参数是hash，<code>{}</code>可以省略掉，如：</p>
 <pre><code>link_to(body, url, html_options = {})
