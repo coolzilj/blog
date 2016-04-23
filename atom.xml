@@ -500,23 +500,17 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/07/29/lixian-115/"/>
     <id>http://liujin.me/blog/2015/07/29/lixian-115/</id>
     <published>2015-07-29T09:04:18.000Z</published>
-    <updated>2016-04-23T16:58:47.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/coolzilj/lixian-115/master/screenshots/screenshot.png" alt="screenshot"></p>
-<h1 id="Lixian_115_(115_离线下载命令行工具)"><a href="https://github.com/coolzilj/lixian-115" target="_blank" rel="external">Lixian 115 (115 离线下载命令行工具)</a></h1><ul>
-<li>[x] add multi torrents (批量添加种子文件)</li>
-<li>[x] add multi magnet links (批量添加磁力链)</li>
-</ul>
+    <updated>2016-04-23T17:02:56.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="Lixian_115_(115_离线下载命令行工具)">Lixian 115 (115 离线下载命令行工具)</h1><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">115 离线下载命令行工具</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -<span class="ruby">d, --directory  本地种子目录</span><br><span class="line"></span>  -<span class="ruby">t, --torrent    本地种子文件(单个)</span><br><span class="line"></span>  -<span class="ruby">m, --magnet     磁力链（链接后加 \n 最多添加<span class="number">15</span>个）</span><br><span class="line"></span>  -<span class="ruby">v, --version    版本号</span></span><br></pre></td></tr></table></figure>
 <h2 id="Install">Install</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> lixian-<span class="number">115</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="Usage">Usage</h2><h3 id="Login_(登录)">Login (登录)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -l</span><br></pre></td></tr></table></figure>
-<h3 id="Add_torrents_(批量添加种子文件)">Add torrents (批量添加种子文件)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -t path/<span class="keyword">of</span>/torrents/folder（存放 .torrent 文件的文件夹路径）</span><br></pre></td></tr></table></figure>
-<h2 id="Contributing">Contributing</h2><h3 id="Build">Build</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-<h3 id="Watch">Watch</h3><p>To watch for changes, build them and run the tests:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run watch</span><br></pre></td></tr></table></figure>
+<h2 id="Usage">Usage</h2><h3 id="Login_(登录)">Login (登录)</h3><p>由于 115 的登录策略改变，登录功能已废。<br>请在浏览器登录后，推荐使用 <a href="http://www.editthiscookie.com/" target="_blank" rel="external">EditThisCookie</a> 插件导出 cookies 到 <code>{HOMEPATH}/.115.cookies</code> 即可正常使用。cookies 只支持分号分隔的格式，<code>a=1;b=2;c=3</code> <a href="https://github.com/coolzilj/lixian-115/issues/3" target="_blank" rel="external">#3</a></p>
+<h3 id="Add_multiple_torrents_(本地种子目录)">Add multiple torrents (本地种子目录)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -d path/<span class="keyword">of</span>/torrents/folder（存放 .torrent 文件的文件夹路径）</span><br></pre></td></tr></table></figure>
+<h3 id="Add_torrent_(单个本地种子文件)">Add torrent (单个本地种子文件)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -t ~<span class="regexp">/Desktop/</span>完美假妻<span class="number">168.</span>Lock.Me.Up.Tie.Him.Down<span class="number">.2014</span>.HD720P.X264.AAC.chinese.CHS.Mp4Ba.torrent</span><br></pre></td></tr></table></figure>
+<h3 id="Add_magnet_(磁力链，链接后加_\n_最多添加15个)">Add magnet (磁力链，链接后加 \n 最多添加15个)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lx115 -m <span class="string">"magnet:?xt=urn:btih:...\nmagnet:?xt=urn:btih:...\nmagnet:?xt=urn:btih:...\nmagnet:?xt=urn:btih:..."</span></span><br></pre></td></tr></table></figure>
 <h2 id="License">License</h2><p>MIT © <a href="http://liujin.me">Liu Jin</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p><img src="https://raw.githubusercontent.com/coolzilj/lixian-115/master/screenshots/screenshot.png" alt="screenshot"></p>
-<h1 id="Lixian_1]]>
+    <![CDATA[<h1 id="Lixian_115_(115_离线下载命令行工具)">Lixian 115 (115 离线下载命令行工具)</h1><figure class="highlight haml"><table><tr><td class="gutter"><pre><span c]]>
     </summary>
     
       <category term="115" scheme="http://liujin.me/blog/tags/115/"/>
