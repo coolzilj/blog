@@ -4,7 +4,7 @@
   
   <link href="/blog/atom.xml" rel="self"/>
   <link href="http://liujin.me/blog/"/>
-  <updated>2015-09-08T01:44:21.000Z</updated>
+  <updated>2016-02-04T07:43:18.000Z</updated>
   <id>http://liujin.me/blog/</id>
   
   <author>
@@ -15,11 +15,124 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Go 学习记录 (更新中)]]></title>
+    <link href="http://liujin.me/blog/2016/01/14/learning-go/"/>
+    <id>http://liujin.me/blog/2016/01/14/learning-go/</id>
+    <published>2016-01-14T05:06:31.000Z</published>
+    <updated>2016-02-04T07:43:18.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">Go the right way.</blockquote>
+
+<h2 id="基础类型">基础类型</h2><h3 id="1-_string,_[]byte,_[]rune_的区别">1. <code>string</code>, <code>[]byte</code>, <code>[]rune</code> 的区别</h3><p>rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s:=<span class="string">"←↑→↓"</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]rune(s)</span></span>)) =&gt; <span class="number">4</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]byte(s)</span></span>)) =&gt; <span class="number">12</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len(s)</span></span>)         =&gt; <span class="number">12</span></span><br><span class="line"></span><br><span class="line">s:=<span class="string">"Hello你好←↑→↓"</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len(s)</span></span>)         =&gt; <span class="number">23</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]rune(s)</span></span>)) =&gt; <span class="number">11</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Go source code is always UTF-8.</li>
+<li>A string holds arbitrary bytes.</li>
+<li>A string literal, absent byte-level escapes, always holds valid UTF-8 sequences.</li>
+<li>Those sequences represent Unicode code points, called runes.</li>
+<li>No guarantee is made in Go that characters in strings are normalized.</li>
+<li>英文字符串由 uint8 整型数组（字节数组）组成 每个字符对应一个字节 参考ASCII 码</li>
+<li>一个汉字（在go中就是一个rune类型）可能由三个或者四个字节组成</li>
+</ul>
+<p>Ref:</p>
+<ul>
+<li><a href="http://maiyang.github.io/golang/%E5%AD%97%E7%AC%A6%E4%B8%B2/emoji/%E8%A1%A8%E6%83%85/2015/06/16/golang-character-length/" target="_blank" rel="external">Golang 中获取字符个数以及 emoji 表情处理</a></li>
+<li><a href="https://blog.golang.org/strings" target="_blank" rel="external">Strings, bytes, runes and characters in Go</a></li>
+</ul>
+<h3 id="2-_包管理">2. 包管理</h3><p>以 wechat-deleted-friends 为例，如果你执行 go run main.go 会提示<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># command-<span class="keyword">line</span>-arguments</span></span><br><span class="line">./main.go:<span class="number">21</span>: undefined: NewWebwx</span><br></pre></td></tr></table></figure></p>
+<p>但如果先执行 <code>go build</code>, 会生成一个二进制可执行文件，<code>./wechat-deleted-friends</code> 一切正常。<br>所以，如果有些 lib 是只在本项目使用，可以像这个项目这样，把每个 lib package 都写成 package main，然后该干嘛干嘛，最后先 build 再执行准没错，但不能用 go run 调试而已。</p>
+<p>还有一种办法，就是把 lib 文件放在文件夹 lib 下，在 main.go 导入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'lib'</span></span><br></pre></td></tr></table></figure></p>
+<p>即可，go run 可调试, build 后应该同样可以执行<br>如<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main.<span class="keyword">go</span></span><br><span class="line">mylib/</span><br><span class="line">  mylib.<span class="keyword">go</span></span><br></pre></td></tr></table></figure></p>
+<p>The simplest way is to use this:<br><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> (</span></span><br><span class="line">    <span class="string">"./mylib"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>Ref: <a href="http://stackoverflow.com/questions/15049903/how-to-use-custom-packages-in-golang" target="_blank" rel="external">import package</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">Go the right way.</blockquote>
+
+<h2 id="基础类型">基础类型</h2><h3 id="1-_string,_[]byte,_[]rune_的区别">1. <code]]>
+    </summary>
+    
+      <category term="go" scheme="http://liujin.me/blog/tags/go/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Node.js 学习记录 (更新中)]]></title>
+    <link href="http://liujin.me/blog/2015/12/19/learning-nodejs/"/>
+    <id>http://liujin.me/blog/2015/12/19/learning-nodejs/</id>
+    <published>2015-12-19T05:06:31.000Z</published>
+    <updated>2015-12-18T18:26:37.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">Node the right way.</blockquote>
+
+<h2 id="其他">其他</h2><ol>
+<li>node 安装时虽自带 npm bin, 但实际上 <code>which npm</code> 发现平时终端里并不是使用自带的，而是使用 <code>sudo npm install -g npm</code> 安装的 npm-cli, 所以在查看版本时需要多留个心眼，which 一下最放心。</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">Node the right way.</blockquote>
+
+<h2 id="其他">其他</h2><ol>
+<li>node 安装时虽自带 npm bin, 但实际上 <code>which np]]>
+    </summary>
+    
+      <category term="nodejs" scheme="http://liujin.me/blog/tags/nodejs/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[视频直播这么🔥，咱来做个直播 APP 吧]]></title>
+    <link href="http://liujin.me/blog/2015/10/02/learning-rtmp-hls/"/>
+    <id>http://liujin.me/blog/2015/10/02/learning-rtmp-hls/</id>
+    <published>2015-10-02T09:38:11.000Z</published>
+    <updated>2016-04-23T16:50:06.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yosemite） 为例,<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="operator"><span class="keyword">uninstall</span> nginx</span><br><span class="line">brew tap nginx-<span class="keyword">full</span></span><br><span class="line">brew options nginx-<span class="keyword">full</span></span><br><span class="line">brew <span class="keyword">install</span> nginx-<span class="keyword">full</span> <span class="comment">--with-rtmp-module</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="nginx">nginx</h3><p>配置位置: <code>/usr/local/etc/nginx</code><br>启动： <code>sudo nginx</code> （如果 pid 文件为空可以执行这个命令先）<br>重启： <code>sudo nginx -s reload</code><br>查看编译参数： <code>nginx -V</code></p>
+<h4 id="rtmp-nginx-module_位置">rtmp-nginx-module 位置</h4><p><code>/usr/local/share/rtmp-nginx-module/</code><br>自带一个使用例子，在 test/www 里<br>自带一个 nginx.conf 示例文件<br>往 <code>www</code> 文件夹里添加一个播放 hls 页面，</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://192.168.199.154:8080/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
+<h3 id="ffmpeg">ffmpeg</h3><h4 id="摄像头作为_rtmp_源">摄像头作为 rtmp 源</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/myapp/mystream</span></span><br></pre></td></tr></table></figure>
+<p>切片, 如果出现 Connection to tcp://localhost:1935 failed (Connection refused) 错误<br>尝试重启 sudo nginx -s reload<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="MP4_文件作为_rtmp_源_(切片)">MP4 文件作为 rtmp 源 (切片)</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/myapp/mystream</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure>
+<h4 id="查看_MacOS_上的输入设备">查看 MacOS 上的输入设备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="operator">-f</span> avfoundation -list_devices <span class="literal">true</span> -i <span class="string">""</span></span><br></pre></td></tr></table></figure>
+<h3 id="切片文件位置">切片文件位置</h3><p>/tmp/app</p>
+<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://192.168.199.154/myapp/mystream 或者 rtmp://192.168.199.154/hls/mystream</p>
+<h3 id="iPhone_播放">iPhone 播放</h3><ul>
+<li>hls ios 支持直接播放</li>
+<li>rtmp <a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="external">https://github.com/Bilibili/ijkplayer</a></li>
+</ul>
+<h2 id="3-_延迟">3. 延迟</h2><p>切片 hls：26s 延迟<br>不切片 rtmp: 3s 延迟</p>
+<h2 id="4-_参考资料">4. 参考资料</h2><ul>
+<li><a href="http://anotheren.com/62" target="_blank" rel="external"></a></li>
+</ul>
+<h2 id="实战">实战</h2><h3 id="Dockerfile">Dockerfile</h3><p>Dockerfile: <a href="https://github.com/awakening-church/awakening-nginx-rtmp" target="_blank" rel="external">https://github.com/awakening-church/awakening-nginx-rtmp</a></p>
+<p>启动：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e PUBLISH_SECRET=hahaha -e CORS_HTTP_ORIGIN=<span class="string">'(https?://[^/]*\.liujin\.me(:[0-9]+)?)'</span> -<span class="tag">p</span> <span class="number">80</span>:<span class="number">80</span> -<span class="tag">p</span> <span class="number">1935</span>:<span class="number">1935</span> awakening/awakening-nginx-rtmp</span><br></pre></td></tr></table></figure></p>
+<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//192.168.99.100/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
+<p>ssh container 查看：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="tag">i</span> -t <span class="function"><span class="title">focused_panini</span><span class="params">(container name)</span></span> bash</span><br></pre></td></tr></table></figure></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yos]]>
+    </summary>
+    
+      <category term="ffmpeg" scheme="http://liujin.me/blog/tags/ffmpeg/"/>
+    
+      <category term="hls" scheme="http://liujin.me/blog/tags/hls/"/>
+    
+      <category term="nginx" scheme="http://liujin.me/blog/tags/nginx/"/>
+    
+      <category term="rtmp" scheme="http://liujin.me/blog/tags/rtmp/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Ruby 学习记录 (更新中)]]></title>
     <link href="http://liujin.me/blog/2015/09/07/learning-ruby/"/>
     <id>http://liujin.me/blog/2015/09/07/learning-ruby/</id>
     <published>2015-09-07T02:53:17.000Z</published>
-    <updated>2015-09-08T01:44:21.000Z</updated>
+    <updated>2016-03-10T16:39:46.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">我的初恋💗</blockquote>
 
 <h2 id="常用命令">常用命令</h2><ol>
@@ -155,15 +268,22 @@ link_to <span class="string">"Click me"</span>, object_path, { <span class="symb
 </ol>
 <p>总结来说，JSON style 只是key是symbol的hash的一种简洁写法，使用范围有效，但也足够，因为hash都提倡key用symbol。</p>
 <h4 id="为什么提倡使用symbol作为hash的key？">为什么提倡使用symbol作为hash的key？</h4><p><a href="http://stackoverflow.com/questions/8189416/why-use-symbols-as-hash-keys-in-ruby" target="_blank" rel="external">StackOverflow Ref</a></p>
+<h4 id="Hash-new_陷阱">Hash.new 陷阱</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b = Hash.new []</span><br><span class="line">c = Hash.new <span class="number">0</span></span><br><span class="line"><span class="preprocessor">#a.each &#123; |x| b[x.to_s] &lt;&lt;= x &#125; =&gt; b = &#123;<span class="string">"1"</span>=&gt;[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="string">"2"</span>=&gt;[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="string">"3"</span>=&gt;[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]&#125;</span></span><br><span class="line"><span class="preprocessor">#a.each &#123; |x| b[x.to_s] &lt;&lt; x &#125;  =&gt; b = &#123;&#125;，但 b 的默认值变成了 [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span></span><br><span class="line"><span class="preprocessor">#a.each &#123; |x| c[x.to_s] += x &#125;  =&gt; c = &#123;<span class="string">"1"</span>=&gt;<span class="number">1</span>, <span class="string">"2"</span>=&gt;<span class="number">2</span>, <span class="string">"3"</span>=&gt;<span class="number">3</span>&#125;</span></span><br></pre></td></tr></table></figure>
+<p>注意两点：</p>
+<ol>
+<li>Hash.new 的 default value 是同一个 Object</li>
+<li>Hash 要赋值了才算给 Hash 多加一个元素</li>
+</ol>
+<p>参考：</p>
+<ul>
+<li><a href="http://ruby-doc.org/core-2.3.0/Hash.html#method-c-new" target="_blank" rel="external">Hash.new</a></li>
+<li><a href="https://github.com/neo/ruby_koans/blob/master/src/about_hashes.rb#L93-L104" target="_blank" rel="external">ruby koans</a></li>
+</ul>
 <h3 id="元编程">元编程</h3><ol>
-<li><p>查看某个类的类方法：<code>OauthUser.methods</code></p>
-</li>
-<li><p>查看某个类的实例方法： <code>OauthUser.instance_methods</code></p>
-</li>
-<li><p>查看某个类有没有含有特定关键字的方法： <code>OauthUser.methods.grep /account/</code></p>
-</li>
-<li><p>类也是一个对象，是 <strong>Class</strong> 类的实例，类方法实质上是储存在 <strong>eigenclass</strong> 里面的单件方法</p>
-</li>
+<li>查看某个类的类方法：<code>OauthUser.methods</code></li>
+<li>查看某个类的实例方法： <code>OauthUser.instance_methods</code></li>
+<li>查看某个类有没有含有特定关键字的方法： <code>OauthUser.methods.grep /account/</code></li>
+<li>类也是一个对象，是 <strong>Class</strong> 类的实例，类方法实质上是储存在 <strong>eigenclass</strong> 里面的单件方法</li>
 <li><p><code>extend self</code>的使用（参考balalaika的 <strong>legacy_migrate.rb</strong> ）</p>
 <p>一般用在Module中，因为Module无法实例化，所以想像调用类方法一样调用实例方法，就extend 自己，extend 本质上等同于</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="inheritance">&lt;</span><span class="inheritance">&lt; <span class="parent">self</span></span></span></span><br><span class="line">  <span class="keyword">include</span> <span class="constant">Module</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
@@ -449,7 +569,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/31/learning-python/"/>
     <id>http://liujin.me/blog/2015/05/31/learning-python/</id>
     <published>2015-05-31T05:06:31.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-03-18T18:06:49.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
 
 <h2 id="常见问题">常见问题</h2><h3 id="1-_格式化字符串：%_vs_-format">1. <a href="http://stackoverflow.com/questions/5082452/python-string-formatting-vs-format" target="_blank" rel="external">格式化字符串：<code>%</code> vs <code>.format</code></a></h3><h3 id="2-_Python_抽象基类(Abstract_Base_Class)">2. <a href="http://zaiste.net/2013/01/abstract_classes_in_python/" target="_blank" rel="external">Python 抽象基类(Abstract Base Class)</a></h3><h3 id="3-_Python_魔法方法指南">3. <a href="http://pyzh.readthedocs.org/en/latest/python-magic-methods-guide.html" target="_blank" rel="external">Python 魔法方法指南</a></h3><a id="more"></a>
@@ -462,7 +582,13 @@ foo.class_eval { puts <span class="keyword">self</span> }
 <ul>
 <li><a href="http://stackoverflow.com/questions/70528/why-are-pythons-private-methods-not-actually-private" target="_blank" rel="external">why-are-pythons-private-methods-not-actually-private</a></li>
 </ul>
-<h3 id="5-________xx___的区别">5. <a href="http://igorsobreira.com/2010/09/16/difference-between-one-underline-and-two-underlines-in-python.html" target="_blank" rel="external"><code>_</code> <code>__</code> <code>__xx__</code> 的区别</a></h3><h3 id="6-_*args_&amp;_**kwargs">6. <a href="http://stackoverflow.com/questions/36901/what-does-double-star-and-star-do-for-python-parameters" target="_blank" rel="external"><code>*args</code> &amp; <code>**kwargs</code></a></h3><h3 id="7-_理解修饰器（@decorator）">7. <a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">理解修饰器（@decorator）</a></h3><h3 id="8-_with的用法">8. <a href="http://blog.kissdata.com/2014/05/23/python-with.html" target="_blank" rel="external"><code>with</code>的用法</a></h3><h3 id="9-_变量作用域">9. <a href="http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/" target="_blank" rel="external">变量作用域</a></h3>]]></content>
+<h3 id="5-________xx___的区别">5. <a href="http://igorsobreira.com/2010/09/16/difference-between-one-underline-and-two-underlines-in-python.html" target="_blank" rel="external"><code>_</code> <code>__</code> <code>__xx__</code> 的区别</a></h3><h3 id="6-_*args_&amp;_**kwargs">6. <a href="http://stackoverflow.com/questions/36901/what-does-double-star-and-star-do-for-python-parameters" target="_blank" rel="external"><code>*args</code> &amp; <code>**kwargs</code></a></h3><h3 id="7-_理解修饰器（@decorator）">7. <a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">理解修饰器（@decorator）</a></h3><h3 id="8-_with的用法">8. <a href="http://blog.kissdata.com/2014/05/23/python-with.html" target="_blank" rel="external"><code>with</code>的用法</a></h3><h3 id="9-_变量作用域">9. <a href="http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/" target="_blank" rel="external">变量作用域</a></h3><h2 id="Django">Django</h2><h3 id="1-_常用命令">1. 常用命令</h3><h4 id="1-_django-admin_startproject_mysite">1. <code>django-admin startproject mysite</code></h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysite/</span><br><span class="line">    manage<span class="class">.py</span></span><br><span class="line">    mysite/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">        settings<span class="class">.py</span></span><br><span class="line">        urls<span class="class">.py</span></span><br><span class="line">        wsgi.py</span><br></pre></td></tr></table></figure>
+<h4 id="2-_python_manage-py_runserver">2. <code>python manage.py runserver</code></h4><p>runserver 在每次请求会自动重新加载代码，除非是新建文件，不然不需要重启</p>
+<h4 id="3-_python_manage-py_startapp_polls">3. <code>python manage.py startapp polls</code></h4><p>在 django 的项目里，project 可以有多个 apps，每个 apps 实际上就是一个模块，独立完成某个功能。同一个 app 也可以同时被多个 project 使用<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">polls/</span><br><span class="line">    __init__<span class="class">.py</span></span><br><span class="line">    admin<span class="class">.py</span></span><br><span class="line">    apps<span class="class">.py</span></span><br><span class="line">    migrations/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">    models<span class="class">.py</span></span><br><span class="line">    tests<span class="class">.py</span></span><br><span class="line">    views.py</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-_python_manage-py_makemigrations_polls">4. <code>python manage.py makemigrations polls</code></h4><h4 id="5-_python_manage-py_sqlmigrate_polls_0001">5. <code>python manage.py sqlmigrate polls 0001</code></h4><p>Dry run.<br>The sqlmigrate command doesn’t actually run the migration on your database - it just prints it to the screen so that you can see what SQL Django thinks is required. It’s useful for checking what Django is going to do or if you have database administrators who require SQL scripts for changes.</p>
+<h4 id="6-_python_manage-py_check">6. <code>python manage.py check</code></h4><p>this checks for any problems in your project without making migrations or touching the database.</p>
+<h4 id="7-_python_manage-py_migrate">7. <code>python manage.py migrate</code></h4><h4 id="8-_python_manage-py_shell">8. <code>python manage.py shell</code></h4><p>We’re using this instead of simply typing “python”, because manage.py sets the DJANGO_SETTINGS_MODULE environment variable, which gives Django the Python import path to your mysite/settings.py file.</p>
+<h4 id="9-_python_manage-py_createsuperuser">9. <code>python manage.py createsuperuser</code></h4>]]></content>
     <summary type="html">
     <![CDATA[<blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
 
@@ -754,7 +880,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/25/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <id>http://liujin.me/blog/2015/05/25/Git-常用命令/</id>
     <published>2015-05-25T09:18:32.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-02-13T16:59:50.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
 
 <p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
@@ -826,8 +952,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
 <p>即使紧接着你在<code>.gitignore</code>加了一行<code>node_modules</code>, 已经被提交的文件是不会自动删除的。</p>
 <p>这时候你就需要做的就是：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached path/to/ignored</span><br><span class="line"><span class="comment">#nodejs案例就是</span></span><br><span class="line">git rm -r --cached node_modules</span><br></pre></td></tr></table></figure>
-<p>##17. 提交所有被删除的文件</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u</span><br></pre></td></tr></table></figure>
+<h2 id="17-_提交所有被删除的文件">17. 提交所有被删除的文件</h2><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u</span><br></pre></td></tr></table></figure>
 <p>这个命令告诉 git 自动更新已跟踪的文件, 包括被删除的已跟踪文件。</p>
 <p>如果你用的是 git 2.0</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git add -u <span class="symbol">:/</span></span><br></pre></td></tr></table></figure>
@@ -842,6 +967,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset -- &lt;<span class="keyword">file</span> 1&gt; &lt;<span class="keyword">file</span> 2&gt; &lt;<span class="keyword">file</span> <span class="keyword">n</span>&gt;</span><br></pre></td></tr></table></figure>
 <p>还可以 unstage 文件里某处的改动：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">reset</span> -<span class="keyword">p</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="19-_值得一读">19. 值得一读</h2><p><a href="https://github.com/blog/2104-working-with-submodules" target="_blank" rel="external">Working with submodules</a><br><a href="https://github.com/blog/2079-managing-large-files-with-git-lfs" target="_blank" rel="external">Managing large files with Git LFS</a><br><a href="https://github.com/blog/2094-new-year-new-git-release" target="_blank" rel="external"><code>git bisect</code></a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>

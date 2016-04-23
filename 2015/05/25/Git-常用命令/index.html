@@ -51,7 +51,7 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
 
 从设计转型开发的第一天起，老大只教我一件事，使用 Git。比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。毫无疑问地说，Git 是当今编程学习里最基本的必备技能。
 Git 的强大一本书都不足以全部说明，更何况一篇博客。本文记录了我 3 年来">
-<meta property="og:updated_time" content="2015-08-13T03:18:19.000Z">
+<meta property="og:updated_time" content="2016-02-13T16:59:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 常用命令（更新中）">
 <meta name="twitter:description" content="假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.  –《我的老大是屌丝》摘
@@ -322,8 +322,7 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
 <p>即使紧接着你在<code>.gitignore</code>加了一行<code>node_modules</code>, 已经被提交的文件是不会自动删除的。</p>
 <p>这时候你就需要做的就是：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached path/to/ignored</span><br><span class="line"><span class="comment">#nodejs案例就是</span></span><br><span class="line">git rm -r --cached node_modules</span><br></pre></td></tr></table></figure>
-<p>##17. 提交所有被删除的文件</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u</span><br></pre></td></tr></table></figure>
+<h2 id="17-_提交所有被删除的文件">17. 提交所有被删除的文件</h2><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="keyword">add </span>-u</span><br></pre></td></tr></table></figure>
 <p>这个命令告诉 git 自动更新已跟踪的文件, 包括被删除的已跟踪文件。</p>
 <p>如果你用的是 git 2.0</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git add -u <span class="symbol">:/</span></span><br></pre></td></tr></table></figure>
@@ -338,6 +337,7 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset -- &lt;<span class="keyword">file</span> 1&gt; &lt;<span class="keyword">file</span> 2&gt; &lt;<span class="keyword">file</span> <span class="keyword">n</span>&gt;</span><br></pre></td></tr></table></figure>
 <p>还可以 unstage 文件里某处的改动：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">reset</span> -<span class="keyword">p</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="19-_值得一读">19. 值得一读</h2><p><a href="https://github.com/blog/2104-working-with-submodules" target="_blank" rel="external">Working with submodules</a><br><a href="https://github.com/blog/2079-managing-large-files-with-git-lfs" target="_blank" rel="external">Managing large files with Git LFS</a><br><a href="https://github.com/blog/2094-new-year-new-git-release" target="_blank" rel="external"><code>git bisect</code></a></p>
 </span>
       
     </div>
@@ -428,7 +428,7 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/blog/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -442,7 +442,7 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
 
           <div class="site-state-item site-state-tags">
             <a href="/blog/tags">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -491,7 +491,7 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_超实用_Alias"><span class="nav-number">1.</span> <span class="nav-text">1. 超实用 Alias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_取回远端_master_与本地_master_分支合并"><span class="nav-number">2.</span> <span class="nav-text">2. 取回远端 master 与本地 master 分支合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_推送分支到远端"><span class="nav-number">3.</span> <span class="nav-text">3. 推送分支到远端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_追加文件到某个_commit"><span class="nav-number">4.</span> <span class="nav-text">4. 追加文件到某个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-_查找包含某文件的_commit"><span class="nav-number">5.</span> <span class="nav-text">5. 查找包含某文件的 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-_把一个_commit_分拆为两个_commit"><span class="nav-number">6.</span> <span class="nav-text">6. 把一个 commit 分拆为两个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-_删除某些_commit"><span class="nav-number">7.</span> <span class="nav-text">7. 删除某些 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-_追加修改到之前某个_commit"><span class="nav-number">8.</span> <span class="nav-text">8. 追加修改到之前某个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-_查找含有特定关键字的_commit"><span class="nav-number">9.</span> <span class="nav-text">9. 查找含有特定关键字的 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-_清空_git_working_copy_还没追踪的文件"><span class="nav-number">10.</span> <span class="nav-text">10. 清空 git working copy 还没追踪的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-_清理本地仓库"><span class="nav-number">11.</span> <span class="nav-text">11. 清理本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-_创建追踪远端分支的本地分支"><span class="nav-number">12.</span> <span class="nav-text">12. 创建追踪远端分支的本地分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-_分支移动"><span class="nav-number">13.</span> <span class="nav-text">13. 分支移动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-_Revert一个_Merge"><span class="nav-number">14.</span> <span class="nav-text">14. Revert一个 Merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-_获取短的_commit_hash"><span class="nav-number">15.</span> <span class="nav-text">15. 获取短的 commit hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-_commit_了以后才记起来忘了创建_-gitignore,_垃圾文件都已经提交"><span class="nav-number">16.</span> <span class="nav-text">16. commit 了以后才记起来忘了创建 .gitignore, 垃圾文件都已经提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-_撤销上一次_git_add_-_操作"><span class="nav-number">17.</span> <span class="nav-text">18. 撤销上一次 git add . 操作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_超实用_Alias"><span class="nav-number">1.</span> <span class="nav-text">1. 超实用 Alias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_取回远端_master_与本地_master_分支合并"><span class="nav-number">2.</span> <span class="nav-text">2. 取回远端 master 与本地 master 分支合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_推送分支到远端"><span class="nav-number">3.</span> <span class="nav-text">3. 推送分支到远端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_追加文件到某个_commit"><span class="nav-number">4.</span> <span class="nav-text">4. 追加文件到某个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-_查找包含某文件的_commit"><span class="nav-number">5.</span> <span class="nav-text">5. 查找包含某文件的 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-_把一个_commit_分拆为两个_commit"><span class="nav-number">6.</span> <span class="nav-text">6. 把一个 commit 分拆为两个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-_删除某些_commit"><span class="nav-number">7.</span> <span class="nav-text">7. 删除某些 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-_追加修改到之前某个_commit"><span class="nav-number">8.</span> <span class="nav-text">8. 追加修改到之前某个 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-_查找含有特定关键字的_commit"><span class="nav-number">9.</span> <span class="nav-text">9. 查找含有特定关键字的 commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-_清空_git_working_copy_还没追踪的文件"><span class="nav-number">10.</span> <span class="nav-text">10. 清空 git working copy 还没追踪的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-_清理本地仓库"><span class="nav-number">11.</span> <span class="nav-text">11. 清理本地仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-_创建追踪远端分支的本地分支"><span class="nav-number">12.</span> <span class="nav-text">12. 创建追踪远端分支的本地分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-_分支移动"><span class="nav-number">13.</span> <span class="nav-text">13. 分支移动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-_Revert一个_Merge"><span class="nav-number">14.</span> <span class="nav-text">14. Revert一个 Merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-_获取短的_commit_hash"><span class="nav-number">15.</span> <span class="nav-text">15. 获取短的 commit hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-_commit_了以后才记起来忘了创建_-gitignore,_垃圾文件都已经提交"><span class="nav-number">16.</span> <span class="nav-text">16. commit 了以后才记起来忘了创建 .gitignore, 垃圾文件都已经提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-_提交所有被删除的文件"><span class="nav-number">17.</span> <span class="nav-text">17. 提交所有被删除的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-_撤销上一次_git_add_-_操作"><span class="nav-number">18.</span> <span class="nav-text">18. 撤销上一次 git add . 操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-_值得一读"><span class="nav-number">19.</span> <span class="nav-text">19. 值得一读</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -508,8 +508,8 @@ Git 的强大一本书都不足以全部说明，更何况一篇博客。本文�
         <div class="footer-inner">
             <div class="copyright" >
   
-  &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>

@@ -197,6 +197,294 @@
           
           
             
+              <a class="post-title-link" href="/blog/2016/01/14/learning-go/" itemprop="url">
+                Go 学习记录 (更新中)
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2016-01-14T13:06:31+08:00" content="2016-01-14">
+            2016-01-14
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/blog/2016/01/14/learning-go/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/learning-go/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><blockquote class="blockquote-center">Go the right way.</blockquote>
+
+<h2 id="基础类型">基础类型</h2><h3 id="1-_string,_[]byte,_[]rune_的区别">1. <code>string</code>, <code>[]byte</code>, <code>[]rune</code> 的区别</h3><p>rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s:=<span class="string">"←↑→↓"</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]rune(s)</span></span>)) =&gt; <span class="number">4</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]byte(s)</span></span>)) =&gt; <span class="number">12</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len(s)</span></span>)         =&gt; <span class="number">12</span></span><br><span class="line"></span><br><span class="line">s:=<span class="string">"Hello你好←↑→↓"</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len(s)</span></span>)         =&gt; <span class="number">23</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]rune(s)</span></span>)) =&gt; <span class="number">11</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Go source code is always UTF-8.</li>
+<li>A string holds arbitrary bytes.</li>
+<li>A string literal, absent byte-level escapes, always holds valid UTF-8 sequences.</li>
+<li>Those sequences represent Unicode code points, called runes.</li>
+<li>No guarantee is made in Go that characters in strings are normalized.</li>
+<li>英文字符串由 uint8 整型数组（字节数组）组成 每个字符对应一个字节 参考ASCII 码</li>
+<li>一个汉字（在go中就是一个rune类型）可能由三个或者四个字节组成</li>
+</ul>
+<p>Ref:</p>
+<ul>
+<li><a href="http://maiyang.github.io/golang/%E5%AD%97%E7%AC%A6%E4%B8%B2/emoji/%E8%A1%A8%E6%83%85/2015/06/16/golang-character-length/" target="_blank" rel="external">Golang 中获取字符个数以及 emoji 表情处理</a></li>
+<li><a href="https://blog.golang.org/strings" target="_blank" rel="external">Strings, bytes, runes and characters in Go</a></li>
+</ul>
+<h3 id="2-_包管理">2. 包管理</h3><p>以 wechat-deleted-friends 为例，如果你执行 go run main.go 会提示<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># command-<span class="keyword">line</span>-arguments</span></span><br><span class="line">./main.go:<span class="number">21</span>: undefined: NewWebwx</span><br></pre></td></tr></table></figure></p>
+<p>但如果先执行 <code>go build</code>, 会生成一个二进制可执行文件，<code>./wechat-deleted-friends</code> 一切正常。<br>所以，如果有些 lib 是只在本项目使用，可以像这个项目这样，把每个 lib package 都写成 package main，然后该干嘛干嘛，最后先 build 再执行准没错，但不能用 go run 调试而已。</p>
+<p>还有一种办法，就是把 lib 文件放在文件夹 lib 下，在 main.go 导入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'lib'</span></span><br></pre></td></tr></table></figure></p>
+<p>即可，go run 可调试, build 后应该同样可以执行<br>如<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main.<span class="keyword">go</span></span><br><span class="line">mylib/</span><br><span class="line">  mylib.<span class="keyword">go</span></span><br></pre></td></tr></table></figure></p>
+<p>The simplest way is to use this:<br><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> (</span></span><br><span class="line">    <span class="string">"./mylib"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>Ref: <a href="http://stackoverflow.com/questions/15049903/how-to-use-custom-packages-in-golang" target="_blank" rel="external">import package</a></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/blog/2015/12/19/learning-nodejs/" itemprop="url">
+                Node.js 学习记录 (更新中)
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2015-12-19T13:06:31+08:00" content="2015-12-19">
+            2015-12-19
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/blog/2015/12/19/learning-nodejs/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/19/learning-nodejs/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><blockquote class="blockquote-center">Node the right way.</blockquote>
+
+<h2 id="其他">其他</h2><ol>
+<li>node 安装时虽自带 npm bin, 但实际上 <code>which npm</code> 发现平时终端里并不是使用自带的，而是使用 <code>sudo npm install -g npm</code> 安装的 npm-cli, 所以在查看版本时需要多留个心眼，which 一下最放心。</li>
+</ol>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/blog/2015/10/02/learning-rtmp-hls/" itemprop="url">
+                视频直播这么🔥，咱来做个直播 APP 吧
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於
+          <time itemprop="dateCreated" datetime="2015-10-02T17:38:11+08:00" content="2015-10-02">
+            2015-10-02
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分類於
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/blog/2015/10/02/learning-rtmp-hls/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/02/learning-rtmp-hls/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yosemite） 为例,<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="operator"><span class="keyword">uninstall</span> nginx</span><br><span class="line">brew tap nginx-<span class="keyword">full</span></span><br><span class="line">brew options nginx-<span class="keyword">full</span></span><br><span class="line">brew <span class="keyword">install</span> nginx-<span class="keyword">full</span> <span class="comment">--with-rtmp-module</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="nginx">nginx</h3><p>配置位置: <code>/usr/local/etc/nginx</code><br>启动： <code>sudo nginx</code> （如果 pid 文件为空可以执行这个命令先）<br>重启： <code>sudo nginx -s reload</code><br>查看编译参数： <code>nginx -V</code></p>
+<h4 id="rtmp-nginx-module_位置">rtmp-nginx-module 位置</h4><p><code>/usr/local/share/rtmp-nginx-module/</code><br>自带一个使用例子，在 test/www 里<br>自带一个 nginx.conf 示例文件<br>往 <code>www</code> 文件夹里添加一个播放 hls 页面，</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://192.168.199.154:8080/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
+<h3 id="ffmpeg">ffmpeg</h3><h4 id="摄像头作为_rtmp_源">摄像头作为 rtmp 源</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/myapp/mystream</span></span><br></pre></td></tr></table></figure>
+<p>切片, 如果出现 Connection to tcp://localhost:1935 failed (Connection refused) 错误<br>尝试重启 sudo nginx -s reload<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="MP4_文件作为_rtmp_源_(切片)">MP4 文件作为 rtmp 源 (切片)</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/myapp/mystream</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure>
+<h4 id="查看_MacOS_上的输入设备">查看 MacOS 上的输入设备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="operator">-f</span> avfoundation -list_devices <span class="literal">true</span> -i <span class="string">""</span></span><br></pre></td></tr></table></figure>
+<h3 id="切片文件位置">切片文件位置</h3><p>/tmp/app</p>
+<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://192.168.199.154/myapp/mystream 或者 rtmp://192.168.199.154/hls/mystream</p>
+<h3 id="iPhone_播放">iPhone 播放</h3><ul>
+<li>hls ios 支持直接播放</li>
+<li>rtmp <a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="external">https://github.com/Bilibili/ijkplayer</a></li>
+</ul>
+<h2 id="3-_延迟">3. 延迟</h2><p>切片 hls：26s 延迟<br>不切片 rtmp: 3s 延迟</p>
+<h2 id="4-_参考资料">4. 参考资料</h2><ul>
+<li><a href="http://anotheren.com/62" target="_blank" rel="external"></a></li>
+</ul>
+<h2 id="实战">实战</h2><h3 id="Dockerfile">Dockerfile</h3><p>Dockerfile: <a href="https://github.com/awakening-church/awakening-nginx-rtmp" target="_blank" rel="external">https://github.com/awakening-church/awakening-nginx-rtmp</a></p>
+<p>启动：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e PUBLISH_SECRET=hahaha -e CORS_HTTP_ORIGIN=<span class="string">'(https?://[^/]*\.liujin\.me(:[0-9]+)?)'</span> -<span class="tag">p</span> <span class="number">80</span>:<span class="number">80</span> -<span class="tag">p</span> <span class="number">1935</span>:<span class="number">1935</span> awakening/awakening-nginx-rtmp</span><br></pre></td></tr></table></figure></p>
+<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//192.168.99.100/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
+<p>ssh container 查看：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="tag">i</span> -t <span class="function"><span class="title">focused_panini</span><span class="params">(container name)</span></span> bash</span><br></pre></td></tr></table></figure></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/blog/2015/09/07/learning-ruby/" itemprop="url">
                 Ruby 学习记录 (更新中)
               </a>
@@ -823,267 +1111,13 @@
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/blog/2015/05/26/Mac-常用技巧-工具篇/" itemprop="url">
-                Mac 常用技巧 - 工具篇 (更新中)
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          發表於
-          <time itemprop="dateCreated" datetime="2015-05-26T14:12:23+08:00" content="2015-05-26">
-            2015-05-26
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分類於
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/blog/2015/05/26/Mac-常用技巧-工具篇/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/26/Mac-常用技巧-工具篇/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <blockquote class="blockquote-center">工欲善其事，必先利其器。<br>  《论语·卫灵公》<br></blockquote>
-
-<h2 id="软件管理">软件管理</h2><ol>
-<li><p><a href="http://brew.sh/">Homebrew</a><br>当所有工具都可以用同样一句命令来安装，世界是不是变得和蔼可亲了很多？<br>情景一：今天想学学 Go 来玩玩。恩，<code>brew install go</code><br>情景二：github 发现了一个好玩的项目需要 mongodb。恩，<code>brew install mongodb</code><br>…<br>更多情景请自行脑补，一句话概括，Homebrew 让你一键安装全世界，<br>洁癖和强迫症患者强烈推荐。</p>
-</li>
-<li><p><a href="https://www.cakebrew.com/">Cakebrew</a><br>如果你用不习惯命令行，Homebrew 这么吊的神器当然还有 GUI 啦。<br>Cakebrew 就是 The Mac App for Homebrew</p>
-</li>
-<li><p>Homebrew Cask<br>作为 Homebrew 的补充，Cask 让你告别 .dmg, .pkg 安装程序文件。<br>比如安装 Chrome, <code>brew cask install google-chrome</code>.</p>
-</li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/26/Mac-常用技巧-工具篇/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/blog/2015/05/25/Git-常用命令/" itemprop="url">
-                Git 常用命令（更新中）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          發表於
-          <time itemprop="dateCreated" datetime="2015-05-25T17:18:32+08:00" content="2015-05-25">
-            2015-05-25
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分類於
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/blog/categories/学习记录/" itemprop="url" rel="index"><span itemprop="name">学习记录</span></a></span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/blog/2015/05/25/Git-常用命令/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/25/Git-常用命令/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
-
-<p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
-<p>Git 的强大一本书都不足以全部说明，更何况一篇博客。<br>本文记录了我 3 年来使用 Git 最频繁的命令（不包括最基本的add/commit/push/pull等），<br>很负责地说，学会这些基本也就能快乐地玩转 Git 了 <strong>（持续整理更新中）</strong>。</p>
-<p>Hope you enjoy!</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/25/Git-常用命令/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/blog/2015/05/24/hello-world/" itemprop="url">
-                Hello World
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          發表於
-          <time itemprop="dateCreated" datetime="2015-05-24T17:18:32+08:00" content="2015-05-24">
-            2015-05-24
-          </time>
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/blog/2015/05/24/hello-world/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/24/hello-world/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/blog/page/2/">2</a><a class="extend next" rel="next" href="/blog/page/2/">&raquo;</a>
+  </nav>
+
 
             </div>
 
@@ -1116,7 +1150,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/blog/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -1130,7 +1164,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/blog/tags">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -1185,8 +1219,8 @@
         <div class="footer-inner">
             <div class="copyright" >
   
-  &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  &copy; &nbsp;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
