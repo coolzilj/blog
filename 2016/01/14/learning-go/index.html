@@ -51,7 +51,7 @@
 
 基础类型1. string, []byte, []rune 的区别rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数
 12345678s:=&quot;←↑→↓&quot;fmt.Println(len([]rune(s))) =&amp;gt; 4fmt.Println">
-<meta property="og:updated_time" content="2016-04-23T16:58:47.000Z">
+<meta property="og:updated_time" content="2016-04-23T17:05:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 学习记录 (更新中)">
 <meta name="twitter:description" content="Go the right way.
@@ -269,6 +269,7 @@
 <li><a href="http://maiyang.github.io/golang/%E5%AD%97%E7%AC%A6%E4%B8%B2/emoji/%E8%A1%A8%E6%83%85/2015/06/16/golang-character-length/" target="_blank" rel="external">Golang 中获取字符个数以及 emoji 表情处理</a></li>
 <li><a href="https://blog.golang.org/strings" target="_blank" rel="external">Strings, bytes, runes and characters in Go</a></li>
 </ul>
+<a id="more"></a>
 <h3 id="2-_包管理">2. 包管理</h3><p>以 wechat-deleted-friends 为例，如果你执行 go run main.go 会提示<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># command-<span class="keyword">line</span>-arguments</span></span><br><span class="line">./main.go:<span class="number">21</span>: undefined: NewWebwx</span><br></pre></td></tr></table></figure></p>
 <p>但如果先执行 <code>go build</code>, 会生成一个二进制可执行文件，<code>./wechat-deleted-friends</code> 一切正常。<br>所以，如果有些 lib 是只在本项目使用，可以像这个项目这样，把每个 lib package 都写成 package main，然后该干嘛干嘛，最后先 build 再执行准没错，但不能用 go run 调试而已。</p>
 <p>还有一种办法，就是把 lib 文件放在文件夹 lib 下，在 main.go 导入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'lib'</span></span><br></pre></td></tr></table></figure></p>

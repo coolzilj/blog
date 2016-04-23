@@ -246,7 +246,7 @@
 
       
         
-          <span itemprop="articleBody"><blockquote class="blockquote-center">Go the right way.</blockquote>
+          <blockquote class="blockquote-center">Go the right way.</blockquote>
 
 <h2 id="基础类型">基础类型</h2><h3 id="1-_string,_[]byte,_[]rune_的区别">1. <code>string</code>, <code>[]byte</code>, <code>[]rune</code> 的区别</h3><p>rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s:=<span class="string">"←↑→↓"</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]rune(s)</span></span>)) =&gt; <span class="number">4</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]byte(s)</span></span>)) =&gt; <span class="number">12</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len(s)</span></span>)         =&gt; <span class="number">12</span></span><br><span class="line"></span><br><span class="line">s:=<span class="string">"Hello你好←↑→↓"</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len(s)</span></span>)         =&gt; <span class="number">23</span></span><br><span class="line">fmt.<span class="function"><span class="title">Println</span><span class="params">(len([]rune(s)</span></span>)) =&gt; <span class="number">11</span></span><br></pre></td></tr></table></figure>
@@ -261,16 +261,14 @@
 </ul>
 <p>Ref:</p>
 <ul>
-<li><a href="http://maiyang.github.io/golang/%E5%AD%97%E7%AC%A6%E4%B8%B2/emoji/%E8%A1%A8%E6%83%85/2015/06/16/golang-character-length/" target="_blank" rel="external">Golang 中获取字符个数以及 emoji 表情处理</a></li>
-<li><a href="https://blog.golang.org/strings" target="_blank" rel="external">Strings, bytes, runes and characters in Go</a></li>
+<li><a href="http://maiyang.github.io/golang/%E5%AD%97%E7%AC%A6%E4%B8%B2/emoji/%E8%A1%A8%E6%83%85/2015/06/16/golang-character-length/">Golang 中获取字符个数以及 emoji 表情处理</a></li>
+<li><a href="https://blog.golang.org/strings">Strings, bytes, runes and characters in Go</a></li>
 </ul>
-<h3 id="2-_包管理">2. 包管理</h3><p>以 wechat-deleted-friends 为例，如果你执行 go run main.go 会提示<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"># command-<span class="keyword">line</span>-arguments</span></span><br><span class="line">./main.go:<span class="number">21</span>: undefined: NewWebwx</span><br></pre></td></tr></table></figure></p>
-<p>但如果先执行 <code>go build</code>, 会生成一个二进制可执行文件，<code>./wechat-deleted-friends</code> 一切正常。<br>所以，如果有些 lib 是只在本项目使用，可以像这个项目这样，把每个 lib package 都写成 package main，然后该干嘛干嘛，最后先 build 再执行准没错，但不能用 go run 调试而已。</p>
-<p>还有一种办法，就是把 lib 文件放在文件夹 lib 下，在 main.go 导入<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'lib'</span></span><br></pre></td></tr></table></figure></p>
-<p>即可，go run 可调试, build 后应该同样可以执行<br>如<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main.<span class="keyword">go</span></span><br><span class="line">mylib/</span><br><span class="line">  mylib.<span class="keyword">go</span></span><br></pre></td></tr></table></figure></p>
-<p>The simplest way is to use this:<br><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> (</span></span><br><span class="line">    <span class="string">"./mylib"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>Ref: <a href="http://stackoverflow.com/questions/15049903/how-to-use-custom-packages-in-golang" target="_blank" rel="external">import package</a></p>
-</span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2016/01/14/learning-go/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -433,29 +431,13 @@
 
       
         
-          <span itemprop="articleBody"><h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yosemite） 为例,<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="operator"><span class="keyword">uninstall</span> nginx</span><br><span class="line">brew tap nginx-<span class="keyword">full</span></span><br><span class="line">brew options nginx-<span class="keyword">full</span></span><br><span class="line">brew <span class="keyword">install</span> nginx-<span class="keyword">full</span> <span class="comment">--with-rtmp-module</span></span></span><br></pre></td></tr></table></figure></p>
+          <h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yosemite） 为例,<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="operator"><span class="keyword">uninstall</span> nginx</span><br><span class="line">brew tap nginx-<span class="keyword">full</span></span><br><span class="line">brew options nginx-<span class="keyword">full</span></span><br><span class="line">brew <span class="keyword">install</span> nginx-<span class="keyword">full</span> <span class="comment">--with-rtmp-module</span></span></span><br></pre></td></tr></table></figure></p>
 <h3 id="nginx">nginx</h3><p>配置位置: <code>/usr/local/etc/nginx</code><br>启动： <code>sudo nginx</code> （如果 pid 文件为空可以执行这个命令先）<br>重启： <code>sudo nginx -s reload</code><br>查看编译参数： <code>nginx -V</code></p>
-<h4 id="rtmp-nginx-module_位置">rtmp-nginx-module 位置</h4><p><code>/usr/local/share/rtmp-nginx-module/</code><br>自带一个使用例子，在 test/www 里<br>自带一个 nginx.conf 示例文件<br>往 <code>www</code> 文件夹里添加一个播放 hls 页面，</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://ip:port/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
-<h3 id="ffmpeg">ffmpeg</h3><h4 id="摄像头作为_rtmp_源">摄像头作为 rtmp 源</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/myapp/mystream</span></span><br></pre></td></tr></table></figure>
-<p>切片, 如果出现 Connection to tcp://localhost:1935 failed (Connection refused) 错误<br>尝试重启 sudo nginx -s reload<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="MP4_文件作为_rtmp_源_(切片)">MP4 文件作为 rtmp 源 (切片)</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/myapp/mystream</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure>
-<h4 id="查看_MacOS_上的输入设备">查看 MacOS 上的输入设备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="operator">-f</span> avfoundation -list_devices <span class="literal">true</span> -i <span class="string">""</span></span><br></pre></td></tr></table></figure>
-<h3 id="切片文件位置">切片文件位置</h3><p>/tmp/app</p>
-<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://localip/myapp/mystream 或者 rtmp://localip/hls/mystream</p>
-<h3 id="iPhone_播放">iPhone 播放</h3><ul>
-<li>hls ios 支持直接播放</li>
-<li>rtmp <a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="external">https://github.com/Bilibili/ijkplayer</a></li>
-</ul>
-<h2 id="3-_延迟">3. 延迟</h2><p>切片 hls：26s 延迟<br>不切片 rtmp: 3s 延迟</p>
-<h2 id="4-_参考资料">4. 参考资料</h2><ul>
-<li><a href="http://anotheren.com/62" target="_blank" rel="external"></a></li>
-</ul>
-<h2 id="实战">实战</h2><h3 id="Dockerfile">Dockerfile</h3><p>Dockerfile: <a href="https://github.com/awakening-church/awakening-nginx-rtmp" target="_blank" rel="external">https://github.com/awakening-church/awakening-nginx-rtmp</a></p>
-<p>启动：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e PUBLISH_SECRET=hahaha -e CORS_HTTP_ORIGIN=<span class="string">'(https?://[^/]*\.liujin\.me(:[0-9]+)?)'</span> -<span class="tag">p</span> <span class="number">80</span>:<span class="number">80</span> -<span class="tag">p</span> <span class="number">1935</span>:<span class="number">1935</span> awakening/awakening-nginx-rtmp</span><br></pre></td></tr></table></figure></p>
-<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localip/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
-<p>ssh container 查看：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="tag">i</span> -t <span class="function"><span class="title">focused_panini</span><span class="params">(container name)</span></span> bash</span><br></pre></td></tr></table></figure></p>
-</span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/10/02/learning-rtmp-hls/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
