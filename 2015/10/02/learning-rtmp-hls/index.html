@@ -42,14 +42,14 @@
 <meta name="description" content="1. 安装配置 rtmp server安装 nginx 以及 nginx-rtmp-module以 MacOS（Yosemite） 为例,1234brew uninstall nginxbrew tap nginx-fullbrew options nginx-fullbrew install nginx-full --with-rtmp-module
 nginx配置位置: /usr/local/">
 <meta property="og:type" content="article">
-<meta property="og:title" content="视频直播这么🔥，咱来做个直播 APP 吧">
+<meta property="og:title" content="视频直播这么火，咱来做个直播 APP 吧">
 <meta property="og:url" content="http://liujin.me/blog/2015/10/02/learning-rtmp-hls/index.html">
 <meta property="og:site_name" content="Jin Liu">
 <meta property="og:description" content="1. 安装配置 rtmp server安装 nginx 以及 nginx-rtmp-module以 MacOS（Yosemite） 为例,1234brew uninstall nginxbrew tap nginx-fullbrew options nginx-fullbrew install nginx-full --with-rtmp-module
 nginx配置位置: /usr/local/">
-<meta property="og:updated_time" content="2016-04-23T16:50:06.000Z">
+<meta property="og:updated_time" content="2016-04-23T16:58:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="视频直播这么🔥，咱来做个直播 APP 吧">
+<meta name="twitter:title" content="视频直播这么火，咱来做个直播 APP 吧">
 <meta name="twitter:description" content="1. 安装配置 rtmp server安装 nginx 以及 nginx-rtmp-module以 MacOS（Yosemite） 为例,1234brew uninstall nginxbrew tap nginx-fullbrew options nginx-fullbrew install nginx-full --with-rtmp-module
 nginx配置位置: /usr/local/">
 
@@ -61,7 +61,7 @@ nginx配置位置: /usr/local/">
   };
 </script>
 
-    <title> 视频直播这么🔥，咱来做个直播 APP 吧 // Jin Liu </title>
+    <title> 视频直播这么火，咱来做个直播 APP 吧 // Jin Liu </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
 <!--[if lte IE 8]>
@@ -199,7 +199,7 @@ nginx配置位置: /usr/local/">
           
           
             
-              视频直播这么🔥，咱来做个直播 APP 吧
+              视频直播这么火，咱来做个直播 APP 吧
             
           
         </h1>
@@ -248,13 +248,13 @@ nginx配置位置: /usr/local/">
         <span itemprop="articleBody"><h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yosemite） 为例,<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="operator"><span class="keyword">uninstall</span> nginx</span><br><span class="line">brew tap nginx-<span class="keyword">full</span></span><br><span class="line">brew options nginx-<span class="keyword">full</span></span><br><span class="line">brew <span class="keyword">install</span> nginx-<span class="keyword">full</span> <span class="comment">--with-rtmp-module</span></span></span><br></pre></td></tr></table></figure></p>
 <h3 id="nginx">nginx</h3><p>配置位置: <code>/usr/local/etc/nginx</code><br>启动： <code>sudo nginx</code> （如果 pid 文件为空可以执行这个命令先）<br>重启： <code>sudo nginx -s reload</code><br>查看编译参数： <code>nginx -V</code></p>
 <h4 id="rtmp-nginx-module_位置">rtmp-nginx-module 位置</h4><p><code>/usr/local/share/rtmp-nginx-module/</code><br>自带一个使用例子，在 test/www 里<br>自带一个 nginx.conf 示例文件<br>往 <code>www</code> 文件夹里添加一个播放 hls 页面，</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://192.168.199.154:8080/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://ip:port/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
 <h3 id="ffmpeg">ffmpeg</h3><h4 id="摄像头作为_rtmp_源">摄像头作为 rtmp 源</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/myapp/mystream</span></span><br></pre></td></tr></table></figure>
 <p>切片, 如果出现 Connection to tcp://localhost:1935 failed (Connection refused) 错误<br>尝试重启 sudo nginx -s reload<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure></p>
 <h4 id="MP4_文件作为_rtmp_源_(切片)">MP4 文件作为 rtmp 源 (切片)</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/myapp/mystream</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure>
 <h4 id="查看_MacOS_上的输入设备">查看 MacOS 上的输入设备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="operator">-f</span> avfoundation -list_devices <span class="literal">true</span> -i <span class="string">""</span></span><br></pre></td></tr></table></figure>
 <h3 id="切片文件位置">切片文件位置</h3><p>/tmp/app</p>
-<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://192.168.199.154/myapp/mystream 或者 rtmp://192.168.199.154/hls/mystream</p>
+<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://localip/myapp/mystream 或者 rtmp://localip/hls/mystream</p>
 <h3 id="iPhone_播放">iPhone 播放</h3><ul>
 <li>hls ios 支持直接播放</li>
 <li>rtmp <a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="external">https://github.com/Bilibili/ijkplayer</a></li>
@@ -265,7 +265,7 @@ nginx配置位置: /usr/local/">
 </ul>
 <h2 id="实战">实战</h2><h3 id="Dockerfile">Dockerfile</h3><p>Dockerfile: <a href="https://github.com/awakening-church/awakening-nginx-rtmp" target="_blank" rel="external">https://github.com/awakening-church/awakening-nginx-rtmp</a></p>
 <p>启动：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e PUBLISH_SECRET=hahaha -e CORS_HTTP_ORIGIN=<span class="string">'(https?://[^/]*\.liujin\.me(:[0-9]+)?)'</span> -<span class="tag">p</span> <span class="number">80</span>:<span class="number">80</span> -<span class="tag">p</span> <span class="number">1935</span>:<span class="number">1935</span> awakening/awakening-nginx-rtmp</span><br></pre></td></tr></table></figure></p>
-<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//192.168.99.100/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
+<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localip/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
 <p>ssh container 查看：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="tag">i</span> -t <span class="function"><span class="title">focused_panini</span><span class="params">(container name)</span></span> bash</span><br></pre></td></tr></table></figure></p>
 </span>
       
@@ -323,7 +323,7 @@ nginx配置位置: /usr/local/">
               <div class="comments" id="comments">
                 
                   <div class="ds-thread" data-thread-key="2015/10/02/learning-rtmp-hls/"
-                       data-title="视频直播这么🔥，咱来做个直播 APP 吧" data-url="http://liujin.me/blog/2015/10/02/learning-rtmp-hls/">
+                       data-title="视频直播这么火，咱来做个直播 APP 吧" data-url="http://liujin.me/blog/2015/10/02/learning-rtmp-hls/">
                   </div>
                 
               </div>

@@ -4,7 +4,7 @@
   
   <link href="/blog/atom.xml" rel="self"/>
   <link href="http://liujin.me/blog/"/>
-  <updated>2016-02-04T07:43:18.000Z</updated>
+  <updated>2016-04-23T16:58:47.000Z</updated>
   <id>http://liujin.me/blog/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://liujin.me/blog/2016/01/14/learning-go/"/>
     <id>http://liujin.me/blog/2016/01/14/learning-go/</id>
     <published>2016-01-14T05:06:31.000Z</published>
-    <updated>2016-02-04T07:43:18.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">Go the right way.</blockquote>
 
 <h2 id="基础类型">基础类型</h2><h3 id="1-_string,_[]byte,_[]rune_的区别">1. <code>string</code>, <code>[]byte</code>, <code>[]rune</code> 的区别</h3><p>rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数</p>
@@ -62,7 +62,7 @@
     <link href="http://liujin.me/blog/2015/12/19/learning-nodejs/"/>
     <id>http://liujin.me/blog/2015/12/19/learning-nodejs/</id>
     <published>2015-12-19T05:06:31.000Z</published>
-    <updated>2015-12-18T18:26:37.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">Node the right way.</blockquote>
 
 <h2 id="其他">其他</h2><ol>
@@ -83,21 +83,21 @@
   </entry>
   
   <entry>
-    <title><![CDATA[视频直播这么🔥，咱来做个直播 APP 吧]]></title>
+    <title><![CDATA[视频直播这么火，咱来做个直播 APP 吧]]></title>
     <link href="http://liujin.me/blog/2015/10/02/learning-rtmp-hls/"/>
     <id>http://liujin.me/blog/2015/10/02/learning-rtmp-hls/</id>
     <published>2015-10-02T09:38:11.000Z</published>
-    <updated>2016-04-23T16:50:06.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<h2 id="1-_安装配置_rtmp_server">1. 安装配置 rtmp server</h2><h3 id="安装_nginx_以及_nginx-rtmp-module">安装 nginx 以及 nginx-rtmp-module</h3><p>以 MacOS（Yosemite） 为例,<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="operator"><span class="keyword">uninstall</span> nginx</span><br><span class="line">brew tap nginx-<span class="keyword">full</span></span><br><span class="line">brew options nginx-<span class="keyword">full</span></span><br><span class="line">brew <span class="keyword">install</span> nginx-<span class="keyword">full</span> <span class="comment">--with-rtmp-module</span></span></span><br></pre></td></tr></table></figure></p>
 <h3 id="nginx">nginx</h3><p>配置位置: <code>/usr/local/etc/nginx</code><br>启动： <code>sudo nginx</code> （如果 pid 文件为空可以执行这个命令先）<br>重启： <code>sudo nginx -s reload</code><br>查看编译参数： <code>nginx -V</code></p>
 <h4 id="rtmp-nginx-module_位置">rtmp-nginx-module 位置</h4><p><code>/usr/local/share/rtmp-nginx-module/</code><br>自带一个使用例子，在 test/www 里<br>自带一个 nginx.conf 示例文件<br>往 <code>www</code> 文件夹里添加一个播放 hls 页面，</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://192.168.199.154:8080/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;!DOCTYPE html&#62;&#10;&#60;html&#62;&#10;&#60;head&#62;&#10;    &#60;title&#62;HLS Player&#60;/title&#62;&#10;&#60;/head&#62;&#10;&#60;body&#62;&#10;&#60;video height=&#34;270&#34; width=&#34;480&#34; controls&#62;&#10;    &#60;source src=&#34;http://ip:port/hls/mystream.m3u8&#34; type=&#34;application/vnd.apple.mpegurl&#34; /&#62;&#10;    &#60;p class=&#34;warning&#34;&#62;Your browser does not support HTML5 video.&#60;/p&#62;&#10;&#60;/video&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure>
 <h3 id="ffmpeg">ffmpeg</h3><h4 id="摄像头作为_rtmp_源">摄像头作为 rtmp 源</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/myapp/mystream</span></span><br></pre></td></tr></table></figure>
 <p>切片, 如果出现 Connection to tcp://localhost:1935 failed (Connection refused) 错误<br>尝试重启 sudo nginx -s reload<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -i <span class="number">0</span> -<span class="string">c:</span>v libx264 -an -f flv <span class="string">rtmp:</span><span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure></p>
 <h4 id="MP4_文件作为_rtmp_源_(切片)">MP4 文件作为 rtmp 源 (切片)</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/myapp/mystream</span></span><br><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localhost/hls/mystream</span></span><br></pre></td></tr></table></figure>
 <h4 id="查看_MacOS_上的输入设备">查看 MacOS 上的输入设备</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg <span class="operator">-f</span> avfoundation -list_devices <span class="literal">true</span> -i <span class="string">""</span></span><br></pre></td></tr></table></figure>
 <h3 id="切片文件位置">切片文件位置</h3><p>/tmp/app</p>
-<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://192.168.199.154/myapp/mystream 或者 rtmp://192.168.199.154/hls/mystream</p>
+<h2 id="2-_iPhone_作为_rtmp_源">2. iPhone 作为 rtmp 源</h2><p>PLCameraStreamingKit 修改为本地的 rtmp 服务器<br>pushURL: rtmp://localip/myapp/mystream 或者 rtmp://localip/hls/mystream</p>
 <h3 id="iPhone_播放">iPhone 播放</h3><ul>
 <li>hls ios 支持直接播放</li>
 <li>rtmp <a href="https://github.com/Bilibili/ijkplayer" target="_blank" rel="external">https://github.com/Bilibili/ijkplayer</a></li>
@@ -108,7 +108,7 @@
 </ul>
 <h2 id="实战">实战</h2><h3 id="Dockerfile">Dockerfile</h3><p>Dockerfile: <a href="https://github.com/awakening-church/awakening-nginx-rtmp" target="_blank" rel="external">https://github.com/awakening-church/awakening-nginx-rtmp</a></p>
 <p>启动：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -e PUBLISH_SECRET=hahaha -e CORS_HTTP_ORIGIN=<span class="string">'(https?://[^/]*\.liujin\.me(:[0-9]+)?)'</span> -<span class="tag">p</span> <span class="number">80</span>:<span class="number">80</span> -<span class="tag">p</span> <span class="number">1935</span>:<span class="number">1935</span> awakening/awakening-nginx-rtmp</span><br></pre></td></tr></table></figure></p>
-<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//192.168.99.100/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
+<p>测试 push url：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -<span class="tag">i</span> ~/Movies/MV/UP\&amp;DOWN<span class="class">.mp4</span> -c copy -f flv rtmp:<span class="comment">//localip/pub_hahaha/1</span></span><br></pre></td></tr></table></figure></p>
 <p>ssh container 查看：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="tag">i</span> -t <span class="function"><span class="title">focused_panini</span><span class="params">(container name)</span></span> bash</span><br></pre></td></tr></table></figure></p>
 ]]></content>
     <summary type="html">
@@ -132,7 +132,7 @@
     <link href="http://liujin.me/blog/2015/09/07/learning-ruby/"/>
     <id>http://liujin.me/blog/2015/09/07/learning-ruby/</id>
     <published>2015-09-07T02:53:17.000Z</published>
-    <updated>2016-03-10T16:39:46.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">我的初恋💗</blockquote>
 
 <h2 id="常用命令">常用命令</h2><ol>
@@ -500,7 +500,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/07/29/lixian-115/"/>
     <id>http://liujin.me/blog/2015/07/29/lixian-115/</id>
     <published>2015-07-29T09:04:18.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/coolzilj/lixian-115/master/screenshots/screenshot.png" alt="screenshot"></p>
 <h1 id="Lixian_115_(115_离线下载命令行工具)"><a href="https://github.com/coolzilj/lixian-115" target="_blank" rel="external">Lixian 115 (115 离线下载命令行工具)</a></h1><ul>
 <li>[x] add multi torrents (批量添加种子文件)</li>
@@ -534,7 +534,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/06/08/xueqiu-stock/"/>
     <id>http://liujin.me/blog/2015/06/08/xueqiu-stock/</id>
     <published>2015-06-08T10:16:00.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1eswsehpfioj20cu0e0q4l.jpg" alt=""></p>
 <h1 id="雪球股票助手_for_Mac_Menubar"><a href="https://github.com/coolzilj/xueqiu-stock" title="雪球股票助手" target="_blank" rel="external">雪球股票助手 for Mac Menubar</a></h1><p><a href="http://electron.atom.io/" target="_blank" rel="external">Electron</a>(原名 Atom Shell) 是一个原本为 Atom 编辑器设计的，跨平台的应用外壳（Application Shell）。</p>
 <p>它将 Chromium 和 Node.js 的事件循环整合到了一起，同时提供了一些与原生系统交互的 API。我们可以通过 Electron，利用熟悉的 Web 技术去构建具有原生体验的跨平台的桌面应用。</p>
@@ -569,7 +569,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/31/learning-python/"/>
     <id>http://liujin.me/blog/2015/05/31/learning-python/</id>
     <published>2015-05-31T05:06:31.000Z</published>
-    <updated>2016-03-18T18:06:49.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
 
 <h2 id="常见问题">常见问题</h2><h3 id="1-_格式化字符串：%_vs_-format">1. <a href="http://stackoverflow.com/questions/5082452/python-string-formatting-vs-format" target="_blank" rel="external">格式化字符串：<code>%</code> vs <code>.format</code></a></h3><h3 id="2-_Python_抽象基类(Abstract_Base_Class)">2. <a href="http://zaiste.net/2013/01/abstract_classes_in_python/" target="_blank" rel="external">Python 抽象基类(Abstract Base Class)</a></h3><h3 id="3-_Python_魔法方法指南">3. <a href="http://pyzh.readthedocs.org/en/latest/python-magic-methods-guide.html" target="_blank" rel="external">Python 魔法方法指南</a></h3><a id="more"></a>
@@ -607,7 +607,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/27/mitmproxy-for-beginner/"/>
     <id>http://liujin.me/blog/2015/05/27/mitmproxy-for-beginner/</id>
     <published>2015-05-27T15:35:37.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">真相永远只有一个!<br>– 江戶川柯南</blockquote>
 
 <p><img src="http://ww3.sinaimg.cn/large/6273fe87gw1esjy6qdq4mj21300mjgsk.jpg" class="full-image"></p>
@@ -676,7 +676,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/27/iOS-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
     <id>http://liujin.me/blog/2015/05/27/iOS-学习记录-常见问题/</id>
     <published>2015-05-27T15:08:40.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">能用 💰 解决的问题，都不叫问题，<br>  能用 ⌚️ 解决的问题，都不叫问题。<br></blockquote>
 
 <h2 id="1-_Swift_/_Objective-C_混合使用">1. Swift / Objective-C 混合使用</h2><ul>
@@ -720,7 +720,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/27/Docker-DigitalOcean-Shadowsocks-5-%E5%88%86%E9%92%9F%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     <id>http://liujin.me/blog/2015/05/27/Docker-DigitalOcean-Shadowsocks-5-分钟科学上网/</id>
     <published>2015-05-27T05:04:14.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">春色满园关不住，一枝红杏出墙来。<br>  – 科学上网办<br></blockquote>
 
 <p>5分钟？就能科学上网？！！！！<br>有人肯定要说我标题党了，<br>如果你已经有一个 DigitalOcean(以下简称 DO) 账号或者 一个 VPS，<br>5 分钟已经算多了。<br>不信你自己掐表算，不废话，上教程。</p>
@@ -806,7 +806,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/26/Mac-%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7-%E5%B7%A5%E5%85%B7%E7%AF%87/"/>
     <id>http://liujin.me/blog/2015/05/26/Mac-常用技巧-工具篇/</id>
     <published>2015-05-26T06:12:23.000Z</published>
-    <updated>2015-08-13T03:18:19.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">工欲善其事，必先利其器。<br>  《论语·卫灵公》<br></blockquote>
 
 <h2 id="软件管理">软件管理</h2><ol>
@@ -880,7 +880,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/25/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <id>http://liujin.me/blog/2015/05/25/Git-常用命令/</id>
     <published>2015-05-25T09:18:32.000Z</published>
-    <updated>2016-02-13T16:59:50.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
 
 <p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
@@ -989,7 +989,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/24/hello-world/"/>
     <id>http://liujin.me/blog/2015/05/24/hello-world/</id>
     <published>2015-05-24T09:18:32.000Z</published>
-    <updated>2015-09-07T03:22:00.000Z</updated>
+    <updated>2016-04-23T16:58:47.000Z</updated>
     <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
