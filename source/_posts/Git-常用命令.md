@@ -223,7 +223,7 @@ git rm --cached path/to/ignored
 git rm -r --cached node_modules
 ```
 
-##17. 提交所有被删除的文件
+## 17. 提交所有被删除的文件
 
 ```
 $ git add -u
@@ -266,3 +266,8 @@ git reset -- <file 1> <file 2> <file n>
 ```
 git reset -p
 ```
+
+## 19. 值得一读
+[Working with submodules](https://github.com/blog/2104-working-with-submodules)
+[Managing large files with Git LFS](https://github.com/blog/2079-managing-large-files-with-git-lfs)
+[`git bisect`](https://github.com/blog/2094-new-year-new-git-release)

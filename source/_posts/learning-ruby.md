@@ -231,17 +231,31 @@ Ref: [JSON STYLE 吐槽](http://logicalfriday.com/2011/06/20/i-dont-like-the-rub
 
 [StackOverflow Ref](http://stackoverflow.com/questions/8189416/why-use-symbols-as-hash-keys-in-ruby)
 
+#### Hash.new 陷阱
+```
+a = [1,2,3]
+b = Hash.new []
+c = Hash.new 0
+#a.each { |x| b[x.to_s] <<= x } => b = {"1"=>[1, 2, 3], "2"=>[1, 2, 3], "3"=>[1, 2, 3]}
+#a.each { |x| b[x.to_s] << x }  => b = {}，但 b 的默认值变成了 [1, 2, 3]
+#a.each { |x| c[x.to_s] += x }  => c = {"1"=>1, "2"=>2, "3"=>3}
+```
+
+注意两点：
+1. Hash.new 的 default value 是同一个 Object
+2. Hash 要赋值了才算给 Hash 多加一个元素
+
+参考：
+- [Hash.new](http://ruby-doc.org/core-2.3.0/Hash.html#method-c-new)
+- [ruby koans](https://github.com/neo/ruby_koans/blob/master/src/about_hashes.rb#L93-L104)
+
 
 ### 元编程
 
 1. 查看某个类的类方法：`OauthUser.methods`
-
 2. 查看某个类的实例方法： `OauthUser.instance_methods`
-
 3. 查看某个类有没有含有特定关键字的方法： `OauthUser.methods.grep /account/`
-
 4. 类也是一个对象，是 **Class** 类的实例，类方法实质上是储存在 **eigenclass** 里面的单件方法
-
 5. `extend self`的使用（参考balalaika的 **legacy_migrate.rb** ）
 
   一般用在Module中，因为Module无法实例化，所以想像调用类方法一样调用实例方法，就extend 自己，extend 本质上等同于

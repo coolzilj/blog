@@ -6,7 +6,6 @@ date: 2015-06-08 16:52:04
   <h1>
     <a href="https://github.com/coolzilj/lixian-115">115 离线下载命令行工具</a>
   </h1>
-  ![](https://raw.githubusercontent.com/coolzilj/lixian-115/master/screenshots/screenshot.png)
 </div>
 
 <div style="text-align: center;">

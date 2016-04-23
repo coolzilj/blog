@@ -52,3 +52,50 @@ Ref:
 ### 8. [`with`的用法](http://blog.kissdata.com/2014/05/23/python-with.html)
 
 ### 9. [变量作用域](http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/)
+
+## Django
+
+### 1. 常用命令
+#### 1. `django-admin startproject mysite`
+```
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+```
+
+#### 2. `python manage.py runserver`
+runserver 在每次请求会自动重新加载代码，除非是新建文件，不然不需要重启
+
+#### 3. `python manage.py startapp polls`
+在 django 的项目里，project 可以有多个 apps，每个 apps 实际上就是一个模块，独立完成某个功能。同一个 app 也可以同时被多个 project 使用
+```
+polls/
+    __init__.py
+    admin.py
+    apps.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+```
+
+#### 4. `python manage.py makemigrations polls`
+
+#### 5. `python manage.py sqlmigrate polls 0001`
+Dry run.
+The sqlmigrate command doesn’t actually run the migration on your database - it just prints it to the screen so that you can see what SQL Django thinks is required. It’s useful for checking what Django is going to do or if you have database administrators who require SQL scripts for changes.
+
+#### 6. `python manage.py check`
+this checks for any problems in your project without making migrations or touching the database.
+
+#### 7. `python manage.py migrate`
+
+#### 8. `python manage.py shell`
+We’re using this instead of simply typing “python”, because manage.py sets the DJANGO_SETTINGS_MODULE environment variable, which gives Django the Python import path to your mysite/settings.py file.
+
+#### 9. `python manage.py createsuperuser`
