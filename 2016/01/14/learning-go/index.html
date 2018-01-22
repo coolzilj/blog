@@ -51,7 +51,7 @@
 
 基础类型1. string, []byte, []rune 的区别rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数
 12345678s:=&quot;←↑→↓&quot;fmt.Println(len([]rune(s))) =&amp;gt; 4fmt.Println">
-<meta property="og:updated_time" content="2016-04-23T17:05:12.000Z">
+<meta property="og:updated_time" content="2016-12-25T13:44:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 学习记录 (更新中)">
 <meta name="twitter:description" content="Go the right way.
@@ -276,6 +276,13 @@
 <p>即可，go run 可调试, build 后应该同样可以执行<br>如<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main.<span class="keyword">go</span></span><br><span class="line">mylib/</span><br><span class="line">  mylib.<span class="keyword">go</span></span><br></pre></td></tr></table></figure></p>
 <p>The simplest way is to use this:<br><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> (</span></span><br><span class="line">    <span class="string">"./mylib"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
 <p>Ref: <a href="http://stackoverflow.com/questions/15049903/how-to-use-custom-packages-in-golang" target="_blank" rel="external">import package</a></p>
+<h3 id="3-_本地开发">3. 本地开发</h3><p>如果 <code>go get -u github.com/user/repo</code> 下来，然后到了对应的 src 目录去做了改动。<br>这时候如果 bin 想改用本地改动过的版本，只需要在对应的 src 目录下，<br><code>go install .</code>，这时候 bin 会自动更新。</p>
+<h3 id="4-_uninstall_go_packages">4. uninstall go packages</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">go</span> <span class="built_in">get</span> -<span class="keyword">u</span> github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line"></span><br><span class="line">$ which gore</span><br><span class="line">/Users/ches/src/<span class="keyword">go</span>/bin/gore</span><br><span class="line"></span><br><span class="line">$ <span class="keyword">go</span> clean -<span class="keyword">i</span> -<span class="keyword">n</span> github.<span class="keyword">com</span>/motemen/gore...</span><br><span class="line"><span class="keyword">cd</span> /Users/ches/src/<span class="keyword">go</span>/src/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line">rm -<span class="keyword">f</span> gore gore.<span class="keyword">exe</span> gore.test gore.test.<span class="keyword">exe</span> commands commands.<span class="keyword">exe</span> commands_test commands_test.<span class="keyword">exe</span> <span class="built_in">complete</span> <span class="built_in">complete</span>.<span class="keyword">exe</span> complete_test complete_test.<span class="keyword">exe</span> <span class="keyword">debug</span> <span class="keyword">debug</span>.<span class="keyword">exe</span> helpers_test helpers_test.<span class="keyword">exe</span> liner liner.<span class="keyword">exe</span> <span class="built_in">log</span> <span class="built_in">log</span>.<span class="keyword">exe</span> main main.<span class="keyword">exe</span> node node.<span class="keyword">exe</span> node_test node_test.<span class="keyword">exe</span> quickfix quickfix.<span class="keyword">exe</span> session_test session_test.<span class="keyword">exe</span> terminal_unix terminal_unix.<span class="keyword">exe</span> terminal_windows terminal_windows.<span class="keyword">exe</span> utils utils.<span class="keyword">exe</span></span><br><span class="line">rm -<span class="keyword">f</span> /Users/ches/src/<span class="keyword">go</span>/bin/gore</span><br><span class="line"><span class="keyword">cd</span> /Users/ches/src/<span class="keyword">go</span>/src/github.<span class="keyword">com</span>/motemen/gore/gocode</span><br><span class="line">rm -<span class="keyword">f</span> gocode.test gocode.test.<span class="keyword">exe</span></span><br><span class="line">rm -<span class="keyword">f</span> /Users/ches/src/<span class="keyword">go</span>/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore/gocode.<span class="keyword">a</span></span><br><span class="line"></span><br><span class="line">$ <span class="keyword">go</span> clean -<span class="keyword">i</span> github.<span class="keyword">com</span>/motemen/gore...</span><br><span class="line"></span><br><span class="line">$ which gore</span><br><span class="line"></span><br><span class="line">$ tree $GOPATH/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line">/Users/ches/src/<span class="keyword">go</span>/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line"></span><br><span class="line"><span class="number">0</span> directories, <span class="number">0</span> <span class="keyword">files</span></span><br><span class="line"></span><br><span class="line"># If that <span class="built_in">empty</span> directory really bugs you...</span><br><span class="line">$ rmdir $GOPATH/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line"></span><br><span class="line">$ rm -rf $GOPATH/src/github.<span class="keyword">com</span>/motemen/gore</span><br></pre></td></tr></table></figure>
+<p>ref:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/13792254/removing-packages-installed-with-go-get" target="_blank" rel="external">http://stackoverflow.com/questions/13792254/removing-packages-installed-with-go-get</a></li>
+</ul>
+<h1 id="fmt-Printf_VS_log-Printf">fmt.Printf VS log.Printf</h1><p>ref: <a href="http://stackoverflow.com/questions/19646889/why-should-i-use-log-println-instead-of-fmt-println" target="_blank" rel="external">http://stackoverflow.com/questions/19646889/why-should-i-use-log-println-instead-of-fmt-println</a></p>
 </span>
       
     </div>
@@ -292,6 +299,8 @@
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/06/01/learning-elixir/" rel="prev">Elixir 学习记录</a>
             
           </div>
 
@@ -364,7 +373,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/blog/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -378,7 +387,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/blog/tags">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
@@ -427,7 +436,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础类型"><span class="nav-number">1.</span> <span class="nav-text">基础类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_string,_[]byte,_[]rune_的区别"><span class="nav-number">1.1.</span> <span class="nav-text">1. string, []byte, []rune 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_包管理"><span class="nav-number">1.2.</span> <span class="nav-text">2. 包管理</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础类型"><span class="nav-number">1.</span> <span class="nav-text">基础类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_string,_[]byte,_[]rune_的区别"><span class="nav-number">1.1.</span> <span class="nav-text">1. string, []byte, []rune 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_包管理"><span class="nav-number">1.2.</span> <span class="nav-text">2. 包管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_本地开发"><span class="nav-number">1.3.</span> <span class="nav-text">3. 本地开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-_uninstall_go_packages"><span class="nav-number">1.4.</span> <span class="nav-text">4. uninstall go packages</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fmt-Printf_VS_log-Printf"><span class="nav-number"></span> <span class="nav-text">fmt.Printf VS log.Printf</span></a></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -445,7 +454,7 @@
             <div class="copyright" >
   
   &copy; &nbsp;  2015 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>

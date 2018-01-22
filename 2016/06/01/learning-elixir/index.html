@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="elixir," />
 
 
 
@@ -39,22 +39,34 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="用一种方法，最好是只有一种方法来做一件事。
+<meta name="description" content="Elixir, 我中了你的毒
 
-常见问题1. 格式化字符串：% vs .format2. Python 抽象基类(Abstract Base Class)3. Python 魔法方法指南">
+Process1. [error] Too many processes 默认最大线程数默认是 262143，可以配置
+12elixir --erl &quot;+P 5000000&quot; file/to/run.exsELIXIR_ERL_OPTS=&quot;+P 5000000&quot; elixir file/to/run.exs
+Refs:
+
+Maximum number of spaw">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python 学习记录 (更新中)">
-<meta property="og:url" content="http://liujin.me/blog/2015/05/31/learning-python/index.html">
+<meta property="og:title" content="Elixir 学习记录">
+<meta property="og:url" content="http://liujin.me/blog/2016/06/01/learning-elixir/index.html">
 <meta property="og:site_name" content="Jin Liu">
-<meta property="og:description" content="用一种方法，最好是只有一种方法来做一件事。
+<meta property="og:description" content="Elixir, 我中了你的毒
 
-常见问题1. 格式化字符串：% vs .format2. Python 抽象基类(Abstract Base Class)3. Python 魔法方法指南">
-<meta property="og:updated_time" content="2016-05-23T05:30:29.000Z">
+Process1. [error] Too many processes 默认最大线程数默认是 262143，可以配置
+12elixir --erl &quot;+P 5000000&quot; file/to/run.exsELIXIR_ERL_OPTS=&quot;+P 5000000&quot; elixir file/to/run.exs
+Refs:
+
+Maximum number of spaw">
+<meta property="og:updated_time" content="2016-05-31T18:14:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python 学习记录 (更新中)">
-<meta name="twitter:description" content="用一种方法，最好是只有一种方法来做一件事。
+<meta name="twitter:title" content="Elixir 学习记录">
+<meta name="twitter:description" content="Elixir, 我中了你的毒
 
-常见问题1. 格式化字符串：% vs .format2. Python 抽象基类(Abstract Base Class)3. Python 魔法方法指南">
+Process1. [error] Too many processes 默认最大线程数默认是 262143，可以配置
+12elixir --erl &quot;+P 5000000&quot; file/to/run.exsELIXIR_ERL_OPTS=&quot;+P 5000000&quot; elixir file/to/run.exs
+Refs:
+
+Maximum number of spaw">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -64,7 +76,7 @@
   };
 </script>
 
-    <title> Python 学习记录 (更新中) // Jin Liu </title>
+    <title> Elixir 学习记录 // Jin Liu </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
 <!--[if lte IE 8]>
@@ -202,7 +214,7 @@
           
           
             
-              Python 学习记录 (更新中)
+              Elixir 学习记录
             
           
         </h1>
@@ -211,8 +223,8 @@
       <div class="post-meta">
         <span class="post-time">
           發表於
-          <time itemprop="dateCreated" datetime="2015-05-31T13:06:31+08:00" content="2015-05-31">
-            2015-05-31
+          <time itemprop="dateCreated" datetime="2016-06-01T02:06:33+08:00" content="2016-06-01">
+            2016-06-01
           </time>
         </span>
 
@@ -233,8 +245,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/blog/2015/05/31/learning-python/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/31/learning-python/" itemprop="commentsCount"></span>
+              <a href="/blog/2016/06/01/learning-elixir/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/01/learning-elixir/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -248,25 +260,15 @@
       
 
       
-        <span itemprop="articleBody"><blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
+        <span itemprop="articleBody"><blockquote class="blockquote-center">Elixir, 我中了你的毒</blockquote>
 
-<h2 id="常见问题">常见问题</h2><h3 id="1-_格式化字符串：%_vs_-format">1. <a href="http://stackoverflow.com/questions/5082452/python-string-formatting-vs-format" target="_blank" rel="external">格式化字符串：<code>%</code> vs <code>.format</code></a></h3><h3 id="2-_Python_抽象基类(Abstract_Base_Class)">2. <a href="http://zaiste.net/2013/01/abstract_classes_in_python/" target="_blank" rel="external">Python 抽象基类(Abstract Base Class)</a></h3><h3 id="3-_Python_魔法方法指南">3. <a href="http://pyzh.readthedocs.org/en/latest/python-magic-methods-guide.html" target="_blank" rel="external">Python 魔法方法指南</a></h3><a id="more"></a>
-<h3 id="4-_Python_没有真正的_Private">4. Python 没有真正的 Private</h3><blockquote>
-<p>Strictly speaking, private methods are accessible outside their class, just not easily accessible. Nothing in Python is truly private; internally, the names of private methods and attributes are mangled and unmangled on the fly to make them seem inaccessible by their given names. You can access the __parse method of the MP3FileInfo class by the name _MP3FileInfo__parse. Acknowledge that this is interesting, then promise to never, ever do it in real code. Private methods are private for a reason, but like many other things in &gt; Python, their privateness is ultimately a matter of convention, not force.</p>
-</blockquote>
-<p>严格来说，Python 没有真正的 private 方法，任何 <code>_method</code> , <code>__method</code> 都是可以访问的，只是不建议这么做。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">myPublicMethod</span><span class="params">(self)</span>:</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'public method'</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__myPrivateMethod</span><span class="params">(self)</span>:</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'this is private!!'</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj = MyClass()</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj.myPublicMethod()</span><br><span class="line">public method</span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj.__myPrivateMethod()</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">""</span>, line <span class="number">1</span>, <span class="keyword">in</span></span><br><span class="line">AttributeError: MyClass instance has no attribute <span class="string">'__myPrivateMethod'</span></span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>dir(obj)</span><br><span class="line">[<span class="string">'_MyClass__myPrivateMethod'</span>, <span class="string">'__doc__'</span>, <span class="string">'__module__'</span>, <span class="string">'myPublicMethod'</span>]</span><br><span class="line"></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>obj._MyClass__myPrivateMethod()</span><br><span class="line">this <span class="keyword">is</span> private!!</span><br></pre></td></tr></table></figure>
-<p>Ref:</p>
+<h1 id="Process">Process</h1><h2 id="1-_[error]_Too_many_processes_默认最大线程数">1. <code>[error] Too many processes</code> 默认最大线程数</h2><p>默认是 262143，可以配置</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elixir --erl <span class="string">"+P 5000000"</span> file/<span class="keyword">to</span>/<span class="built_in">run</span>.exs</span><br><span class="line">ELIXIR_ERL_OPTS=<span class="string">"+P 5000000"</span> elixir file/<span class="keyword">to</span>/<span class="built_in">run</span>.exs</span><br></pre></td></tr></table></figure>
+<p>Refs:</p>
 <ul>
-<li><a href="http://stackoverflow.com/questions/70528/why-are-pythons-private-methods-not-actually-private" target="_blank" rel="external">why-are-pythons-private-methods-not-actually-private</a></li>
+<li><a href="https://groups.google.com/forum/#!topic/elixir-lang-talk/No1Qq0huj_E" target="_blank" rel="external">Maximum number of spawns</a></li>
 </ul>
-<h3 id="5-________xx___的区别">5. <a href="http://igorsobreira.com/2010/09/16/difference-between-one-underline-and-two-underlines-in-python.html" target="_blank" rel="external"><code>_</code> <code>__</code> <code>__xx__</code> 的区别</a></h3><h3 id="6-_*args_&amp;_**kwargs">6. <a href="http://stackoverflow.com/questions/36901/what-does-double-star-and-star-do-for-python-parameters" target="_blank" rel="external"><code>*args</code> &amp; <code>**kwargs</code></a></h3><h3 id="7-_理解修饰器（@decorator）">7. <a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">理解修饰器（@decorator）</a></h3><h3 id="8-_with的用法">8. <a href="http://blog.kissdata.com/2014/05/23/python-with.html" target="_blank" rel="external"><code>with</code>的用法</a></h3><h3 id="9-_变量作用域">9. <a href="http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/" target="_blank" rel="external">变量作用域</a></h3><h3 id="19-_Python_的_import_机制">19. <a href="https://loggerhead.me/posts/python-de-import-ji-zhi.html" target="_blank" rel="external">Python 的 import 机制</a></h3><h2 id="Django">Django</h2><h3 id="1-_常用命令">1. 常用命令</h3><h4 id="1-_django-admin_startproject_mysite">1. <code>django-admin startproject mysite</code></h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysite/</span><br><span class="line">    manage<span class="class">.py</span></span><br><span class="line">    mysite/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">        settings<span class="class">.py</span></span><br><span class="line">        urls<span class="class">.py</span></span><br><span class="line">        wsgi.py</span><br></pre></td></tr></table></figure>
-<h4 id="2-_python_manage-py_runserver">2. <code>python manage.py runserver</code></h4><p>runserver 在每次请求会自动重新加载代码，除非是新建文件，不然不需要重启</p>
-<h4 id="3-_python_manage-py_startapp_polls">3. <code>python manage.py startapp polls</code></h4><p>在 django 的项目里，project 可以有多个 apps，每个 apps 实际上就是一个模块，独立完成某个功能。同一个 app 也可以同时被多个 project 使用<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">polls/</span><br><span class="line">    __init__<span class="class">.py</span></span><br><span class="line">    admin<span class="class">.py</span></span><br><span class="line">    apps<span class="class">.py</span></span><br><span class="line">    migrations/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">    models<span class="class">.py</span></span><br><span class="line">    tests<span class="class">.py</span></span><br><span class="line">    views.py</span><br></pre></td></tr></table></figure></p>
-<h4 id="4-_python_manage-py_makemigrations_polls">4. <code>python manage.py makemigrations polls</code></h4><h4 id="5-_python_manage-py_sqlmigrate_polls_0001">5. <code>python manage.py sqlmigrate polls 0001</code></h4><p>Dry run.<br>The sqlmigrate command doesn’t actually run the migration on your database - it just prints it to the screen so that you can see what SQL Django thinks is required. It’s useful for checking what Django is going to do or if you have database administrators who require SQL scripts for changes.</p>
-<h4 id="6-_python_manage-py_check">6. <code>python manage.py check</code></h4><p>this checks for any problems in your project without making migrations or touching the database.</p>
-<h4 id="7-_python_manage-py_migrate">7. <code>python manage.py migrate</code></h4><h4 id="8-_python_manage-py_shell">8. <code>python manage.py shell</code></h4><p>We’re using this instead of simply typing “python”, because manage.py sets the DJANGO_SETTINGS_MODULE environment variable, which gives Django the Python import path to your mysite/settings.py file.</p>
-<h4 id="9-_python_manage-py_createsuperuser">9. <code>python manage.py createsuperuser</code></h4></span>
+<h2 id="2-">2.</h2></span>
       
     </div>
 
@@ -274,7 +276,7 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/python/" rel="tag">#python</a>
+            <a href="/blog/tags/elixir/" rel="tag">#elixir</a>
           
         </div>
       
@@ -283,13 +285,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2015/06/08/xueqiu-stock/" rel="prev">Electron 实验项目 - 雪球股票助手</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2015/05/27/mitmproxy-for-beginner/" rel="next">mitmproxy 入门案例 -『抱抱』24小时销毁的真相</a>
+              <a href="/blog/2016/01/14/learning-go/" rel="next">Go 学习记录 (更新中)</a>
             
           </div>
         </div>
@@ -315,8 +315,8 @@
             
               <div class="comments" id="comments">
                 
-                  <div class="ds-thread" data-thread-key="2015/05/31/learning-python/"
-                       data-title="Python 学习记录 (更新中)" data-url="http://liujin.me/blog/2015/05/31/learning-python/">
+                  <div class="ds-thread" data-thread-key="2016/06/01/learning-elixir/"
+                       data-title="Elixir 学习记录" data-url="http://liujin.me/blog/2016/06/01/learning-elixir/">
                   </div>
                 
               </div>
@@ -419,7 +419,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见问题"><span class="nav-number">1.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_格式化字符串：%_vs_-format"><span class="nav-number">1.1.</span> <span class="nav-text">1. 格式化字符串：% vs .format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-_Python_抽象基类(Abstract_Base_Class)"><span class="nav-number">1.2.</span> <span class="nav-text">2. Python 抽象基类(Abstract Base Class)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-_Python_魔法方法指南"><span class="nav-number">1.3.</span> <span class="nav-text">3. Python 魔法方法指南</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-_Python_没有真正的_Private"><span class="nav-number">1.4.</span> <span class="nav-text">4. Python 没有真正的 Private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-________xx___的区别"><span class="nav-number">1.5.</span> <span class="nav-text">5. _ __ __xx__ 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-_*args_&_**kwargs"><span class="nav-number">1.6.</span> <span class="nav-text">6. *args & **kwargs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-_理解修饰器（@decorator）"><span class="nav-number">1.7.</span> <span class="nav-text">7. 理解修饰器（@decorator）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-_with的用法"><span class="nav-number">1.8.</span> <span class="nav-text">8. with的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-_变量作用域"><span class="nav-number">1.9.</span> <span class="nav-text">9. 变量作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-_Python_的_import_机制"><span class="nav-number">1.10.</span> <span class="nav-text">19. Python 的 import 机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Django"><span class="nav-number">2.</span> <span class="nav-text">Django</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-_常用命令"><span class="nav-number">2.1.</span> <span class="nav-text">1. 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-_django-admin_startproject_mysite"><span class="nav-number">2.1.1.</span> <span class="nav-text">1. django-admin startproject mysite</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-_python_manage-py_runserver"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. python manage.py runserver</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-_python_manage-py_startapp_polls"><span class="nav-number">2.1.3.</span> <span class="nav-text">3. python manage.py startapp polls</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-_python_manage-py_makemigrations_polls"><span class="nav-number">2.1.4.</span> <span class="nav-text">4. python manage.py makemigrations polls</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-_python_manage-py_sqlmigrate_polls_0001"><span class="nav-number">2.1.5.</span> <span class="nav-text">5. python manage.py sqlmigrate polls 0001</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-_python_manage-py_check"><span class="nav-number">2.1.6.</span> <span class="nav-text">6. python manage.py check</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-_python_manage-py_migrate"><span class="nav-number">2.1.7.</span> <span class="nav-text">7. python manage.py migrate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-_python_manage-py_shell"><span class="nav-number">2.1.8.</span> <span class="nav-text">8. python manage.py shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-_python_manage-py_createsuperuser"><span class="nav-number">2.1.9.</span> <span class="nav-text">9. python manage.py createsuperuser</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Process"><span class="nav-number">1.</span> <span class="nav-text">Process</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_[error]_Too_many_processes_默认最大线程数"><span class="nav-number">1.1.</span> <span class="nav-text">1. [error] Too many processes 默认最大线程数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-"><span class="nav-number">1.2.</span> <span class="nav-text">2.</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

@@ -4,7 +4,7 @@
   
   <link href="/blog/atom.xml" rel="self"/>
   <link href="http://liujin.me/blog/"/>
-  <updated>2016-04-23T17:05:12.000Z</updated>
+  <updated>2016-05-31T18:14:24.000Z</updated>
   <id>http://liujin.me/blog/</id>
   
   <author>
@@ -15,11 +15,38 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Elixir 学习记录]]></title>
+    <link href="http://liujin.me/blog/2016/06/01/learning-elixir/"/>
+    <id>http://liujin.me/blog/2016/06/01/learning-elixir/</id>
+    <published>2016-05-31T18:06:33.000Z</published>
+    <updated>2016-05-31T18:14:24.000Z</updated>
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">Elixir, 我中了你的毒</blockquote>
+
+<h1 id="Process">Process</h1><h2 id="1-_[error]_Too_many_processes_默认最大线程数">1. <code>[error] Too many processes</code> 默认最大线程数</h2><p>默认是 262143，可以配置</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elixir --erl <span class="string">"+P 5000000"</span> file/<span class="keyword">to</span>/<span class="built_in">run</span>.exs</span><br><span class="line">ELIXIR_ERL_OPTS=<span class="string">"+P 5000000"</span> elixir file/<span class="keyword">to</span>/<span class="built_in">run</span>.exs</span><br></pre></td></tr></table></figure>
+<p>Refs:</p>
+<ul>
+<li><a href="https://groups.google.com/forum/#!topic/elixir-lang-talk/No1Qq0huj_E" target="_blank" rel="external">Maximum number of spawns</a></li>
+</ul>
+<h2 id="2-">2.</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<blockquote class="blockquote-center">Elixir, 我中了你的毒</blockquote>
+
+<h1 id="Process">Process</h1><h2 id="1-_[error]_Too_many_processes_默认最大线程]]>
+    </summary>
+    
+      <category term="elixir" scheme="http://liujin.me/blog/tags/elixir/"/>
+    
+      <category term="学习记录" scheme="http://liujin.me/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Go 学习记录 (更新中)]]></title>
     <link href="http://liujin.me/blog/2016/01/14/learning-go/"/>
     <id>http://liujin.me/blog/2016/01/14/learning-go/</id>
     <published>2016-01-14T05:06:31.000Z</published>
-    <updated>2016-04-23T17:05:12.000Z</updated>
+    <updated>2016-12-25T13:44:19.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">Go the right way.</blockquote>
 
 <h2 id="基础类型">基础类型</h2><h3 id="1-_string,_[]byte,_[]rune_的区别">1. <code>string</code>, <code>[]byte</code>, <code>[]rune</code> 的区别</h3><p>rune 是 int32 的 alias, 在 Go 中，字符串是以 UTF-8 为格式进行存储的，在字符串上调用 len 函数，取得的是字符串包含的 byte 的个数</p>
@@ -45,6 +72,13 @@
 <p>即可，go run 可调试, build 后应该同样可以执行<br>如<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">main.<span class="keyword">go</span></span><br><span class="line">mylib/</span><br><span class="line">  mylib.<span class="keyword">go</span></span><br></pre></td></tr></table></figure></p>
 <p>The simplest way is to use this:<br><figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> (</span></span><br><span class="line">    <span class="string">"./mylib"</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
 <p>Ref: <a href="http://stackoverflow.com/questions/15049903/how-to-use-custom-packages-in-golang" target="_blank" rel="external">import package</a></p>
+<h3 id="3-_本地开发">3. 本地开发</h3><p>如果 <code>go get -u github.com/user/repo</code> 下来，然后到了对应的 src 目录去做了改动。<br>这时候如果 bin 想改用本地改动过的版本，只需要在对应的 src 目录下，<br><code>go install .</code>，这时候 bin 会自动更新。</p>
+<h3 id="4-_uninstall_go_packages">4. uninstall go packages</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">go</span> <span class="built_in">get</span> -<span class="keyword">u</span> github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line"></span><br><span class="line">$ which gore</span><br><span class="line">/Users/ches/src/<span class="keyword">go</span>/bin/gore</span><br><span class="line"></span><br><span class="line">$ <span class="keyword">go</span> clean -<span class="keyword">i</span> -<span class="keyword">n</span> github.<span class="keyword">com</span>/motemen/gore...</span><br><span class="line"><span class="keyword">cd</span> /Users/ches/src/<span class="keyword">go</span>/src/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line">rm -<span class="keyword">f</span> gore gore.<span class="keyword">exe</span> gore.test gore.test.<span class="keyword">exe</span> commands commands.<span class="keyword">exe</span> commands_test commands_test.<span class="keyword">exe</span> <span class="built_in">complete</span> <span class="built_in">complete</span>.<span class="keyword">exe</span> complete_test complete_test.<span class="keyword">exe</span> <span class="keyword">debug</span> <span class="keyword">debug</span>.<span class="keyword">exe</span> helpers_test helpers_test.<span class="keyword">exe</span> liner liner.<span class="keyword">exe</span> <span class="built_in">log</span> <span class="built_in">log</span>.<span class="keyword">exe</span> main main.<span class="keyword">exe</span> node node.<span class="keyword">exe</span> node_test node_test.<span class="keyword">exe</span> quickfix quickfix.<span class="keyword">exe</span> session_test session_test.<span class="keyword">exe</span> terminal_unix terminal_unix.<span class="keyword">exe</span> terminal_windows terminal_windows.<span class="keyword">exe</span> utils utils.<span class="keyword">exe</span></span><br><span class="line">rm -<span class="keyword">f</span> /Users/ches/src/<span class="keyword">go</span>/bin/gore</span><br><span class="line"><span class="keyword">cd</span> /Users/ches/src/<span class="keyword">go</span>/src/github.<span class="keyword">com</span>/motemen/gore/gocode</span><br><span class="line">rm -<span class="keyword">f</span> gocode.test gocode.test.<span class="keyword">exe</span></span><br><span class="line">rm -<span class="keyword">f</span> /Users/ches/src/<span class="keyword">go</span>/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore/gocode.<span class="keyword">a</span></span><br><span class="line"></span><br><span class="line">$ <span class="keyword">go</span> clean -<span class="keyword">i</span> github.<span class="keyword">com</span>/motemen/gore...</span><br><span class="line"></span><br><span class="line">$ which gore</span><br><span class="line"></span><br><span class="line">$ tree $GOPATH/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line">/Users/ches/src/<span class="keyword">go</span>/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line"></span><br><span class="line"><span class="number">0</span> directories, <span class="number">0</span> <span class="keyword">files</span></span><br><span class="line"></span><br><span class="line"># If that <span class="built_in">empty</span> directory really bugs you...</span><br><span class="line">$ rmdir $GOPATH/pkg/darwin_amd64/github.<span class="keyword">com</span>/motemen/gore</span><br><span class="line"></span><br><span class="line">$ rm -rf $GOPATH/src/github.<span class="keyword">com</span>/motemen/gore</span><br></pre></td></tr></table></figure>
+<p>ref:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/13792254/removing-packages-installed-with-go-get" target="_blank" rel="external">http://stackoverflow.com/questions/13792254/removing-packages-installed-with-go-get</a></li>
+</ul>
+<h1 id="fmt-Printf_VS_log-Printf">fmt.Printf VS log.Printf</h1><p>ref: <a href="http://stackoverflow.com/questions/19646889/why-should-i-use-log-println-instead-of-fmt-println" target="_blank" rel="external">http://stackoverflow.com/questions/19646889/why-should-i-use-log-println-instead-of-fmt-println</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote class="blockquote-center">Go the right way.</blockquote>
@@ -583,7 +617,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/31/learning-python/"/>
     <id>http://liujin.me/blog/2015/05/31/learning-python/</id>
     <published>2015-05-31T05:06:31.000Z</published>
-    <updated>2016-04-23T16:58:47.000Z</updated>
+    <updated>2016-05-23T05:30:29.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">用一种方法，最好是只有一种方法来做一件事。</blockquote>
 
 <h2 id="常见问题">常见问题</h2><h3 id="1-_格式化字符串：%_vs_-format">1. <a href="http://stackoverflow.com/questions/5082452/python-string-formatting-vs-format" target="_blank" rel="external">格式化字符串：<code>%</code> vs <code>.format</code></a></h3><h3 id="2-_Python_抽象基类(Abstract_Base_Class)">2. <a href="http://zaiste.net/2013/01/abstract_classes_in_python/" target="_blank" rel="external">Python 抽象基类(Abstract Base Class)</a></h3><h3 id="3-_Python_魔法方法指南">3. <a href="http://pyzh.readthedocs.org/en/latest/python-magic-methods-guide.html" target="_blank" rel="external">Python 魔法方法指南</a></h3><a id="more"></a>
@@ -596,7 +630,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
 <ul>
 <li><a href="http://stackoverflow.com/questions/70528/why-are-pythons-private-methods-not-actually-private" target="_blank" rel="external">why-are-pythons-private-methods-not-actually-private</a></li>
 </ul>
-<h3 id="5-________xx___的区别">5. <a href="http://igorsobreira.com/2010/09/16/difference-between-one-underline-and-two-underlines-in-python.html" target="_blank" rel="external"><code>_</code> <code>__</code> <code>__xx__</code> 的区别</a></h3><h3 id="6-_*args_&amp;_**kwargs">6. <a href="http://stackoverflow.com/questions/36901/what-does-double-star-and-star-do-for-python-parameters" target="_blank" rel="external"><code>*args</code> &amp; <code>**kwargs</code></a></h3><h3 id="7-_理解修饰器（@decorator）">7. <a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">理解修饰器（@decorator）</a></h3><h3 id="8-_with的用法">8. <a href="http://blog.kissdata.com/2014/05/23/python-with.html" target="_blank" rel="external"><code>with</code>的用法</a></h3><h3 id="9-_变量作用域">9. <a href="http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/" target="_blank" rel="external">变量作用域</a></h3><h2 id="Django">Django</h2><h3 id="1-_常用命令">1. 常用命令</h3><h4 id="1-_django-admin_startproject_mysite">1. <code>django-admin startproject mysite</code></h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysite/</span><br><span class="line">    manage<span class="class">.py</span></span><br><span class="line">    mysite/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">        settings<span class="class">.py</span></span><br><span class="line">        urls<span class="class">.py</span></span><br><span class="line">        wsgi.py</span><br></pre></td></tr></table></figure>
+<h3 id="5-________xx___的区别">5. <a href="http://igorsobreira.com/2010/09/16/difference-between-one-underline-and-two-underlines-in-python.html" target="_blank" rel="external"><code>_</code> <code>__</code> <code>__xx__</code> 的区别</a></h3><h3 id="6-_*args_&amp;_**kwargs">6. <a href="http://stackoverflow.com/questions/36901/what-does-double-star-and-star-do-for-python-parameters" target="_blank" rel="external"><code>*args</code> &amp; <code>**kwargs</code></a></h3><h3 id="7-_理解修饰器（@decorator）">7. <a href="http://coolshell.cn/articles/11265.html" target="_blank" rel="external">理解修饰器（@decorator）</a></h3><h3 id="8-_with的用法">8. <a href="http://blog.kissdata.com/2014/05/23/python-with.html" target="_blank" rel="external"><code>with</code>的用法</a></h3><h3 id="9-_变量作用域">9. <a href="http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/" target="_blank" rel="external">变量作用域</a></h3><h3 id="19-_Python_的_import_机制">19. <a href="https://loggerhead.me/posts/python-de-import-ji-zhi.html" target="_blank" rel="external">Python 的 import 机制</a></h3><h2 id="Django">Django</h2><h3 id="1-_常用命令">1. 常用命令</h3><h4 id="1-_django-admin_startproject_mysite">1. <code>django-admin startproject mysite</code></h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysite/</span><br><span class="line">    manage<span class="class">.py</span></span><br><span class="line">    mysite/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">        settings<span class="class">.py</span></span><br><span class="line">        urls<span class="class">.py</span></span><br><span class="line">        wsgi.py</span><br></pre></td></tr></table></figure>
 <h4 id="2-_python_manage-py_runserver">2. <code>python manage.py runserver</code></h4><p>runserver 在每次请求会自动重新加载代码，除非是新建文件，不然不需要重启</p>
 <h4 id="3-_python_manage-py_startapp_polls">3. <code>python manage.py startapp polls</code></h4><p>在 django 的项目里，project 可以有多个 apps，每个 apps 实际上就是一个模块，独立完成某个功能。同一个 app 也可以同时被多个 project 使用<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">polls/</span><br><span class="line">    __init__<span class="class">.py</span></span><br><span class="line">    admin<span class="class">.py</span></span><br><span class="line">    apps<span class="class">.py</span></span><br><span class="line">    migrations/</span><br><span class="line">        __init__<span class="class">.py</span></span><br><span class="line">    models<span class="class">.py</span></span><br><span class="line">    tests<span class="class">.py</span></span><br><span class="line">    views.py</span><br></pre></td></tr></table></figure></p>
 <h4 id="4-_python_manage-py_makemigrations_polls">4. <code>python manage.py makemigrations polls</code></h4><h4 id="5-_python_manage-py_sqlmigrate_polls_0001">5. <code>python manage.py sqlmigrate polls 0001</code></h4><p>Dry run.<br>The sqlmigrate command doesn’t actually run the migration on your database - it just prints it to the screen so that you can see what SQL Django thinks is required. It’s useful for checking what Django is going to do or if you have database administrators who require SQL scripts for changes.</p>
@@ -894,7 +928,7 @@ foo.class_eval { puts <span class="keyword">self</span> }
     <link href="http://liujin.me/blog/2015/05/25/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <id>http://liujin.me/blog/2015/05/25/Git-常用命令/</id>
     <published>2015-05-25T09:18:32.000Z</published>
-    <updated>2016-04-23T16:58:47.000Z</updated>
+    <updated>2018-01-22T03:00:27.000Z</updated>
     <content type="html"><![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
 
 <p>从设计转型开发的第一天起，老大只教我一件事，使用 Git。<br>比起一上来就给我各种任务写 HTML/CSS/JS 调各种 Bug, 让我熟练掌握 Git 这件事至今我都非常感激。<br>毫无疑问地说，Git 是当今编程学习里最基本的必备技能。</p>
@@ -981,7 +1015,12 @@ foo.class_eval { puts <span class="keyword">self</span> }
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset -- &lt;<span class="keyword">file</span> 1&gt; &lt;<span class="keyword">file</span> 2&gt; &lt;<span class="keyword">file</span> <span class="keyword">n</span>&gt;</span><br></pre></td></tr></table></figure>
 <p>还可以 unstage 文件里某处的改动：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="operator"><span class="keyword">reset</span> -<span class="keyword">p</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="19-_值得一读">19. 值得一读</h2><p><a href="https://github.com/blog/2104-working-with-submodules" target="_blank" rel="external">Working with submodules</a><br><a href="https://github.com/blog/2079-managing-large-files-with-git-lfs" target="_blank" rel="external">Managing large files with Git LFS</a><br><a href="https://github.com/blog/2094-new-year-new-git-release" target="_blank" rel="external"><code>git bisect</code></a></p>
+<h2 id="19-_值得一读">19. 值得一读</h2><ul>
+<li><a href="https://github.com/blog/2104-working-with-submodules" target="_blank" rel="external">Working with submodules</a></li>
+<li><a href="https://github.com/blog/2079-managing-large-files-with-git-lfs" target="_blank" rel="external">Managing large files with Git LFS</a></li>
+<li><a href="https://github.com/blog/2094-new-year-new-git-release" target="_blank" rel="external">git bisect</a></li>
+<li><a href="https://nuclearsquid.com/writings/git-add/" target="_blank" rel="external">git add –patch and –interactive</a></li>
+</ul>
 ]]></content>
     <summary type="html">
     <![CDATA[<blockquote class="blockquote-center">假如全世界的工具你只能保留一个在电脑，你的选择是什么？Git.<br>  –《我的老大是屌丝》摘<br></blockquote>
