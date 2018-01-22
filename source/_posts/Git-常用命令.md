@@ -268,6 +268,7 @@ git reset -p
 ```
 
 ## 19. 值得一读
-[Working with submodules](https://github.com/blog/2104-working-with-submodules)
-[Managing large files with Git LFS](https://github.com/blog/2079-managing-large-files-with-git-lfs)
-[`git bisect`](https://github.com/blog/2094-new-year-new-git-release)
+- [Working with submodules](https://github.com/blog/2104-working-with-submodules)
+- [Managing large files with Git LFS](https://github.com/blog/2079-managing-large-files-with-git-lfs)
+- [git bisect](https://github.com/blog/2094-new-year-new-git-release)
+- [git add --patch and --interactive](https://nuclearsquid.com/writings/git-add/)

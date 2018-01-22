@@ -64,3 +64,49 @@ import (
 ```
 
 Ref: [import package](http://stackoverflow.com/questions/15049903/how-to-use-custom-packages-in-golang)
+
+
+### 3. 本地开发
+
+如果 `go get -u github.com/user/repo` 下来，然后到了对应的 src 目录去做了改动。
+这时候如果 bin 想改用本地改动过的版本，只需要在对应的 src 目录下，
+`go install .`，这时候 bin 会自动更新。
+
+
+### 4. uninstall go packages
+
+```
+$ go get -u github.com/motemen/gore
+
+$ which gore
+/Users/ches/src/go/bin/gore
+
+$ go clean -i -n github.com/motemen/gore...
+cd /Users/ches/src/go/src/github.com/motemen/gore
+rm -f gore gore.exe gore.test gore.test.exe commands commands.exe commands_test commands_test.exe complete complete.exe complete_test complete_test.exe debug debug.exe helpers_test helpers_test.exe liner liner.exe log log.exe main main.exe node node.exe node_test node_test.exe quickfix quickfix.exe session_test session_test.exe terminal_unix terminal_unix.exe terminal_windows terminal_windows.exe utils utils.exe
+rm -f /Users/ches/src/go/bin/gore
+cd /Users/ches/src/go/src/github.com/motemen/gore/gocode
+rm -f gocode.test gocode.test.exe
+rm -f /Users/ches/src/go/pkg/darwin_amd64/github.com/motemen/gore/gocode.a
+
+$ go clean -i github.com/motemen/gore...
+
+$ which gore
+
+$ tree $GOPATH/pkg/darwin_amd64/github.com/motemen/gore
+/Users/ches/src/go/pkg/darwin_amd64/github.com/motemen/gore
+
+0 directories, 0 files
+
+# If that empty directory really bugs you...
+$ rmdir $GOPATH/pkg/darwin_amd64/github.com/motemen/gore
+
+$ rm -rf $GOPATH/src/github.com/motemen/gore
+```
+
+ref:
+- http://stackoverflow.com/questions/13792254/removing-packages-installed-with-go-get
+
+
+# fmt.Printf VS log.Printf
+ref: http://stackoverflow.com/questions/19646889/why-should-i-use-log-println-instead-of-fmt-println

@@ -53,6 +53,8 @@ Ref:
 
 ### 9. [变量作用域](http://www.saltycrane.com/blog/2008/01/python-variable-scope-notes/)
 
+### 19. [Python 的 import 机制](https://loggerhead.me/posts/python-de-import-ji-zhi.html)
+
 ## Django
 
 ### 1. 常用命令
